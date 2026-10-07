@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Pokémon-Karten erkennen und Marktwert anzeigen."
+    >
+
+    <title>Pokémon Card Scanner</title>
+
+    <link
+        rel="stylesheet"
+        href="./css/style.css"
+    >
+</head>
+
+<body>
+
+    <!--
+        Dekorative Hintergrundelemente.
+        Werden später im Candy-Cloud-Stil gestaltet.
+    -->
+    <div
+        class="background-decoration"
+        aria-hidden="true"
+    >
+        <div class="background-blob blob-pink"></div>
+        <div class="background-blob blob-purple"></div>
+        <div class="background-blob blob-mint"></div>
+    </div>
+
+
+    <div class="app-shell">
+
+        <!-- ========================================= -->
+        <!-- HEADER                                    -->
+        <!-- ========================================= -->
+
+        <header class="app-header">
+
+            <a
+                href="#scanner"
+                class="brand"
+                aria-label="Pokémon Card Scanner Startseite"
+            >
+                <span
+                    class="brand-icon"
+                    aria-hidden="true"
+                >
+                    ✦
+                </span>
+
+                <span class="brand-text">
+                    Card Scanner
+                </span>
+            </a>
+
+            <div class="header-badge">
+                Studienprojekt
+            </div>
+
+        </header>
+
+
+        <!-- ========================================= -->
+        <!-- HAUPTINHALT                               -->
+        <!-- ========================================= -->
+
+        <main id="scanner" class="app-main">
+
+            <!-- ===================================== -->
+            <!-- HERO / INTRO                         -->
+            <!-- ===================================== -->
+
+            <section
+                class="hero-section"
+                aria-labelledby="hero-title"
+            >
+
+                <p class="eyebrow">
+                    Pokémon-Kartenerkennung
+                </p>
+
+                <h1 id="hero-title">
+                    Welche Karte hast du?
+                </h1>
+
+                <p class="hero-description">
+                    Fotografiere deine Karte oder wähle ein Bild aus.
+                    Wir suchen die passende Karte und zeigen dir
+                    anschließend ihre wichtigsten Informationen.
+                </p>
+
+            </section>
+
+
+            <!-- ===================================== -->
+            <!-- SCANNER CARD                         -->
+            <!-- ===================================== -->
+
+            <section
+                class="scanner-card"
+                aria-labelledby="scanner-title"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="section-kicker">
+                            Schritt 1
+                        </p>
+
+                        <h2 id="scanner-title">
+                            Karte hinzufügen
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- STATE: START                     -->
+                <!-- ================================= -->
+
+                <div
+                    id="state-start"
+                    class="app-state scanner-state"
+                    data-state="start"
+                >
+
+                    <div class="scanner-placeholder">
+
+                        <div
+                            class="scanner-placeholder-icon"
+                            aria-hidden="true"
+                        >
+                            ✦
+                        </div>
+
+                        <h3>
+                            Bereit zum Scannen
+                        </h3>
+
+                        <p>
+                            Achte darauf, dass die gesamte Karte
+                            gut sichtbar ist.
+                        </p>
+
+                    </div>
+
+
+                    <div class="scanner-actions">
+
+                        <button
+                            id="camera-open-button"
+                            class="button button-primary"
+                            type="button"
+                        >
+                            <span aria-hidden="true">
+                                📷
+                            </span>
+
+                            Kamera öffnen
+                        </button>
+
+
+                        <label
+                            for="image-input"
+                            class="button button-secondary"
+                        >
+                            <span aria-hidden="true">
+                                ♡
+                            </span>
+
+                            Bild auswählen
+                        </label>
+
+
+                        <input
+                            id="image-input"
+                            class="visually-hidden"
+                            type="file"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- STATE: PREVIEW                   -->
+                <!-- ================================= -->
+
+                <div
+                    id="state-preview"
+                    class="app-state scanner-state"
+                    data-state="preview"
+                    hidden
+                >
+
+                    <div class="image-preview-wrapper">
+
+                        <img
+                            id="image-preview"
+                            class="image-preview"
+                            src=""
+                            alt="Vorschau der ausgewählten Pokémon-Karte"
+                        >
+
+                    </div>
+
+
+                    <div class="preview-content">
+
+                        <h3>
+                            Sieht alles gut aus?
+                        </h3>
+
+                        <p>
+                            Die Karte sollte vollständig und möglichst
+                            scharf zu sehen sein.
+                        </p>
+
+                    </div>
+
+
+                    <div class="scanner-actions">
+
+                        <button
+                            id="recognize-button"
+                            class="button button-primary"
+                            type="button"
+                        >
+                            Karte erkennen
+                        </button>
+
+                        <button
+                            id="change-image-button"
+                            class="button button-ghost"
+                            type="button"
+                        >
+                            Anderes Bild wählen
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- STATE: ANALYSING                 -->
+                <!-- ================================= -->
+
+                <div
+                    id="state-analyzing"
+                    class="app-state scanner-state"
+                    data-state="analyzing"
+                    hidden
+                >
+
+                    <div
+                        class="loading-animation"
+                        aria-hidden="true"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+
+                    <div
+                        class="analysis-status"
+                        aria-live="polite"
+                    >
+
+                        <h3>
+                            Wir schauen uns deine Karte an …
+                        </h3>
+
+                        <p id="analysis-status-text">
+                            Bild wird vorbereitet.
+                        </p>
+
+                    </div>
+
+
+                    <div class="analysis-steps">
+
+                        <div
+                            class="analysis-step"
+                            data-analysis-step="detect"
+                        >
+                            <span class="step-dot"></span>
+
+                            <span>
+                                Karte finden
+                            </span>
+                        </div>
+
+
+                        <div
+                            class="analysis-step"
+                            data-analysis-step="prepare"
+                        >
+                            <span class="step-dot"></span>
+
+                            <span>
+                                Bild aufbereiten
+                            </span>
+                        </div>
+
+
+                        <div
+                            class="analysis-step"
+                            data-analysis-step="compare"
+                        >
+                            <span class="step-dot"></span>
+
+                            <span>
+                                Karten vergleichen
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- STATE: ERROR                     -->
+                <!-- ================================= -->
+
+                <div
+                    id="state-error"
+                    class="app-state scanner-state"
+                    data-state="error"
+                    role="alert"
+                    hidden
+                >
+
+                    <div
+                        class="status-icon"
+                        aria-hidden="true"
+                    >
+                        !
+                    </div>
+
+                    <h3>
+                        Das hat leider nicht geklappt.
+                    </h3>
+
+                    <p id="error-message">
+                        Die Karte konnte nicht erkannt werden.
+                        Bitte versuche es mit einem anderen Bild.
+                    </p>
+
+                    <button
+                        id="error-retry-button"
+                        class="button button-primary"
+                        type="button"
+                    >
+                        Nochmal versuchen
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ===================================== -->
+            <!-- UNSICHERE ERKENNUNG                  -->
+            <!-- ===================================== -->
+
+            <section
+                id="candidate-section"
+                class="result-section candidate-section"
+                aria-labelledby="candidate-title"
+                hidden
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <p class="section-kicker">
+                            Fast geschafft
+                        </p>
+
+                        <h2 id="candidate-title">
+                            Welche Karte ist es?
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <p class="section-description">
+                    Mehrere Karten sehen sehr ähnlich aus.
+                    Wähle bitte den richtigen Treffer aus.
+                </p>
+
+
+                <div
+                    id="candidate-list"
+                    class="candidate-list"
+                >
+                    <!--
+                        Wird später dynamisch mit JavaScript gefüllt.
+                    -->
+                </div>
+
+            </section>
+
+
+            <!-- ===================================== -->
+            <!-- ERGEBNIS                             -->
+            <!-- ===================================== -->
+
+            <section
+                id="result-section"
+                class="result-section"
+                aria-labelledby="result-title"
+                hidden
+            >
+
+                <div class="result-success">
+
+                    <span
+                        class="success-icon"
+                        aria-hidden="true"
+                    >
+                        ✓
+                    </span>
+
+                    <span>
+                        Karte erkannt
+                    </span>
+
+                </div>
+
+
+                <div class="result-layout">
+
+                    <!-- Kartenbild -->
+
+                    <div class="result-image-column">
+
+                        <div class="card-image-frame">
+
+                            <img
+                                id="result-card-image"
+                                src=""
+                                alt=""
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Karteninformationen -->
+
+                    <div class="result-content-column">
+
+                        <header class="card-header">
+
+                            <p
+                                id="result-set-name"
+                                class="card-set"
+                            >
+                                Fusion Strike
+                            </p>
+
+                            <h2
+                                id="result-title"
+                                class="card-name"
+                            >
+                                Caterpie
+                            </h2>
+
+                            <p class="card-number">
+                                Karte
+                                <span id="result-card-number">
+                                    #1
+                                </span>
+                            </p>
+
+                        </header>
+
+
+                        <!-- Badges -->
+
+                        <div
+                            id="result-badges"
+                            class="card-badges"
+                        >
+
+                            <span
+                                id="result-rarity"
+                                class="badge"
+                            >
+                                Common
+                            </span>
+
+                            <span
+                                id="result-type"
+                                class="badge"
+                            >
+                                Grass
+                            </span>
+
+                            <span
+                                id="result-subtype"
+                                class="badge"
+                            >
+                                Basic
+                            </span>
+
+                        </div>
+
+
+                        <!-- Metadaten -->
+
+                        <dl class="metadata-grid">
+
+                            <div class="metadata-item">
+
+                                <dt>
+                                    Illustrator
+                                </dt>
+
+                                <dd id="result-artist">
+                                    Mitsuhiro Arita
+                                </dd>
+
+                            </div>
+
+
+                            <div class="metadata-item">
+
+                                <dt>
+                                    Veröffentlichung
+                                </dt>
+
+                                <dd id="result-release-date">
+                                    12.11.2021
+                                </dd>
+
+                            </div>
+
+
+                            <div class="metadata-item">
+
+                                <dt>
+                                    Set
+                                </dt>
+
+                                <dd id="result-set-detail">
+                                    Fusion Strike
+                                </dd>
+
+                            </div>
+
+
+                            <div class="metadata-item">
+
+                                <dt>
+                                    Seltenheit
+                                </dt>
+
+                                <dd id="result-rarity-detail">
+                                    Common
+                                </dd>
+
+                            </div>
+
+                        </dl>
+
+
+                        <!-- Erkennungshinweis -->
+
+                        <div class="recognition-info">
+
+                            <div>
+
+                                <span class="recognition-label">
+                                    Bildähnlichkeit
+                                </span>
+
+                                <strong id="result-similarity">
+                                    96,3 %
+                                </strong>
+
+                            </div>
+
+                            <p class="recognition-note">
+                                Der Wert beschreibt die visuelle
+                                Übereinstimmung mit unserer Referenzkarte.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- VARIANTE                         -->
+                <!-- ================================= -->
+
+                <div
+                    id="variant-section"
+                    class="variant-section"
+                >
+
+                    <div class="section-heading">
+
+                        <div>
+                            <p class="section-kicker">
+                                Schritt 2
+                            </p>
+
+                            <h3>
+                                Welche Variante hast du?
+                            </h3>
+                        </div>
+
+                    </div>
+
+
+                    <fieldset class="variant-options">
+
+                        <legend class="visually-hidden">
+                            Kartenvariante auswählen
+                        </legend>
+
+
+                        <label class="variant-option">
+
+                            <input
+                                type="radio"
+                                name="card-variant"
+                                value="normal"
+                            >
+
+                            <span class="variant-content">
+
+                                <span
+                                    class="variant-icon"
+                                    aria-hidden="true"
+                                >
+                                    ◌
+                                </span>
+
+                                <span>
+                                    <strong>
+                                        Normal
+                                    </strong>
+
+                                    <small>
+                                        Standardkarte
+                                    </small>
+                                </span>
+
+                            </span>
+
+                        </label>
+
+
+                        <label class="variant-option">
+
+                            <input
+                                type="radio"
+                                name="card-variant"
+                                value="holo"
+                            >
+
+                            <span class="variant-content">
+
+                                <span
+                                    class="variant-icon"
+                                    aria-hidden="true"
+                                >
+                                    ✦
+                                </span>
+
+                                <span>
+                                    <strong>
+                                        Holo
+                                    </strong>
+
+                                    <small>
+                                        Holografischer Bildbereich
+                                    </small>
+                                </span>
+
+                            </span>
+
+                        </label>
+
+
+                        <label class="variant-option">
+
+                            <input
+                                type="radio"
+                                name="card-variant"
+                                value="reverse_holo"
+                            >
+
+                            <span class="variant-content">
+
+                                <span
+                                    class="variant-icon"
+                                    aria-hidden="true"
+                                >
+                                    ✧
+                                </span>
+
+                                <span>
+                                    <strong>
+                                        Reverse Holo
+                                    </strong>
+
+                                    <small>
+                                        Holografischer Kartenbereich
+                                    </small>
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </fieldset>
+
+
+                    <button
+                        id="show-price-button"
+                        class="button button-primary"
+                        type="button"
+                        disabled
+                    >
+                        Marktwert anzeigen
+                    </button>
+
+                </div>
+
+
+                <!-- ================================= -->
+                <!-- PREIS                            -->
+                <!-- ================================= -->
+
+                <div
+                    id="price-section"
+                    class="price-section"
+                    aria-live="polite"
+                    hidden
+                >
+
+                    <p class="price-label">
+                        Geschätzter Marktwert
+                    </p>
+
+                    <p
+                        id="price-value"
+                        class="price-value"
+                    >
+                        12,49 €
+                    </p>
+
+                    <p
+                        id="price-meta"
+                        class="price-meta"
+                    >
+                        Preis für Normal · zuletzt aktualisiert
+                        am 07.10.2026
+                    </p>
+
+                </div>
+
+
+                <!-- Neue Suche -->
+
+                <div class="result-actions">
+
+                    <button
+                        id="scan-again-button"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        Neue Karte scannen
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- ========================================= -->
+        <!-- FOOTER                                    -->
+        <!-- ========================================= -->
+
+        <footer class="app-footer">
+
+            <p>
+                Studienprojekt zur optischen
+                Pokémon-Kartenerkennung
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <!--
+        Statusmeldungen für Screenreader.
+        JavaScript kann diesen Text später aktualisieren.
+    -->
+    <div
+        id="screenreader-status"
+        class="visually-hidden"
+        aria-live="polite"
+        aria-atomic="true"
+    ></div>
+
+
+    <script
+        type="module"
+        src="./js/app.js"
+    ></script>
+
+</body>
+</html>
