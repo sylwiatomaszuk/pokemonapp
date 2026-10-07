@@ -40,19 +40,47 @@ PokemonTCGData herunter und speichert sie lokal.
 Ergebnis:
 data/official_metadata/
 
+
 --- match_dataset_metadata.py ---
 Vergleicht unseren Dataset-Index mit den offiziellen
 Kartendaten anhand von Set-ID und normalisierter
 Kartennummer.
 
-Dabei werden beispielsweise:
+Normale Kartennummern werden vereinheitlicht, zum Beispiel:
+
 001 → 1
 020 → 20
+TG001 → tg1
+TG030 → tg30
 
-vereinheitlicht.
+Zusätzlich werden spezielle Kartennummern der
+Black-Star-Promos berücksichtigt.
+
+Beispielsweise:
+
+xybsp → xyp
+bwbsp → bwp
+smbsp → smp
+swshbsp → swshp
+svbsp → svp
+
+Dabei werden Nummern wie:
+
+027 → XY27
+097 → BW97
+004 → SM04
+299 → SWSH299
+
+entsprechend miteinander verglichen.
 
 Ergebnis:
 data/dataset_metadata_matches.csv
+
+Aktueller Stand:
+20.322 Bilder insgesamt
+17.475 eindeutig zugeordnet
+2.335 nicht geparst
+512 ohne offiziellen Match
 
 
 ==================== REFERENZDATENSATZ ======================
@@ -61,13 +89,16 @@ data/dataset_metadata_matches.csv
 Lädt einen kleinen 100-Karten-Referenzdatensatz
 für erste Tests.
 
+
 --- download_reference_cards_500.py ---
 Lädt den 500-Karten-Referenzdatensatz für die
 Kartenerkennungs-Baseline.
 
+
 --- download_reference_cards.py ---
 Lädt einen Referenzdatensatz mit Pokémon-Karten
 für die Kartenerkennung.
+
 
 --- validate_reference_dataset.py ---
 Prüft, ob die Referenzkarten vollständig
@@ -80,9 +111,11 @@ und lesbar sind.
 Erzeugt mit ResNet18 Bild-Embeddings
 für die Referenzkarten.
 
+
 --- identify_card.py ---
 Vergleicht ein Kartenbild mit den gespeicherten
 Embeddings und sucht die ähnlichste Karte.
+
 
 --- evaluate_embeddings_robust.py ---
 Führt eine umfangreiche Bewertung der
