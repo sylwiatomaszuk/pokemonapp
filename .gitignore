@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Umgebungsvariablen
+.env
+
+# VS Code
+.vscode/
+
+# Große Daten
+data/reference/images/
+data/queries/
+data/embeddings/
+data/synthetic/
+
+# KI Modelle
+*.pt
+*.pth
+*.onnx
+
+# YOLO-Ausgaben
+runs/
+
+# Betriebssystem
+.DS_Store
+Thumbs.db

@@ -1,0 +1,501 @@
+card_id,name,set_id,set_name,number,printed_number,rarity,image_file,image_url
+base1-1,Alakazam,base1,Base,1,1/102,Rare Holo,base1-1.png,https://images.pokemontcg.io/base1/1_hires.png
+base1-2,Blastoise,base1,Base,2,2/102,Rare Holo,base1-2.png,https://images.pokemontcg.io/base1/2_hires.png
+base1-3,Chansey,base1,Base,3,3/102,Rare Holo,base1-3.png,https://images.pokemontcg.io/base1/3_hires.png
+base1-4,Charizard,base1,Base,4,4/102,Rare Holo,base1-4.png,https://images.pokemontcg.io/base1/4_hires.png
+base1-5,Clefairy,base1,Base,5,5/102,Rare Holo,base1-5.png,https://images.pokemontcg.io/base1/5_hires.png
+base1-6,Gyarados,base1,Base,6,6/102,Rare Holo,base1-6.png,https://images.pokemontcg.io/base1/6_hires.png
+base1-7,Hitmonchan,base1,Base,7,7/102,Rare Holo,base1-7.png,https://images.pokemontcg.io/base1/7_hires.png
+base1-8,Machamp,base1,Base,8,8/102,Rare Holo,base1-8.png,https://images.pokemontcg.io/base1/8_hires.png
+base1-9,Magneton,base1,Base,9,9/102,Rare Holo,base1-9.png,https://images.pokemontcg.io/base1/9_hires.png
+base1-10,Mewtwo,base1,Base,10,10/102,Rare Holo,base1-10.png,https://images.pokemontcg.io/base1/10_hires.png
+base1-11,Nidoking,base1,Base,11,11/102,Rare Holo,base1-11.png,https://images.pokemontcg.io/base1/11_hires.png
+base1-12,Ninetales,base1,Base,12,12/102,Rare Holo,base1-12.png,https://images.pokemontcg.io/base1/12_hires.png
+base1-13,Poliwrath,base1,Base,13,13/102,Rare Holo,base1-13.png,https://images.pokemontcg.io/base1/13_hires.png
+base1-14,Raichu,base1,Base,14,14/102,Rare Holo,base1-14.png,https://images.pokemontcg.io/base1/14_hires.png
+base1-15,Venusaur,base1,Base,15,15/102,Rare Holo,base1-15.png,https://images.pokemontcg.io/base1/15_hires.png
+base1-16,Zapdos,base1,Base,16,16/102,Rare Holo,base1-16.png,https://images.pokemontcg.io/base1/16_hires.png
+base1-17,Beedrill,base1,Base,17,17/102,Rare,base1-17.png,https://images.pokemontcg.io/base1/17_hires.png
+base1-18,Dragonair,base1,Base,18,18/102,Rare,base1-18.png,https://images.pokemontcg.io/base1/18_hires.png
+base1-19,Dugtrio,base1,Base,19,19/102,Rare,base1-19.png,https://images.pokemontcg.io/base1/19_hires.png
+base1-20,Electabuzz,base1,Base,20,20/102,Rare,base1-20.png,https://images.pokemontcg.io/base1/20_hires.png
+base1-21,Electrode,base1,Base,21,21/102,Rare,base1-21.png,https://images.pokemontcg.io/base1/21_hires.png
+base1-22,Pidgeotto,base1,Base,22,22/102,Rare,base1-22.png,https://images.pokemontcg.io/base1/22_hires.png
+base1-23,Arcanine,base1,Base,23,23/102,Uncommon,base1-23.png,https://images.pokemontcg.io/base1/23_hires.png
+base1-24,Charmeleon,base1,Base,24,24/102,Uncommon,base1-24.png,https://images.pokemontcg.io/base1/24_hires.png
+base1-25,Dewgong,base1,Base,25,25/102,Uncommon,base1-25.png,https://images.pokemontcg.io/base1/25_hires.png
+neo2-1,Espeon,neo2,Neo Discovery,1,1/75,Rare Holo,neo2-1.png,https://images.pokemontcg.io/neo2/1_hires.png
+neo2-2,Forretress,neo2,Neo Discovery,2,2/75,Rare Holo,neo2-2.png,https://images.pokemontcg.io/neo2/2_hires.png
+neo2-3,Hitmontop,neo2,Neo Discovery,3,3/75,Rare Holo,neo2-3.png,https://images.pokemontcg.io/neo2/3_hires.png
+neo2-4,Houndoom,neo2,Neo Discovery,4,4/75,Rare Holo,neo2-4.png,https://images.pokemontcg.io/neo2/4_hires.png
+neo2-5,Houndour,neo2,Neo Discovery,5,5/75,Rare Holo,neo2-5.png,https://images.pokemontcg.io/neo2/5_hires.png
+neo2-6,Kabutops,neo2,Neo Discovery,6,6/75,Rare Holo,neo2-6.png,https://images.pokemontcg.io/neo2/6_hires.png
+neo2-7,Magnemite,neo2,Neo Discovery,7,7/75,Rare Holo,neo2-7.png,https://images.pokemontcg.io/neo2/7_hires.png
+neo2-8,Politoed,neo2,Neo Discovery,8,8/75,Rare Holo,neo2-8.png,https://images.pokemontcg.io/neo2/8_hires.png
+neo2-9,Poliwrath,neo2,Neo Discovery,9,9/75,Rare Holo,neo2-9.png,https://images.pokemontcg.io/neo2/9_hires.png
+neo2-10,Scizor,neo2,Neo Discovery,10,10/75,Rare Holo,neo2-10.png,https://images.pokemontcg.io/neo2/10_hires.png
+neo2-11,Smeargle,neo2,Neo Discovery,11,11/75,Rare Holo,neo2-11.png,https://images.pokemontcg.io/neo2/11_hires.png
+neo2-12,Tyranitar,neo2,Neo Discovery,12,12/75,Rare Holo,neo2-12.png,https://images.pokemontcg.io/neo2/12_hires.png
+neo2-13,Umbreon,neo2,Neo Discovery,13,13/75,Rare Holo,neo2-13.png,https://images.pokemontcg.io/neo2/13_hires.png
+neo2-14,Unown [A],neo2,Neo Discovery,14,14/75,Rare Holo,neo2-14.png,https://images.pokemontcg.io/neo2/14_hires.png
+neo2-15,Ursaring,neo2,Neo Discovery,15,15/75,Rare Holo,neo2-15.png,https://images.pokemontcg.io/neo2/15_hires.png
+neo2-16,Wobbuffet,neo2,Neo Discovery,16,16/75,Rare Holo,neo2-16.png,https://images.pokemontcg.io/neo2/16_hires.png
+neo2-17,Yanma,neo2,Neo Discovery,17,17/75,Rare Holo,neo2-17.png,https://images.pokemontcg.io/neo2/17_hires.png
+neo2-18,Beedrill,neo2,Neo Discovery,18,18/75,Rare,neo2-18.png,https://images.pokemontcg.io/neo2/18_hires.png
+neo2-19,Butterfree,neo2,Neo Discovery,19,19/75,Rare,neo2-19.png,https://images.pokemontcg.io/neo2/19_hires.png
+neo2-20,Espeon,neo2,Neo Discovery,20,20/75,Rare,neo2-20.png,https://images.pokemontcg.io/neo2/20_hires.png
+neo2-21,Forretress,neo2,Neo Discovery,21,21/75,Rare,neo2-21.png,https://images.pokemontcg.io/neo2/21_hires.png
+neo2-22,Hitmontop,neo2,Neo Discovery,22,22/75,Rare,neo2-22.png,https://images.pokemontcg.io/neo2/22_hires.png
+neo2-23,Houndoom,neo2,Neo Discovery,23,23/75,Rare,neo2-23.png,https://images.pokemontcg.io/neo2/23_hires.png
+neo2-24,Houndour,neo2,Neo Discovery,24,24/75,Rare,neo2-24.png,https://images.pokemontcg.io/neo2/24_hires.png
+neo2-25,Kabutops,neo2,Neo Discovery,25,25/75,Rare,neo2-25.png,https://images.pokemontcg.io/neo2/25_hires.png
+ex1-1,Aggron,ex1,Ruby & Sapphire,1,1/109,Rare Holo,ex1-1.png,https://images.pokemontcg.io/ex1/1_hires.png
+ex1-2,Beautifly,ex1,Ruby & Sapphire,2,2/109,Rare Holo,ex1-2.png,https://images.pokemontcg.io/ex1/2_hires.png
+ex1-3,Blaziken,ex1,Ruby & Sapphire,3,3/109,Rare Holo,ex1-3.png,https://images.pokemontcg.io/ex1/3_hires.png
+ex1-4,Camerupt,ex1,Ruby & Sapphire,4,4/109,Rare Holo,ex1-4.png,https://images.pokemontcg.io/ex1/4_hires.png
+ex1-5,Delcatty,ex1,Ruby & Sapphire,5,5/109,Rare Holo,ex1-5.png,https://images.pokemontcg.io/ex1/5_hires.png
+ex1-6,Dustox,ex1,Ruby & Sapphire,6,6/109,Rare Holo,ex1-6.png,https://images.pokemontcg.io/ex1/6_hires.png
+ex1-7,Gardevoir,ex1,Ruby & Sapphire,7,7/109,Rare Holo,ex1-7.png,https://images.pokemontcg.io/ex1/7_hires.png
+ex1-8,Hariyama,ex1,Ruby & Sapphire,8,8/109,Rare Holo,ex1-8.png,https://images.pokemontcg.io/ex1/8_hires.png
+ex1-9,Manectric,ex1,Ruby & Sapphire,9,9/109,Rare Holo,ex1-9.png,https://images.pokemontcg.io/ex1/9_hires.png
+ex1-10,Mightyena,ex1,Ruby & Sapphire,10,10/109,Rare Holo,ex1-10.png,https://images.pokemontcg.io/ex1/10_hires.png
+ex1-11,Sceptile,ex1,Ruby & Sapphire,11,11/109,Rare Holo,ex1-11.png,https://images.pokemontcg.io/ex1/11_hires.png
+ex1-12,Slaking,ex1,Ruby & Sapphire,12,12/109,Rare Holo,ex1-12.png,https://images.pokemontcg.io/ex1/12_hires.png
+ex1-13,Swampert,ex1,Ruby & Sapphire,13,13/109,Rare Holo,ex1-13.png,https://images.pokemontcg.io/ex1/13_hires.png
+ex1-14,Wailord,ex1,Ruby & Sapphire,14,14/109,Rare Holo,ex1-14.png,https://images.pokemontcg.io/ex1/14_hires.png
+ex1-15,Blaziken,ex1,Ruby & Sapphire,15,15/109,Rare,ex1-15.png,https://images.pokemontcg.io/ex1/15_hires.png
+ex1-16,Breloom,ex1,Ruby & Sapphire,16,16/109,Rare,ex1-16.png,https://images.pokemontcg.io/ex1/16_hires.png
+ex1-17,Donphan,ex1,Ruby & Sapphire,17,17/109,Rare,ex1-17.png,https://images.pokemontcg.io/ex1/17_hires.png
+ex1-18,Nosepass,ex1,Ruby & Sapphire,18,18/109,Rare,ex1-18.png,https://images.pokemontcg.io/ex1/18_hires.png
+ex1-19,Pelipper,ex1,Ruby & Sapphire,19,19/109,Rare,ex1-19.png,https://images.pokemontcg.io/ex1/19_hires.png
+ex1-20,Sceptile,ex1,Ruby & Sapphire,20,20/109,Rare,ex1-20.png,https://images.pokemontcg.io/ex1/20_hires.png
+ex1-21,Seaking,ex1,Ruby & Sapphire,21,21/109,Rare,ex1-21.png,https://images.pokemontcg.io/ex1/21_hires.png
+ex1-22,Sharpedo,ex1,Ruby & Sapphire,22,22/109,Rare,ex1-22.png,https://images.pokemontcg.io/ex1/22_hires.png
+ex1-23,Swampert,ex1,Ruby & Sapphire,23,23/109,Rare,ex1-23.png,https://images.pokemontcg.io/ex1/23_hires.png
+ex1-24,Weezing,ex1,Ruby & Sapphire,24,24/109,Rare,ex1-24.png,https://images.pokemontcg.io/ex1/24_hires.png
+ex1-25,Aron,ex1,Ruby & Sapphire,25,25/109,Uncommon,ex1-25.png,https://images.pokemontcg.io/ex1/25_hires.png
+pop1-1,Blaziken,pop1,POP Series 1,1,1/17,Rare,pop1-1.png,https://images.pokemontcg.io/pop1/1_hires.png
+pop1-2,Metagross,pop1,POP Series 1,2,2/17,Rare,pop1-2.png,https://images.pokemontcg.io/pop1/2_hires.png
+pop1-3,Rayquaza,pop1,POP Series 1,3,3/17,Rare,pop1-3.png,https://images.pokemontcg.io/pop1/3_hires.png
+pop1-4,Sceptile,pop1,POP Series 1,4,4/17,Rare,pop1-4.png,https://images.pokemontcg.io/pop1/4_hires.png
+pop1-5,Swampert,pop1,POP Series 1,5,5/17,Rare,pop1-5.png,https://images.pokemontcg.io/pop1/5_hires.png
+pop1-6,Beautifly,pop1,POP Series 1,6,6/17,Uncommon,pop1-6.png,https://images.pokemontcg.io/pop1/6_hires.png
+pop1-7,Masquerain,pop1,POP Series 1,7,7/17,Uncommon,pop1-7.png,https://images.pokemontcg.io/pop1/7_hires.png
+pop1-8,Murkrow,pop1,POP Series 1,8,8/17,Uncommon,pop1-8.png,https://images.pokemontcg.io/pop1/8_hires.png
+pop1-9,Pupitar,pop1,POP Series 1,9,9/17,Uncommon,pop1-9.png,https://images.pokemontcg.io/pop1/9_hires.png
+pop1-10,Torkoal,pop1,POP Series 1,10,10/17,Uncommon,pop1-10.png,https://images.pokemontcg.io/pop1/10_hires.png
+pop1-11,Larvitar,pop1,POP Series 1,11,11/17,Common,pop1-11.png,https://images.pokemontcg.io/pop1/11_hires.png
+pop1-12,Minun,pop1,POP Series 1,12,12/17,Common,pop1-12.png,https://images.pokemontcg.io/pop1/12_hires.png
+pop1-13,Plusle,pop1,POP Series 1,13,13/17,Common,pop1-13.png,https://images.pokemontcg.io/pop1/13_hires.png
+pop1-14,Surskit,pop1,POP Series 1,14,14/17,Common,pop1-14.png,https://images.pokemontcg.io/pop1/14_hires.png
+pop1-15,Swellow,pop1,POP Series 1,15,15/17,Common,pop1-15.png,https://images.pokemontcg.io/pop1/15_hires.png
+pop1-16,Armaldo ex,pop1,POP Series 1,16,16/17,Rare,pop1-16.png,https://images.pokemontcg.io/pop1/16_hires.png
+pop1-17,Tyranitar ex,pop1,POP Series 1,17,17/17,Rare,pop1-17.png,https://images.pokemontcg.io/pop1/17_hires.png
+tk2b-1,Arcanine,tk2b,EX Trainer Kit 2 Minun,1,1/12,,tk2b-1.png,https://images.pokemontcg.io/tk2b/1_hires.png
+tk2b-2,Charmander,tk2b,EX Trainer Kit 2 Minun,2,2/12,,tk2b-2.png,https://images.pokemontcg.io/tk2b/2_hires.png
+tk2b-3,Charmeleon,tk2b,EX Trainer Kit 2 Minun,3,3/12,Uncommon,tk2b-3.png,https://images.pokemontcg.io/tk2b/3_hires.png
+tk2b-4,Growlithe,tk2b,EX Trainer Kit 2 Minun,4,4/12,,tk2b-4.png,https://images.pokemontcg.io/tk2b/4_hires.png
+tk2b-5,Mareep,tk2b,EX Trainer Kit 2 Minun,5,5/12,,tk2b-5.png,https://images.pokemontcg.io/tk2b/5_hires.png
+tk2b-6,Minun,tk2b,EX Trainer Kit 2 Minun,6,6/12,,tk2b-6.png,https://images.pokemontcg.io/tk2b/6_hires.png
+tk2b-7,Vulpix,tk2b,EX Trainer Kit 2 Minun,7,7/12,,tk2b-7.png,https://images.pokemontcg.io/tk2b/7_hires.png
+dp2-1,Aggron,dp2,Mysterious Treasures,1,1/123,Rare Holo,dp2-1.png,https://images.pokemontcg.io/dp2/1_hires.png
+dp2-2,Alakazam,dp2,Mysterious Treasures,2,2/123,Rare Holo,dp2-2.png,https://images.pokemontcg.io/dp2/2_hires.png
+dp2-3,Ambipom,dp2,Mysterious Treasures,3,3/123,Rare Holo,dp2-3.png,https://images.pokemontcg.io/dp2/3_hires.png
+dp2-4,Azelf,dp2,Mysterious Treasures,4,4/123,Rare Holo,dp2-4.png,https://images.pokemontcg.io/dp2/4_hires.png
+dp2-5,Blissey,dp2,Mysterious Treasures,5,5/123,Rare Holo,dp2-5.png,https://images.pokemontcg.io/dp2/5_hires.png
+dp2-6,Bronzong,dp2,Mysterious Treasures,6,6/123,Rare Holo,dp2-6.png,https://images.pokemontcg.io/dp2/6_hires.png
+dp2-7,Celebi,dp2,Mysterious Treasures,7,7/123,Rare Holo,dp2-7.png,https://images.pokemontcg.io/dp2/7_hires.png
+dp2-8,Feraligatr,dp2,Mysterious Treasures,8,8/123,Rare Holo,dp2-8.png,https://images.pokemontcg.io/dp2/8_hires.png
+dp2-9,Garchomp,dp2,Mysterious Treasures,9,9/123,Rare Holo,dp2-9.png,https://images.pokemontcg.io/dp2/9_hires.png
+dp2-10,Honchkrow,dp2,Mysterious Treasures,10,10/123,Rare Holo,dp2-10.png,https://images.pokemontcg.io/dp2/10_hires.png
+dp2-11,Lumineon,dp2,Mysterious Treasures,11,11/123,Rare Holo,dp2-11.png,https://images.pokemontcg.io/dp2/11_hires.png
+dp2-12,Magmortar,dp2,Mysterious Treasures,12,12/123,Rare Holo,dp2-12.png,https://images.pokemontcg.io/dp2/12_hires.png
+dp2-13,Meganium,dp2,Mysterious Treasures,13,13/123,Rare Holo,dp2-13.png,https://images.pokemontcg.io/dp2/13_hires.png
+dp2-14,Mesprit,dp2,Mysterious Treasures,14,14/123,Rare Holo,dp2-14.png,https://images.pokemontcg.io/dp2/14_hires.png
+dp2-15,Raichu,dp2,Mysterious Treasures,15,15/123,Rare Holo,dp2-15.png,https://images.pokemontcg.io/dp2/15_hires.png
+dp2-16,Typhlosion,dp2,Mysterious Treasures,16,16/123,Rare Holo,dp2-16.png,https://images.pokemontcg.io/dp2/16_hires.png
+dp2-17,Tyranitar,dp2,Mysterious Treasures,17,17/123,Rare Holo,dp2-17.png,https://images.pokemontcg.io/dp2/17_hires.png
+dp2-18,Uxie,dp2,Mysterious Treasures,18,18/123,Rare Holo,dp2-18.png,https://images.pokemontcg.io/dp2/18_hires.png
+dp2-19,Abomasnow,dp2,Mysterious Treasures,19,19/123,Rare,dp2-19.png,https://images.pokemontcg.io/dp2/19_hires.png
+dp2-20,Ariados,dp2,Mysterious Treasures,20,20/123,Rare,dp2-20.png,https://images.pokemontcg.io/dp2/20_hires.png
+dp2-21,Bastiodon,dp2,Mysterious Treasures,21,21/123,Rare,dp2-21.png,https://images.pokemontcg.io/dp2/21_hires.png
+dp2-22,Chimecho,dp2,Mysterious Treasures,22,22/123,Rare,dp2-22.png,https://images.pokemontcg.io/dp2/22_hires.png
+dp2-23,Crobat,dp2,Mysterious Treasures,23,23/123,Rare,dp2-23.png,https://images.pokemontcg.io/dp2/23_hires.png
+dp2-24,Exeggutor,dp2,Mysterious Treasures,24,24/123,Rare,dp2-24.png,https://images.pokemontcg.io/dp2/24_hires.png
+dp2-25,Glalie,dp2,Mysterious Treasures,25,25/123,Rare,dp2-25.png,https://images.pokemontcg.io/dp2/25_hires.png
+pl1-1,Ampharos,pl1,Platinum,1,1/127,Rare Holo,pl1-1.png,https://images.pokemontcg.io/pl1/1_hires.png
+pl1-2,Blastoise,pl1,Platinum,2,2/127,Rare Holo,pl1-2.png,https://images.pokemontcg.io/pl1/2_hires.png
+pl1-3,Blaziken,pl1,Platinum,3,3/127,Rare Holo,pl1-3.png,https://images.pokemontcg.io/pl1/3_hires.png
+pl1-4,Delcatty,pl1,Platinum,4,4/127,Rare Holo,pl1-4.png,https://images.pokemontcg.io/pl1/4_hires.png
+pl1-5,Dialga,pl1,Platinum,5,5/127,Rare Holo,pl1-5.png,https://images.pokemontcg.io/pl1/5_hires.png
+pl1-6,Dialga,pl1,Platinum,6,6/127,Rare Holo,pl1-6.png,https://images.pokemontcg.io/pl1/6_hires.png
+pl1-7,Dialga G,pl1,Platinum,7,7/127,Rare Holo,pl1-7.png,https://images.pokemontcg.io/pl1/7_hires.png
+pl1-8,Gardevoir,pl1,Platinum,8,8/127,Rare Holo,pl1-8.png,https://images.pokemontcg.io/pl1/8_hires.png
+pl1-9,Giratina,pl1,Platinum,9,9/127,Rare Holo,pl1-9.png,https://images.pokemontcg.io/pl1/9_hires.png
+pl1-10,Giratina,pl1,Platinum,10,10/127,Rare Holo,pl1-10.png,https://images.pokemontcg.io/pl1/10_hires.png
+pl1-11,Manectric,pl1,Platinum,11,11/127,Rare Holo,pl1-11.png,https://images.pokemontcg.io/pl1/11_hires.png
+pl1-12,Palkia G,pl1,Platinum,12,12/127,Rare Holo,pl1-12.png,https://images.pokemontcg.io/pl1/12_hires.png
+pl1-13,Rampardos,pl1,Platinum,13,13/127,Rare Holo,pl1-13.png,https://images.pokemontcg.io/pl1/13_hires.png
+pl1-14,Shaymin,pl1,Platinum,14,14/127,Rare Holo,pl1-14.png,https://images.pokemontcg.io/pl1/14_hires.png
+pl1-15,Shaymin,pl1,Platinum,15,15/127,Rare Holo,pl1-15.png,https://images.pokemontcg.io/pl1/15_hires.png
+pl1-16,Slaking,pl1,Platinum,16,16/127,Rare Holo,pl1-16.png,https://images.pokemontcg.io/pl1/16_hires.png
+pl1-17,Weavile G,pl1,Platinum,17,17/127,Rare Holo,pl1-17.png,https://images.pokemontcg.io/pl1/17_hires.png
+pl1-18,Altaria,pl1,Platinum,18,18/127,Rare,pl1-18.png,https://images.pokemontcg.io/pl1/18_hires.png
+pl1-19,Banette,pl1,Platinum,19,19/127,Rare,pl1-19.png,https://images.pokemontcg.io/pl1/19_hires.png
+pl1-20,Bastiodon,pl1,Platinum,20,20/127,Rare,pl1-20.png,https://images.pokemontcg.io/pl1/20_hires.png
+pl1-21,Beautifly,pl1,Platinum,21,21/127,Rare,pl1-21.png,https://images.pokemontcg.io/pl1/21_hires.png
+pl1-22,Blissey,pl1,Platinum,22,22/127,Rare,pl1-22.png,https://images.pokemontcg.io/pl1/22_hires.png
+pl1-23,Dialga,pl1,Platinum,23,23/127,Rare,pl1-23.png,https://images.pokemontcg.io/pl1/23_hires.png
+pl1-24,Dugtrio,pl1,Platinum,24,24/127,Rare,pl1-24.png,https://images.pokemontcg.io/pl1/24_hires.png
+pl1-25,Dustox,pl1,Platinum,25,25/127,Rare,pl1-25.png,https://images.pokemontcg.io/pl1/25_hires.png
+hgss3-1,Bellossom,hgss3,HS—Undaunted,1,1/90,Rare Holo,hgss3-1.png,https://images.pokemontcg.io/hgss3/1_hires.png
+hgss3-2,Espeon,hgss3,HS—Undaunted,2,2/90,Rare Holo,hgss3-2.png,https://images.pokemontcg.io/hgss3/2_hires.png
+hgss3-3,Forretress,hgss3,HS—Undaunted,3,3/90,Rare Holo,hgss3-3.png,https://images.pokemontcg.io/hgss3/3_hires.png
+hgss3-4,Gliscor,hgss3,HS—Undaunted,4,4/90,Rare Holo,hgss3-4.png,https://images.pokemontcg.io/hgss3/4_hires.png
+hgss3-5,Houndoom,hgss3,HS—Undaunted,5,5/90,Rare Holo,hgss3-5.png,https://images.pokemontcg.io/hgss3/5_hires.png
+hgss3-6,Magcargo,hgss3,HS—Undaunted,6,6/90,Rare Holo,hgss3-6.png,https://images.pokemontcg.io/hgss3/6_hires.png
+hgss3-7,Scizor,hgss3,HS—Undaunted,7,7/90,Rare Holo,hgss3-7.png,https://images.pokemontcg.io/hgss3/7_hires.png
+hgss3-8,Smeargle,hgss3,HS—Undaunted,8,8/90,Rare Holo,hgss3-8.png,https://images.pokemontcg.io/hgss3/8_hires.png
+hgss3-9,Togekiss,hgss3,HS—Undaunted,9,9/90,Rare Holo,hgss3-9.png,https://images.pokemontcg.io/hgss3/9_hires.png
+hgss3-10,Umbreon,hgss3,HS—Undaunted,10,10/90,Rare Holo,hgss3-10.png,https://images.pokemontcg.io/hgss3/10_hires.png
+hgss3-11,Dodrio,hgss3,HS—Undaunted,11,11/90,Rare,hgss3-11.png,https://images.pokemontcg.io/hgss3/11_hires.png
+hgss3-12,Drifblim,hgss3,HS—Undaunted,12,12/90,Rare,hgss3-12.png,https://images.pokemontcg.io/hgss3/12_hires.png
+hgss3-13,Forretress,hgss3,HS—Undaunted,13,13/90,Rare,hgss3-13.png,https://images.pokemontcg.io/hgss3/13_hires.png
+hgss3-14,Hariyama,hgss3,HS—Undaunted,14,14/90,Rare,hgss3-14.png,https://images.pokemontcg.io/hgss3/14_hires.png
+hgss3-15,Honchkrow,hgss3,HS—Undaunted,15,15/90,Rare,hgss3-15.png,https://images.pokemontcg.io/hgss3/15_hires.png
+hgss3-16,Honchkrow,hgss3,HS—Undaunted,16,16/90,Rare,hgss3-16.png,https://images.pokemontcg.io/hgss3/16_hires.png
+hgss3-17,Leafeon,hgss3,HS—Undaunted,17,17/90,Rare,hgss3-17.png,https://images.pokemontcg.io/hgss3/17_hires.png
+hgss3-18,Metagross,hgss3,HS—Undaunted,18,18/90,Rare,hgss3-18.png,https://images.pokemontcg.io/hgss3/18_hires.png
+hgss3-19,Mismagius,hgss3,HS—Undaunted,19,19/90,Rare,hgss3-19.png,https://images.pokemontcg.io/hgss3/19_hires.png
+hgss3-20,Rotom,hgss3,HS—Undaunted,20,20/90,Rare,hgss3-20.png,https://images.pokemontcg.io/hgss3/20_hires.png
+hgss3-21,Skarmory,hgss3,HS—Undaunted,21,21/90,Rare,hgss3-21.png,https://images.pokemontcg.io/hgss3/21_hires.png
+hgss3-22,Tropius,hgss3,HS—Undaunted,22,22/90,Rare,hgss3-22.png,https://images.pokemontcg.io/hgss3/22_hires.png
+hgss3-23,Vespiquen,hgss3,HS—Undaunted,23,23/90,Rare,hgss3-23.png,https://images.pokemontcg.io/hgss3/23_hires.png
+hgss3-24,Vileplume,hgss3,HS—Undaunted,24,24/90,Rare,hgss3-24.png,https://images.pokemontcg.io/hgss3/24_hires.png
+hgss3-25,Weavile,hgss3,HS—Undaunted,25,25/90,Rare,hgss3-25.png,https://images.pokemontcg.io/hgss3/25_hires.png
+bw5-1,Bulbasaur,bw5,Dark Explorers,1,1/108,Common,bw5-1.png,https://images.pokemontcg.io/bw5/1_hires.png
+bw5-2,Ivysaur,bw5,Dark Explorers,2,2/108,Uncommon,bw5-2.png,https://images.pokemontcg.io/bw5/2_hires.png
+bw5-3,Venusaur,bw5,Dark Explorers,3,3/108,Rare Holo,bw5-3.png,https://images.pokemontcg.io/bw5/3_hires.png
+bw5-4,Scyther,bw5,Dark Explorers,4,4/108,Uncommon,bw5-4.png,https://images.pokemontcg.io/bw5/4_hires.png
+bw5-5,Carnivine,bw5,Dark Explorers,5,5/108,Rare,bw5-5.png,https://images.pokemontcg.io/bw5/5_hires.png
+bw5-6,Leafeon,bw5,Dark Explorers,6,6/108,Rare,bw5-6.png,https://images.pokemontcg.io/bw5/6_hires.png
+bw5-7,Dwebble,bw5,Dark Explorers,7,7/108,Common,bw5-7.png,https://images.pokemontcg.io/bw5/7_hires.png
+bw5-8,Crustle,bw5,Dark Explorers,8,8/108,Uncommon,bw5-8.png,https://images.pokemontcg.io/bw5/8_hires.png
+bw5-9,Karrablast,bw5,Dark Explorers,9,9/108,Common,bw5-9.png,https://images.pokemontcg.io/bw5/9_hires.png
+bw5-10,Shelmet,bw5,Dark Explorers,10,10/108,Common,bw5-10.png,https://images.pokemontcg.io/bw5/10_hires.png
+bw5-11,Accelgor,bw5,Dark Explorers,11,11/108,Rare,bw5-11.png,https://images.pokemontcg.io/bw5/11_hires.png
+bw5-12,Flareon,bw5,Dark Explorers,12,12/108,Uncommon,bw5-12.png,https://images.pokemontcg.io/bw5/12_hires.png
+bw5-13,Entei-EX,bw5,Dark Explorers,13,13/108,Rare Holo EX,bw5-13.png,https://images.pokemontcg.io/bw5/13_hires.png
+bw5-14,Torchic,bw5,Dark Explorers,14,14/108,Common,bw5-14.png,https://images.pokemontcg.io/bw5/14_hires.png
+bw5-15,Torchic,bw5,Dark Explorers,15,15/108,Common,bw5-15.png,https://images.pokemontcg.io/bw5/15_hires.png
+bw5-16,Combusken,bw5,Dark Explorers,16,16/108,Uncommon,bw5-16.png,https://images.pokemontcg.io/bw5/16_hires.png
+bw5-17,Blaziken,bw5,Dark Explorers,17,17/108,Rare Holo,bw5-17.png,https://images.pokemontcg.io/bw5/17_hires.png
+bw5-18,Torkoal,bw5,Dark Explorers,18,18/108,Uncommon,bw5-18.png,https://images.pokemontcg.io/bw5/18_hires.png
+bw5-19,Heatmor,bw5,Dark Explorers,19,19/108,Rare,bw5-19.png,https://images.pokemontcg.io/bw5/19_hires.png
+bw5-20,Larvesta,bw5,Dark Explorers,20,20/108,Common,bw5-20.png,https://images.pokemontcg.io/bw5/20_hires.png
+bw5-21,Larvesta,bw5,Dark Explorers,21,21/108,Common,bw5-21.png,https://images.pokemontcg.io/bw5/21_hires.png
+bw5-22,Volcarona,bw5,Dark Explorers,22,22/108,Rare Holo,bw5-22.png,https://images.pokemontcg.io/bw5/22_hires.png
+bw5-23,Slowpoke,bw5,Dark Explorers,23,23/108,Common,bw5-23.png,https://images.pokemontcg.io/bw5/23_hires.png
+bw5-24,Slowbro,bw5,Dark Explorers,24,24/108,Uncommon,bw5-24.png,https://images.pokemontcg.io/bw5/24_hires.png
+bw5-25,Vaporeon,bw5,Dark Explorers,25,25/108,Uncommon,bw5-25.png,https://images.pokemontcg.io/bw5/25_hires.png
+bw11-1,Tangela,bw11,Legendary Treasures,1,1/113,Common,bw11-1.png,https://images.pokemontcg.io/bw11/1_hires.png
+bw11-2,Tangrowth,bw11,Legendary Treasures,2,2/113,Rare,bw11-2.png,https://images.pokemontcg.io/bw11/2_hires.png
+bw11-3,Shuckle,bw11,Legendary Treasures,3,3/113,Uncommon,bw11-3.png,https://images.pokemontcg.io/bw11/3_hires.png
+bw11-4,Cherubi,bw11,Legendary Treasures,4,4/113,Uncommon,bw11-4.png,https://images.pokemontcg.io/bw11/4_hires.png
+bw11-5,Carnivine,bw11,Legendary Treasures,5,5/113,Uncommon,bw11-5.png,https://images.pokemontcg.io/bw11/5_hires.png
+bw11-6,Snivy,bw11,Legendary Treasures,6,6/113,Common,bw11-6.png,https://images.pokemontcg.io/bw11/6_hires.png
+bw11-7,Servine,bw11,Legendary Treasures,7,7/113,Uncommon,bw11-7.png,https://images.pokemontcg.io/bw11/7_hires.png
+bw11-8,Serperior,bw11,Legendary Treasures,8,8/113,Rare Holo,bw11-8.png,https://images.pokemontcg.io/bw11/8_hires.png
+bw11-9,Sewaddle,bw11,Legendary Treasures,9,9/113,Common,bw11-9.png,https://images.pokemontcg.io/bw11/9_hires.png
+bw11-10,Sewaddle,bw11,Legendary Treasures,10,10/113,Common,bw11-10.png,https://images.pokemontcg.io/bw11/10_hires.png
+bw11-11,Swadloon,bw11,Legendary Treasures,11,11/113,Uncommon,bw11-11.png,https://images.pokemontcg.io/bw11/11_hires.png
+bw11-12,Leavanny,bw11,Legendary Treasures,12,12/113,Rare Holo,bw11-12.png,https://images.pokemontcg.io/bw11/12_hires.png
+bw11-13,Dwebble,bw11,Legendary Treasures,13,13/113,Common,bw11-13.png,https://images.pokemontcg.io/bw11/13_hires.png
+bw11-14,Crustle,bw11,Legendary Treasures,14,14/113,Uncommon,bw11-14.png,https://images.pokemontcg.io/bw11/14_hires.png
+bw11-15,Virizion,bw11,Legendary Treasures,15,15/113,Rare Holo,bw11-15.png,https://images.pokemontcg.io/bw11/15_hires.png
+bw11-16,Genesect,bw11,Legendary Treasures,16,16/113,Rare Holo,bw11-16.png,https://images.pokemontcg.io/bw11/16_hires.png
+bw11-17,Charmander,bw11,Legendary Treasures,17,17/113,Common,bw11-17.png,https://images.pokemontcg.io/bw11/17_hires.png
+bw11-18,Charmeleon,bw11,Legendary Treasures,18,18/113,Uncommon,bw11-18.png,https://images.pokemontcg.io/bw11/18_hires.png
+bw11-19,Charizard,bw11,Legendary Treasures,19,19/113,Rare Holo,bw11-19.png,https://images.pokemontcg.io/bw11/19_hires.png
+bw11-20,Vulpix,bw11,Legendary Treasures,20,20/113,Common,bw11-20.png,https://images.pokemontcg.io/bw11/20_hires.png
+bw11-21,Ninetales,bw11,Legendary Treasures,21,21/113,Rare,bw11-21.png,https://images.pokemontcg.io/bw11/21_hires.png
+bw11-22,Moltres,bw11,Legendary Treasures,22,22/113,Rare Holo,bw11-22.png,https://images.pokemontcg.io/bw11/22_hires.png
+bw11-23,Victini,bw11,Legendary Treasures,23,23/113,Rare Holo,bw11-23.png,https://images.pokemontcg.io/bw11/23_hires.png
+bw11-24,Victini-EX,bw11,Legendary Treasures,24,24/113,Rare Holo EX,bw11-24.png,https://images.pokemontcg.io/bw11/24_hires.png
+bw11-25,Tepig,bw11,Legendary Treasures,25,25/113,Common,bw11-25.png,https://images.pokemontcg.io/bw11/25_hires.png
+xy7-1,Oddish,xy7,Ancient Origins,1,1/98,Common,xy7-1.png,https://images.pokemontcg.io/xy7/1_hires.png
+xy7-2,Gloom,xy7,Ancient Origins,2,2/98,Uncommon,xy7-2.png,https://images.pokemontcg.io/xy7/2_hires.png
+xy7-3,Vileplume,xy7,Ancient Origins,3,3/98,Rare,xy7-3.png,https://images.pokemontcg.io/xy7/3_hires.png
+xy7-4,Bellossom,xy7,Ancient Origins,4,4/98,Uncommon,xy7-4.png,https://images.pokemontcg.io/xy7/4_hires.png
+xy7-5,Spinarak,xy7,Ancient Origins,5,5/98,Common,xy7-5.png,https://images.pokemontcg.io/xy7/5_hires.png
+xy7-6,Ariados,xy7,Ancient Origins,6,6/98,Uncommon,xy7-6.png,https://images.pokemontcg.io/xy7/6_hires.png
+xy7-7,Sceptile-EX,xy7,Ancient Origins,7,7/98,Rare Holo EX,xy7-7.png,https://images.pokemontcg.io/xy7/7_hires.png
+xy7-8,M Sceptile-EX,xy7,Ancient Origins,8,8/98,Rare Holo EX,xy7-8.png,https://images.pokemontcg.io/xy7/8_hires.png
+xy7-9,Combee,xy7,Ancient Origins,9,9/98,Common,xy7-9.png,https://images.pokemontcg.io/xy7/9_hires.png
+xy7-10,Vespiquen,xy7,Ancient Origins,10,10/98,Uncommon,xy7-10.png,https://images.pokemontcg.io/xy7/10_hires.png
+xy7-11,Vespiquen,xy7,Ancient Origins,11,11/98,Rare,xy7-11.png,https://images.pokemontcg.io/xy7/11_hires.png
+xy7-12,Virizion,xy7,Ancient Origins,12,12/98,Rare Holo,xy7-12.png,https://images.pokemontcg.io/xy7/12_hires.png
+xy7-13,Flareon,xy7,Ancient Origins,13,13/98,Uncommon,xy7-13.png,https://images.pokemontcg.io/xy7/13_hires.png
+xy7-14,Entei,xy7,Ancient Origins,14,14/98,Rare,xy7-14.png,https://images.pokemontcg.io/xy7/14_hires.png
+xy7-15,Entei,xy7,Ancient Origins,15,15/98,Rare Holo,xy7-15.png,https://images.pokemontcg.io/xy7/15_hires.png
+xy7-16,Larvesta,xy7,Ancient Origins,16,16/98,Common,xy7-16.png,https://images.pokemontcg.io/xy7/16_hires.png
+xy7-17,Volcarona,xy7,Ancient Origins,17,17/98,Rare Holo,xy7-17.png,https://images.pokemontcg.io/xy7/17_hires.png
+xy7-18,Volcarona,xy7,Ancient Origins,18,18/98,Rare,xy7-18.png,https://images.pokemontcg.io/xy7/18_hires.png
+xy7-19,Magikarp,xy7,Ancient Origins,19,19/98,Common,xy7-19.png,https://images.pokemontcg.io/xy7/19_hires.png
+xy7-20,Gyarados,xy7,Ancient Origins,20,20/98,Rare,xy7-20.png,https://images.pokemontcg.io/xy7/20_hires.png
+xy7-21,Gyarados,xy7,Ancient Origins,21,21/98,Rare Holo,xy7-21.png,https://images.pokemontcg.io/xy7/21_hires.png
+xy7-22,Vaporeon,xy7,Ancient Origins,22,22/98,Uncommon,xy7-22.png,https://images.pokemontcg.io/xy7/22_hires.png
+xy7-23,Relicanth,xy7,Ancient Origins,23,23/98,Common,xy7-23.png,https://images.pokemontcg.io/xy7/23_hires.png
+xy7-24,Regice,xy7,Ancient Origins,24,24/98,Rare,xy7-24.png,https://images.pokemontcg.io/xy7/24_hires.png
+xy7-25,Kyurem-EX,xy7,Ancient Origins,25,25/98,Rare Holo EX,xy7-25.png,https://images.pokemontcg.io/xy7/25_hires.png
+sm1-1,Caterpie,sm1,Sun & Moon,1,1/149,Common,sm1-1.png,https://images.pokemontcg.io/sm1/1_hires.png
+sm1-2,Metapod,sm1,Sun & Moon,2,2/149,Uncommon,sm1-2.png,https://images.pokemontcg.io/sm1/2_hires.png
+sm1-3,Butterfree,sm1,Sun & Moon,3,3/149,Rare,sm1-3.png,https://images.pokemontcg.io/sm1/3_hires.png
+sm1-4,Paras,sm1,Sun & Moon,4,4/149,Common,sm1-4.png,https://images.pokemontcg.io/sm1/4_hires.png
+sm1-5,Parasect,sm1,Sun & Moon,5,5/149,Rare,sm1-5.png,https://images.pokemontcg.io/sm1/5_hires.png
+sm1-6,Pinsir,sm1,Sun & Moon,6,6/149,Uncommon,sm1-6.png,https://images.pokemontcg.io/sm1/6_hires.png
+sm1-7,Surskit,sm1,Sun & Moon,7,7/149,Common,sm1-7.png,https://images.pokemontcg.io/sm1/7_hires.png
+sm1-8,Masquerain,sm1,Sun & Moon,8,8/149,Rare,sm1-8.png,https://images.pokemontcg.io/sm1/8_hires.png
+sm1-9,Rowlet,sm1,Sun & Moon,9,9/149,Common,sm1-9.png,https://images.pokemontcg.io/sm1/9_hires.png
+sm1-10,Dartrix,sm1,Sun & Moon,10,10/149,Uncommon,sm1-10.png,https://images.pokemontcg.io/sm1/10_hires.png
+sm1-11,Decidueye,sm1,Sun & Moon,11,11/149,Rare,sm1-11.png,https://images.pokemontcg.io/sm1/11_hires.png
+sm1-12,Decidueye-GX,sm1,Sun & Moon,12,12/149,Rare Holo GX,sm1-12.png,https://images.pokemontcg.io/sm1/12_hires.png
+sm1-13,Grubbin,sm1,Sun & Moon,13,13/149,Common,sm1-13.png,https://images.pokemontcg.io/sm1/13_hires.png
+sm1-14,Fomantis,sm1,Sun & Moon,14,14/149,Common,sm1-14.png,https://images.pokemontcg.io/sm1/14_hires.png
+sm1-15,Lurantis-GX,sm1,Sun & Moon,15,15/149,Rare Holo GX,sm1-15.png,https://images.pokemontcg.io/sm1/15_hires.png
+sm1-16,Morelull,sm1,Sun & Moon,16,16/149,Common,sm1-16.png,https://images.pokemontcg.io/sm1/16_hires.png
+sm1-17,Shiinotic,sm1,Sun & Moon,17,17/149,Rare Holo,sm1-17.png,https://images.pokemontcg.io/sm1/17_hires.png
+sm1-18,Bounsweet,sm1,Sun & Moon,18,18/149,Common,sm1-18.png,https://images.pokemontcg.io/sm1/18_hires.png
+sm1-19,Steenee,sm1,Sun & Moon,19,19/149,Uncommon,sm1-19.png,https://images.pokemontcg.io/sm1/19_hires.png
+sm1-20,Tsareena,sm1,Sun & Moon,20,20/149,Rare Holo,sm1-20.png,https://images.pokemontcg.io/sm1/20_hires.png
+sm1-21,Growlithe,sm1,Sun & Moon,21,21/149,Common,sm1-21.png,https://images.pokemontcg.io/sm1/21_hires.png
+sm1-22,Arcanine,sm1,Sun & Moon,22,22/149,Rare Holo,sm1-22.png,https://images.pokemontcg.io/sm1/22_hires.png
+sm1-23,Torkoal,sm1,Sun & Moon,23,23/149,Common,sm1-23.png,https://images.pokemontcg.io/sm1/23_hires.png
+sm1-24,Litten,sm1,Sun & Moon,24,24/149,Common,sm1-24.png,https://images.pokemontcg.io/sm1/24_hires.png
+sm1-25,Torracat,sm1,Sun & Moon,25,25/149,Uncommon,sm1-25.png,https://images.pokemontcg.io/sm1/25_hires.png
+sm7-1,Bellsprout,sm7,Celestial Storm,1,1/168,Common,sm7-1.png,https://images.pokemontcg.io/sm7/1_hires.png
+sm7-2,Weepinbell,sm7,Celestial Storm,2,2/168,Uncommon,sm7-2.png,https://images.pokemontcg.io/sm7/2_hires.png
+sm7-3,Victreebel,sm7,Celestial Storm,3,3/168,Rare Holo,sm7-3.png,https://images.pokemontcg.io/sm7/3_hires.png
+sm7-4,Scyther,sm7,Celestial Storm,4,4/168,Uncommon,sm7-4.png,https://images.pokemontcg.io/sm7/4_hires.png
+sm7-5,Spinarak,sm7,Celestial Storm,5,5/168,Common,sm7-5.png,https://images.pokemontcg.io/sm7/5_hires.png
+sm7-6,Ariados,sm7,Celestial Storm,6,6/168,Rare Holo,sm7-6.png,https://images.pokemontcg.io/sm7/6_hires.png
+sm7-7,Treecko,sm7,Celestial Storm,7,7/168,Common,sm7-7.png,https://images.pokemontcg.io/sm7/7_hires.png
+sm7-8,Treecko,sm7,Celestial Storm,8,8/168,Common,sm7-8.png,https://images.pokemontcg.io/sm7/8_hires.png
+sm7-9,Grovyle,sm7,Celestial Storm,9,9/168,Uncommon,sm7-9.png,https://images.pokemontcg.io/sm7/9_hires.png
+sm7-10,Sceptile,sm7,Celestial Storm,10,10/168,Rare,sm7-10.png,https://images.pokemontcg.io/sm7/10_hires.png
+sm7-10a,Sceptile,sm7,Celestial Storm,10a,10a/168,Rare Holo,sm7-10a.png,https://images.pokemontcg.io/sm7/10a_hires.png
+sm7-11,Seedot,sm7,Celestial Storm,11,11/168,Common,sm7-11.png,https://images.pokemontcg.io/sm7/11_hires.png
+sm7-12,Seedot,sm7,Celestial Storm,12,12/168,Common,sm7-12.png,https://images.pokemontcg.io/sm7/12_hires.png
+sm7-13,Nuzleaf,sm7,Celestial Storm,13,13/168,Uncommon,sm7-13.png,https://images.pokemontcg.io/sm7/13_hires.png
+sm7-14,Shiftry-GX,sm7,Celestial Storm,14,14/168,Rare Holo GX,sm7-14.png,https://images.pokemontcg.io/sm7/14_hires.png
+sm7-15,Surskit,sm7,Celestial Storm,15,15/168,Common,sm7-15.png,https://images.pokemontcg.io/sm7/15_hires.png
+sm7-16,Masquerain,sm7,Celestial Storm,16,16/168,Uncommon,sm7-16.png,https://images.pokemontcg.io/sm7/16_hires.png
+sm7-17,Volbeat,sm7,Celestial Storm,17,17/168,Uncommon,sm7-17.png,https://images.pokemontcg.io/sm7/17_hires.png
+sm7-18,Illumise,sm7,Celestial Storm,18,18/168,Uncommon,sm7-18.png,https://images.pokemontcg.io/sm7/18_hires.png
+sm7-19,Cacnea,sm7,Celestial Storm,19,19/168,Common,sm7-19.png,https://images.pokemontcg.io/sm7/19_hires.png
+sm7-20,Cacturne,sm7,Celestial Storm,20,20/168,Uncommon,sm7-20.png,https://images.pokemontcg.io/sm7/20_hires.png
+sm7-21,Tropius,sm7,Celestial Storm,21,21/168,Uncommon,sm7-21.png,https://images.pokemontcg.io/sm7/21_hires.png
+sm7-22,Dhelmise,sm7,Celestial Storm,22,22/168,Rare,sm7-22.png,https://images.pokemontcg.io/sm7/22_hires.png
+sm7-23,Slugma,sm7,Celestial Storm,23,23/168,Common,sm7-23.png,https://images.pokemontcg.io/sm7/23_hires.png
+sm7-24,Magcargo,sm7,Celestial Storm,24,24/168,Rare,sm7-24.png,https://images.pokemontcg.io/sm7/24_hires.png
+sma-SV1,Scyther,sma,Hidden Fates Shiny Vault,SV1,SV1/94,Rare Shiny,sma-SV1.png,https://images.pokemontcg.io/sma/SV1_hires.png
+sma-SV2,Rowlet,sma,Hidden Fates Shiny Vault,SV2,SV2/94,Rare Shiny,sma-SV2.png,https://images.pokemontcg.io/sma/SV2_hires.png
+sma-SV3,Dartrix,sma,Hidden Fates Shiny Vault,SV3,SV3/94,Rare Shiny,sma-SV3.png,https://images.pokemontcg.io/sma/SV3_hires.png
+sma-SV4,Wimpod,sma,Hidden Fates Shiny Vault,SV4,SV4/94,Rare Shiny,sma-SV4.png,https://images.pokemontcg.io/sma/SV4_hires.png
+sma-SV5,Pheromosa,sma,Hidden Fates Shiny Vault,SV5,SV5/94,Rare Shiny,sma-SV5.png,https://images.pokemontcg.io/sma/SV5_hires.png
+sma-SV6,Charmander,sma,Hidden Fates Shiny Vault,SV6,SV6/94,Rare Shiny,sma-SV6.png,https://images.pokemontcg.io/sma/SV6_hires.png
+sma-SV7,Charmeleon,sma,Hidden Fates Shiny Vault,SV7,SV7/94,Rare Shiny,sma-SV7.png,https://images.pokemontcg.io/sma/SV7_hires.png
+sma-SV8,Alolan Vulpix,sma,Hidden Fates Shiny Vault,SV8,SV8/94,Rare Shiny,sma-SV8.png,https://images.pokemontcg.io/sma/SV8_hires.png
+sma-SV9,Wooper,sma,Hidden Fates Shiny Vault,SV9,SV9/94,Rare Shiny,sma-SV9.png,https://images.pokemontcg.io/sma/SV9_hires.png
+sma-SV10,Quagsire,sma,Hidden Fates Shiny Vault,SV10,SV10/94,Rare Shiny,sma-SV10.png,https://images.pokemontcg.io/sma/SV10_hires.png
+sma-SV11,Froakie,sma,Hidden Fates Shiny Vault,SV11,SV11/94,Rare Shiny,sma-SV11.png,https://images.pokemontcg.io/sma/SV11_hires.png
+sma-SV12,Frogadier,sma,Hidden Fates Shiny Vault,SV12,SV12/94,Rare Shiny,sma-SV12.png,https://images.pokemontcg.io/sma/SV12_hires.png
+sma-SV13,Voltorb,sma,Hidden Fates Shiny Vault,SV13,SV13/94,Rare Shiny,sma-SV13.png,https://images.pokemontcg.io/sma/SV13_hires.png
+sma-SV14,Xurkitree,sma,Hidden Fates Shiny Vault,SV14,SV14/94,Rare Shiny,sma-SV14.png,https://images.pokemontcg.io/sma/SV14_hires.png
+sma-SV15,Seviper,sma,Hidden Fates Shiny Vault,SV15,SV15/94,Rare Shiny,sma-SV15.png,https://images.pokemontcg.io/sma/SV15_hires.png
+sma-SV16,Shuppet,sma,Hidden Fates Shiny Vault,SV16,SV16/94,Rare Shiny,sma-SV16.png,https://images.pokemontcg.io/sma/SV16_hires.png
+sma-SV17,Inkay,sma,Hidden Fates Shiny Vault,SV17,SV17/94,Rare Shiny,sma-SV17.png,https://images.pokemontcg.io/sma/SV17_hires.png
+sma-SV18,Malamar,sma,Hidden Fates Shiny Vault,SV18,SV18/94,Rare Shiny,sma-SV18.png,https://images.pokemontcg.io/sma/SV18_hires.png
+sma-SV19,Poipole,sma,Hidden Fates Shiny Vault,SV19,SV19/94,Rare Shiny,sma-SV19.png,https://images.pokemontcg.io/sma/SV19_hires.png
+sma-SV20,Sudowoodo,sma,Hidden Fates Shiny Vault,SV20,SV20/94,Rare Shiny,sma-SV20.png,https://images.pokemontcg.io/sma/SV20_hires.png
+sma-SV21,Riolu,sma,Hidden Fates Shiny Vault,SV21,SV21/94,Rare Shiny,sma-SV21.png,https://images.pokemontcg.io/sma/SV21_hires.png
+sma-SV22,Lucario,sma,Hidden Fates Shiny Vault,SV22,SV22/94,Rare Shiny,sma-SV22.png,https://images.pokemontcg.io/sma/SV22_hires.png
+sma-SV23,Rockruff,sma,Hidden Fates Shiny Vault,SV23,SV23/94,Rare Shiny,sma-SV23.png,https://images.pokemontcg.io/sma/SV23_hires.png
+sma-SV24,Buzzwole,sma,Hidden Fates Shiny Vault,SV24,SV24/94,Rare Shiny,sma-SV24.png,https://images.pokemontcg.io/sma/SV24_hires.png
+sma-SV25,Zorua,sma,Hidden Fates Shiny Vault,SV25,SV25/94,Rare Shiny,sma-SV25.png,https://images.pokemontcg.io/sma/SV25_hires.png
+swsh4-1,Weedle,swsh4,Vivid Voltage,1,1/185,Common,swsh4-1.png,https://images.pokemontcg.io/swsh4/1_hires.png
+swsh4-2,Kakuna,swsh4,Vivid Voltage,2,2/185,Uncommon,swsh4-2.png,https://images.pokemontcg.io/swsh4/2_hires.png
+swsh4-3,Beedrill,swsh4,Vivid Voltage,3,3/185,Rare,swsh4-3.png,https://images.pokemontcg.io/swsh4/3_hires.png
+swsh4-4,Exeggcute,swsh4,Vivid Voltage,4,4/185,Common,swsh4-4.png,https://images.pokemontcg.io/swsh4/4_hires.png
+swsh4-5,Exeggutor,swsh4,Vivid Voltage,5,5/185,Rare,swsh4-5.png,https://images.pokemontcg.io/swsh4/5_hires.png
+swsh4-6,Yanma,swsh4,Vivid Voltage,6,6/185,Common,swsh4-6.png,https://images.pokemontcg.io/swsh4/6_hires.png
+swsh4-7,Yanmega,swsh4,Vivid Voltage,7,7/185,Rare,swsh4-7.png,https://images.pokemontcg.io/swsh4/7_hires.png
+swsh4-8,Pineco,swsh4,Vivid Voltage,8,8/185,Common,swsh4-8.png,https://images.pokemontcg.io/swsh4/8_hires.png
+swsh4-9,Celebi,swsh4,Vivid Voltage,9,9/185,Amazing Rare,swsh4-9.png,https://images.pokemontcg.io/swsh4/9_hires.png
+swsh4-10,Seedot,swsh4,Vivid Voltage,10,10/185,Common,swsh4-10.png,https://images.pokemontcg.io/swsh4/10_hires.png
+swsh4-11,Nuzleaf,swsh4,Vivid Voltage,11,11/185,Uncommon,swsh4-11.png,https://images.pokemontcg.io/swsh4/11_hires.png
+swsh4-12,Shiftry,swsh4,Vivid Voltage,12,12/185,Rare,swsh4-12.png,https://images.pokemontcg.io/swsh4/12_hires.png
+swsh4-13,Nincada,swsh4,Vivid Voltage,13,13/185,Common,swsh4-13.png,https://images.pokemontcg.io/swsh4/13_hires.png
+swsh4-14,Ninjask,swsh4,Vivid Voltage,14,14/185,Rare,swsh4-14.png,https://images.pokemontcg.io/swsh4/14_hires.png
+swsh4-15,Shaymin,swsh4,Vivid Voltage,15,15/185,Rare Holo,swsh4-15.png,https://images.pokemontcg.io/swsh4/15_hires.png
+swsh4-16,Genesect,swsh4,Vivid Voltage,16,16/185,Rare Holo,swsh4-16.png,https://images.pokemontcg.io/swsh4/16_hires.png
+swsh4-17,Skiddo,swsh4,Vivid Voltage,17,17/185,Common,swsh4-17.png,https://images.pokemontcg.io/swsh4/17_hires.png
+swsh4-18,Gogoat,swsh4,Vivid Voltage,18,18/185,Uncommon,swsh4-18.png,https://images.pokemontcg.io/swsh4/18_hires.png
+swsh4-19,Dhelmise,swsh4,Vivid Voltage,19,19/185,Uncommon,swsh4-19.png,https://images.pokemontcg.io/swsh4/19_hires.png
+swsh4-20,Orbeetle V,swsh4,Vivid Voltage,20,20/185,Rare Holo V,swsh4-20.png,https://images.pokemontcg.io/swsh4/20_hires.png
+swsh4-21,Orbeetle VMAX,swsh4,Vivid Voltage,21,21/185,Rare Holo VMAX,swsh4-21.png,https://images.pokemontcg.io/swsh4/21_hires.png
+swsh4-22,Zarude V,swsh4,Vivid Voltage,22,22/185,Rare Holo V,swsh4-22.png,https://images.pokemontcg.io/swsh4/22_hires.png
+swsh4-23,Charmander,swsh4,Vivid Voltage,23,23/185,Common,swsh4-23.png,https://images.pokemontcg.io/swsh4/23_hires.png
+swsh4-24,Charmeleon,swsh4,Vivid Voltage,24,24/185,Uncommon,swsh4-24.png,https://images.pokemontcg.io/swsh4/24_hires.png
+swsh4-25,Charizard,swsh4,Vivid Voltage,25,25/185,Rare,swsh4-25.png,https://images.pokemontcg.io/swsh4/25_hires.png
+swsh9-1,Exeggcute,swsh9,Brilliant Stars,1,1/172,Common,swsh9-1.png,https://images.pokemontcg.io/swsh9/1_hires.png
+swsh9-2,Exeggutor,swsh9,Brilliant Stars,2,2/172,Uncommon,swsh9-2.png,https://images.pokemontcg.io/swsh9/2_hires.png
+swsh9-3,Shroomish,swsh9,Brilliant Stars,3,3/172,Common,swsh9-3.png,https://images.pokemontcg.io/swsh9/3_hires.png
+swsh9-4,Breloom,swsh9,Brilliant Stars,4,4/172,Rare,swsh9-4.png,https://images.pokemontcg.io/swsh9/4_hires.png
+swsh9-5,Tropius,swsh9,Brilliant Stars,5,5/172,Uncommon,swsh9-5.png,https://images.pokemontcg.io/swsh9/5_hires.png
+swsh9-6,Turtwig,swsh9,Brilliant Stars,6,6/172,Common,swsh9-6.png,https://images.pokemontcg.io/swsh9/6_hires.png
+swsh9-7,Grotle,swsh9,Brilliant Stars,7,7/172,Uncommon,swsh9-7.png,https://images.pokemontcg.io/swsh9/7_hires.png
+swsh9-8,Torterra,swsh9,Brilliant Stars,8,8/172,Rare Holo,swsh9-8.png,https://images.pokemontcg.io/swsh9/8_hires.png
+swsh9-9,Burmy,swsh9,Brilliant Stars,9,9/172,Common,swsh9-9.png,https://images.pokemontcg.io/swsh9/9_hires.png
+swsh9-10,Wormadam,swsh9,Brilliant Stars,10,10/172,Rare,swsh9-10.png,https://images.pokemontcg.io/swsh9/10_hires.png
+swsh9-11,Mothim,swsh9,Brilliant Stars,11,11/172,Rare,swsh9-11.png,https://images.pokemontcg.io/swsh9/11_hires.png
+swsh9-12,Cherubi,swsh9,Brilliant Stars,12,12/172,Common,swsh9-12.png,https://images.pokemontcg.io/swsh9/12_hires.png
+swsh9-13,Shaymin V,swsh9,Brilliant Stars,13,13/172,Rare Holo V,swsh9-13.png,https://images.pokemontcg.io/swsh9/13_hires.png
+swsh9-14,Shaymin VSTAR,swsh9,Brilliant Stars,14,14/172,Rare Holo VSTAR,swsh9-14.png,https://images.pokemontcg.io/swsh9/14_hires.png
+swsh9-15,Karrablast,swsh9,Brilliant Stars,15,15/172,Common,swsh9-15.png,https://images.pokemontcg.io/swsh9/15_hires.png
+swsh9-16,Zarude V,swsh9,Brilliant Stars,16,16/172,Rare Holo V,swsh9-16.png,https://images.pokemontcg.io/swsh9/16_hires.png
+swsh9-17,Charizard V,swsh9,Brilliant Stars,17,17/172,Rare Holo V,swsh9-17.png,https://images.pokemontcg.io/swsh9/17_hires.png
+swsh9-18,Charizard VSTAR,swsh9,Brilliant Stars,18,18/172,Rare Holo VSTAR,swsh9-18.png,https://images.pokemontcg.io/swsh9/18_hires.png
+swsh9-19,Magmar,swsh9,Brilliant Stars,19,19/172,Common,swsh9-19.png,https://images.pokemontcg.io/swsh9/19_hires.png
+swsh9-20,Magmortar,swsh9,Brilliant Stars,20,20/172,Rare,swsh9-20.png,https://images.pokemontcg.io/swsh9/20_hires.png
+swsh9-21,Moltres,swsh9,Brilliant Stars,21,21/172,Rare Holo,swsh9-21.png,https://images.pokemontcg.io/swsh9/21_hires.png
+swsh9-22,Entei V,swsh9,Brilliant Stars,22,22/172,Rare Holo V,swsh9-22.png,https://images.pokemontcg.io/swsh9/22_hires.png
+swsh9-23,Torkoal,swsh9,Brilliant Stars,23,23/172,Uncommon,swsh9-23.png,https://images.pokemontcg.io/swsh9/23_hires.png
+swsh9-24,Chimchar,swsh9,Brilliant Stars,24,24/172,Common,swsh9-24.png,https://images.pokemontcg.io/swsh9/24_hires.png
+swsh9-25,Monferno,swsh9,Brilliant Stars,25,25/172,Uncommon,swsh9-25.png,https://images.pokemontcg.io/swsh9/25_hires.png
+swsh12tg-TG01,Braixen,swsh12tg,Silver Tempest Trainer Gallery,TG01,TG01/30,Trainer Gallery Rare Holo,swsh12tg-TG01.png,https://images.pokemontcg.io/swsh12tg/TG01_hires.png
+swsh12tg-TG02,Milotic,swsh12tg,Silver Tempest Trainer Gallery,TG02,TG02/30,Trainer Gallery Rare Holo,swsh12tg-TG02.png,https://images.pokemontcg.io/swsh12tg/TG02_hires.png
+swsh12tg-TG03,Flaaffy,swsh12tg,Silver Tempest Trainer Gallery,TG03,TG03/30,Trainer Gallery Rare Holo,swsh12tg-TG03.png,https://images.pokemontcg.io/swsh12tg/TG03_hires.png
+swsh12tg-TG04,Jynx,swsh12tg,Silver Tempest Trainer Gallery,TG04,TG04/30,Trainer Gallery Rare Holo,swsh12tg-TG04.png,https://images.pokemontcg.io/swsh12tg/TG04_hires.png
+swsh12tg-TG05,Gardevoir,swsh12tg,Silver Tempest Trainer Gallery,TG05,TG05/30,Trainer Gallery Rare Holo,swsh12tg-TG05.png,https://images.pokemontcg.io/swsh12tg/TG05_hires.png
+swsh12tg-TG06,Malamar,swsh12tg,Silver Tempest Trainer Gallery,TG06,TG06/30,Trainer Gallery Rare Holo,swsh12tg-TG06.png,https://images.pokemontcg.io/swsh12tg/TG06_hires.png
+swsh12tg-TG07,Rockruff,swsh12tg,Silver Tempest Trainer Gallery,TG07,TG07/30,Trainer Gallery Rare Holo,swsh12tg-TG07.png,https://images.pokemontcg.io/swsh12tg/TG07_hires.png
+swsh12tg-TG08,Passimian,swsh12tg,Silver Tempest Trainer Gallery,TG08,TG08/30,Trainer Gallery Rare Holo,swsh12tg-TG08.png,https://images.pokemontcg.io/swsh12tg/TG08_hires.png
+swsh12tg-TG09,Druddigon,swsh12tg,Silver Tempest Trainer Gallery,TG09,TG09/30,Trainer Gallery Rare Holo,swsh12tg-TG09.png,https://images.pokemontcg.io/swsh12tg/TG09_hires.png
+swsh12tg-TG10,Smeargle,swsh12tg,Silver Tempest Trainer Gallery,TG10,TG10/30,Trainer Gallery Rare Holo,swsh12tg-TG10.png,https://images.pokemontcg.io/swsh12tg/TG10_hires.png
+swsh12tg-TG11,Altaria,swsh12tg,Silver Tempest Trainer Gallery,TG11,TG11/30,Trainer Gallery Rare Holo,swsh12tg-TG11.png,https://images.pokemontcg.io/swsh12tg/TG11_hires.png
+swsh12tg-TG12,Kricketune V,swsh12tg,Silver Tempest Trainer Gallery,TG12,TG12/30,Rare Holo V,swsh12tg-TG12.png,https://images.pokemontcg.io/swsh12tg/TG12_hires.png
+swsh12tg-TG13,Serperior V,swsh12tg,Silver Tempest Trainer Gallery,TG13,TG13/30,Rare Holo V,swsh12tg-TG13.png,https://images.pokemontcg.io/swsh12tg/TG13_hires.png
+swsh12tg-TG14,Blaziken V,swsh12tg,Silver Tempest Trainer Gallery,TG14,TG14/30,Rare Holo V,swsh12tg-TG14.png,https://images.pokemontcg.io/swsh12tg/TG14_hires.png
+swsh12tg-TG15,Blaziken VMAX,swsh12tg,Silver Tempest Trainer Gallery,TG15,TG15/30,Rare Holo VMAX,swsh12tg-TG15.png,https://images.pokemontcg.io/swsh12tg/TG15_hires.png
+swsh12tg-TG16,Zeraora V,swsh12tg,Silver Tempest Trainer Gallery,TG16,TG16/30,Rare Holo V,swsh12tg-TG16.png,https://images.pokemontcg.io/swsh12tg/TG16_hires.png
+swsh12tg-TG17,Mawile V,swsh12tg,Silver Tempest Trainer Gallery,TG17,TG17/30,Rare Holo V,swsh12tg-TG17.png,https://images.pokemontcg.io/swsh12tg/TG17_hires.png
+swsh12tg-TG18,Corviknight V,swsh12tg,Silver Tempest Trainer Gallery,TG18,TG18/30,Rare Holo V,swsh12tg-TG18.png,https://images.pokemontcg.io/swsh12tg/TG18_hires.png
+swsh12tg-TG19,Corviknight VMAX,swsh12tg,Silver Tempest Trainer Gallery,TG19,TG19/30,Rare Holo VMAX,swsh12tg-TG19.png,https://images.pokemontcg.io/swsh12tg/TG19_hires.png
+swsh12tg-TG20,Rayquaza VMAX,swsh12tg,Silver Tempest Trainer Gallery,TG20,TG20/30,Rare Holo VMAX,swsh12tg-TG20.png,https://images.pokemontcg.io/swsh12tg/TG20_hires.png
+swsh12tg-TG21,Duraludon VMAX,swsh12tg,Silver Tempest Trainer Gallery,TG21,TG21/30,Rare Holo VMAX,swsh12tg-TG21.png,https://images.pokemontcg.io/swsh12tg/TG21_hires.png
+swsh12tg-TG22,Blissey V,swsh12tg,Silver Tempest Trainer Gallery,TG22,TG22/30,Rare Holo V,swsh12tg-TG22.png,https://images.pokemontcg.io/swsh12tg/TG22_hires.png
+swsh12tg-TG29,Rayquaza VMAX,swsh12tg,Silver Tempest Trainer Gallery,TG29,TG29/30,Rare Secret,swsh12tg-TG29.png,https://images.pokemontcg.io/swsh12tg/TG29_hires.png
+swsh12tg-TG30,Duraludon VMAX,swsh12tg,Silver Tempest Trainer Gallery,TG30,TG30/30,Rare Secret,swsh12tg-TG30.png,https://images.pokemontcg.io/swsh12tg/TG30_hires.png
+sv4-1,Surskit,sv4,Paradox Rift,1,1/182,Common,sv4-1.png,https://images.pokemontcg.io/sv4/1_hires.png
+sv4-2,Masquerain,sv4,Paradox Rift,2,2/182,Uncommon,sv4-2.png,https://images.pokemontcg.io/sv4/2_hires.png
+sv4-3,Froslass ex,sv4,Paradox Rift,3,3/182,Double Rare,sv4-3.png,https://images.pokemontcg.io/sv4/3_hires.png
+sv4-4,Pansage,sv4,Paradox Rift,4,4/182,Common,sv4-4.png,https://images.pokemontcg.io/sv4/4_hires.png
+sv4-5,Simisage,sv4,Paradox Rift,5,5/182,Uncommon,sv4-5.png,https://images.pokemontcg.io/sv4/5_hires.png
+sv4-6,Dwebble,sv4,Paradox Rift,6,6/182,Common,sv4-6.png,https://images.pokemontcg.io/sv4/6_hires.png
+sv4-7,Crustle,sv4,Paradox Rift,7,7/182,Common,sv4-7.png,https://images.pokemontcg.io/sv4/7_hires.png
+sv4-8,Bounsweet,sv4,Paradox Rift,8,8/182,Common,sv4-8.png,https://images.pokemontcg.io/sv4/8_hires.png
+sv4-9,Steenee,sv4,Paradox Rift,9,9/182,Uncommon,sv4-9.png,https://images.pokemontcg.io/sv4/9_hires.png
+sv4-10,Blipbug,sv4,Paradox Rift,10,10/182,Common,sv4-10.png,https://images.pokemontcg.io/sv4/10_hires.png
+sv4-11,Dottler,sv4,Paradox Rift,11,11/182,Common,sv4-11.png,https://images.pokemontcg.io/sv4/11_hires.png
+sv4-12,Orbeetle,sv4,Paradox Rift,12,12/182,Uncommon,sv4-12.png,https://images.pokemontcg.io/sv4/12_hires.png
+sv4-13,Nymble,sv4,Paradox Rift,13,13/182,Common,sv4-13.png,https://images.pokemontcg.io/sv4/13_hires.png
+sv4-14,Nymble,sv4,Paradox Rift,14,14/182,Common,sv4-14.png,https://images.pokemontcg.io/sv4/14_hires.png
+sv4-15,Toedscool,sv4,Paradox Rift,15,15/182,Common,sv4-15.png,https://images.pokemontcg.io/sv4/15_hires.png
+sv4-16,Toedscool,sv4,Paradox Rift,16,16/182,Common,sv4-16.png,https://images.pokemontcg.io/sv4/16_hires.png
+sv4-17,Toedscruel,sv4,Paradox Rift,17,17/182,Uncommon,sv4-17.png,https://images.pokemontcg.io/sv4/17_hires.png
+sv4-18,Wo-Chien,sv4,Paradox Rift,18,18/182,Rare,sv4-18.png,https://images.pokemontcg.io/sv4/18_hires.png
+sv4-19,Magby,sv4,Paradox Rift,19,19/182,Common,sv4-19.png,https://images.pokemontcg.io/sv4/19_hires.png
+sv4-20,Pansear,sv4,Paradox Rift,20,20/182,Common,sv4-20.png,https://images.pokemontcg.io/sv4/20_hires.png
+sv4-21,Simisear,sv4,Paradox Rift,21,21/182,Uncommon,sv4-21.png,https://images.pokemontcg.io/sv4/21_hires.png
+sv4-22,Volcanion,sv4,Paradox Rift,22,22/182,Rare,sv4-22.png,https://images.pokemontcg.io/sv4/22_hires.png
+sv4-23,Fuecoco,sv4,Paradox Rift,23,23/182,Common,sv4-23.png,https://images.pokemontcg.io/sv4/23_hires.png
+sv4-24,Crocalor,sv4,Paradox Rift,24,24/182,Uncommon,sv4-24.png,https://images.pokemontcg.io/sv4/24_hires.png
+sv4-25,Charcadet,sv4,Paradox Rift,25,25/182,Common,sv4-25.png,https://images.pokemontcg.io/sv4/25_hires.png
+sv10-1,Ethan's Pinsir,sv10,Destined Rivals,1,1/182,Uncommon,sv10-1.png,https://images.pokemontcg.io/sv10/1_hires.png
+sv10-2,Yanma,sv10,Destined Rivals,2,2/182,Common,sv10-2.png,https://images.pokemontcg.io/sv10/2_hires.png
+sv10-3,Yanmega ex,sv10,Destined Rivals,3,3/182,Double Rare,sv10-3.png,https://images.pokemontcg.io/sv10/3_hires.png
+sv10-4,Pineco,sv10,Destined Rivals,4,4/182,Common,sv10-4.png,https://images.pokemontcg.io/sv10/4_hires.png
+sv10-5,Shroomish,sv10,Destined Rivals,5,5/182,Common,sv10-5.png,https://images.pokemontcg.io/sv10/5_hires.png
+sv10-6,Breloom,sv10,Destined Rivals,6,6/182,Common,sv10-6.png,https://images.pokemontcg.io/sv10/6_hires.png
+sv10-7,Cynthia's Roselia,sv10,Destined Rivals,7,7/182,Common,sv10-7.png,https://images.pokemontcg.io/sv10/7_hires.png
+sv10-8,Cynthia's Roserade,sv10,Destined Rivals,8,8/182,Rare,sv10-8.png,https://images.pokemontcg.io/sv10/8_hires.png
+sv10-9,Mow Rotom,sv10,Destined Rivals,9,9/182,Common,sv10-9.png,https://images.pokemontcg.io/sv10/9_hires.png
+sv10-10,Shaymin,sv10,Destined Rivals,10,10/182,Uncommon,sv10-10.png,https://images.pokemontcg.io/sv10/10_hires.png
+sv10-11,Dwebble,sv10,Destined Rivals,11,11/182,Common,sv10-11.png,https://images.pokemontcg.io/sv10/11_hires.png
+sv10-12,Crustle,sv10,Destined Rivals,12,12/182,Rare,sv10-12.png,https://images.pokemontcg.io/sv10/12_hires.png
+sv10-13,Fomantis,sv10,Destined Rivals,13,13/182,Common,sv10-13.png,https://images.pokemontcg.io/sv10/13_hires.png
+sv10-14,Lurantis,sv10,Destined Rivals,14,14/182,Uncommon,sv10-14.png,https://images.pokemontcg.io/sv10/14_hires.png
+sv10-15,Team Rocket's Blipbug,sv10,Destined Rivals,15,15/182,Common,sv10-15.png,https://images.pokemontcg.io/sv10/15_hires.png
+sv10-16,Applin,sv10,Destined Rivals,16,16/182,Common,sv10-16.png,https://images.pokemontcg.io/sv10/16_hires.png
+sv10-17,Dipplin,sv10,Destined Rivals,17,17/182,Common,sv10-17.png,https://images.pokemontcg.io/sv10/17_hires.png
+sv10-18,Hydrapple,sv10,Destined Rivals,18,18/182,Rare,sv10-18.png,https://images.pokemontcg.io/sv10/18_hires.png
+sv10-19,Team Rocket's Tarountula,sv10,Destined Rivals,19,19/182,Common,sv10-19.png,https://images.pokemontcg.io/sv10/19_hires.png
+sv10-20,Team Rocket's Spidops,sv10,Destined Rivals,20,20/182,Rare,sv10-20.png,https://images.pokemontcg.io/sv10/20_hires.png
+sv10-21,Smoliv,sv10,Destined Rivals,21,21/182,Common,sv10-21.png,https://images.pokemontcg.io/sv10/21_hires.png
+sv10-22,Dolliv,sv10,Destined Rivals,22,22/182,Common,sv10-22.png,https://images.pokemontcg.io/sv10/22_hires.png
+sv10-23,Arboliva ex,sv10,Destined Rivals,23,23/182,Double Rare,sv10-23.png,https://images.pokemontcg.io/sv10/23_hires.png
+sv10-24,Rellor,sv10,Destined Rivals,24,24/182,Common,sv10-24.png,https://images.pokemontcg.io/sv10/24_hires.png
+sv10-25,Rabsca ex,sv10,Destined Rivals,25,25/182,Double Rare,sv10-25.png,https://images.pokemontcg.io/sv10/25_hires.png
+me55c-58,Pikachu,me55c,30th Celebration: Classic Collection,58,58/,Common,me55c-58.png,https://images.scrydex.com/pokemon/me55c-58/large
+me55c-4,Charizard,me55c,30th Celebration: Classic Collection,4,4/,Rare Holo,me55c-4.png,https://images.scrydex.com/pokemon/me55c-4/large
+me55c-25,Sneasel,me55c,30th Celebration: Classic Collection,25,25/,Rare,me55c-25.png,https://images.scrydex.com/pokemon/me55c-25/large
+me55c-106,Shining Celebi,me55c,30th Celebration: Classic Collection,106,106/,Rare Secret,me55c-106.png,https://images.scrydex.com/pokemon/me55c-106/large
+me55c-149,Lugia,me55c,30th Celebration: Classic Collection,149,149/,Rare Secret,me55c-149.png,https://images.scrydex.com/pokemon/me55c-149/large
+me55c-5,Delcatty,me55c,30th Celebration: Classic Collection,5,5/,Rare Holo,me55c-5.png,https://images.scrydex.com/pokemon/me55c-5/large
+me55c-19,Dark Tyranitar,me55c,30th Celebration: Classic Collection,19,19/,Rare,me55c-19.png,https://images.scrydex.com/pokemon/me55c-19/large
+me55c-108,Scizor ex,me55c,30th Celebration: Classic Collection,108,108/,Rare Holo ex,me55c-108.png,https://images.scrydex.com/pokemon/me55c-108/large
+me55c-11,Metagross,me55c,30th Celebration: Classic Collection,11,11/,Rare Holo,me55c-11.png,https://images.scrydex.com/pokemon/me55c-11/large
+me55c-106p,Palkia LV.X,me55c,30th Celebration: Classic Collection,106,106/,Rare Holo LV.X,me55c-106p.png,https://images.scrydex.com/pokemon/me55c-106p/large
+me55c-43,Uxie,me55c,30th Celebration: Classic Collection,43,43/,Rare,me55c-43.png,https://images.scrydex.com/pokemon/me55c-43/large
+me55c-47,Crobat G,me55c,30th Celebration: Classic Collection,47,47/,Uncommon,me55c-47.png,https://images.scrydex.com/pokemon/me55c-47/large
+me55c-94,Gengar,me55c,30th Celebration: Classic Collection,94,94/,Rare Prime,me55c-94.png,https://images.scrydex.com/pokemon/me55c-94/large
+me55c-99,Darkrai & Cresselia LEGEND,me55c,30th Celebration: Classic Collection,99,99/,LEGEND,me55c-99.png,https://images.scrydex.com/pokemon/me55c-99/large
+me55c-100,Darkrai & Cresselia LEGEND,me55c,30th Celebration: Classic Collection,100,100/,LEGEND,me55c-100.png,https://images.scrydex.com/pokemon/me55c-100/large
+me55c-85,Rayquaza-EX,me55c,30th Celebration: Classic Collection,85,85/,Rare Holo EX,me55c-85.png,https://images.scrydex.com/pokemon/me55c-85/large
+me55c-11g,Genesect-EX,me55c,30th Celebration: Classic Collection,11,11/,Rare Holo EX,me55c-11g.png,https://images.scrydex.com/pokemon/me55c-11g/large
+me55c-106m,M Gardevoir-EX,me55c,30th Celebration: Classic Collection,106,106/,Rare Holo EX,me55c-106m.png,https://images.scrydex.com/pokemon/me55c-106m/large
+me55c-41,Greninja BREAK,me55c,30th Celebration: Classic Collection,41,41/,Rare BREAK,me55c-41.png,https://images.scrydex.com/pokemon/me55c-41/large
+me55c-89,Solgaleo-GX,me55c,30th Celebration: Classic Collection,89,89/,Rare Holo GX,me55c-89.png,https://images.scrydex.com/pokemon/me55c-89/large
+me55c-57,Buzzwole-GX,me55c,30th Celebration: Classic Collection,57,57/,Rare Holo GX,me55c-57.png,https://images.scrydex.com/pokemon/me55c-57/large
+me55c-33,Pikachu & Zekrom-GX,me55c,30th Celebration: Classic Collection,33,33/,Rare Holo GX,me55c-33.png,https://images.scrydex.com/pokemon/me55c-33/large
+me55c-138,Zacian V,me55c,30th Celebration: Classic Collection,138,138/,Holo Rare V,me55c-138.png,https://images.scrydex.com/pokemon/me55c-138/large
+me55c-50,Raikou,me55c,30th Celebration: Classic Collection,50,50/,Amazing Rare,me55c-50.png,https://images.scrydex.com/pokemon/me55c-50/large
+me55c-114,Mew VMAX,me55c,30th Celebration: Classic Collection,114,114/,Holo Rare VMAX,me55c-114.png,https://images.scrydex.com/pokemon/me55c-114/large
+base2-1,Clefable,base2,Jungle,1,1/64,Rare Holo,base2-1.png,https://images.pokemontcg.io/base2/1_hires.png
+base2-2,Electrode,base2,Jungle,2,2/64,Rare Holo,base2-2.png,https://images.pokemontcg.io/base2/2_hires.png
+base2-3,Flareon,base2,Jungle,3,3/64,Rare Holo,base2-3.png,https://images.pokemontcg.io/base2/3_hires.png
+base2-4,Jolteon,base2,Jungle,4,4/64,Rare Holo,base2-4.png,https://images.pokemontcg.io/base2/4_hires.png
+base2-5,Kangaskhan,base2,Jungle,5,5/64,Rare Holo,base2-5.png,https://images.pokemontcg.io/base2/5_hires.png
+base2-6,Mr. Mime,base2,Jungle,6,6/64,Rare Holo,base2-6.png,https://images.pokemontcg.io/base2/6_hires.png
+base2-7,Nidoqueen,base2,Jungle,7,7/64,Rare Holo,base2-7.png,https://images.pokemontcg.io/base2/7_hires.png
+base2-8,Pidgeot,base2,Jungle,8,8/64,Rare Holo,base2-8.png,https://images.pokemontcg.io/base2/8_hires.png
+base2-9,Pinsir,base2,Jungle,9,9/64,Rare Holo,base2-9.png,https://images.pokemontcg.io/base2/9_hires.png
+base2-10,Scyther,base2,Jungle,10,10/64,Rare Holo,base2-10.png,https://images.pokemontcg.io/base2/10_hires.png
+base2-11,Snorlax,base2,Jungle,11,11/64,Rare Holo,base2-11.png,https://images.pokemontcg.io/base2/11_hires.png
+base2-12,Vaporeon,base2,Jungle,12,12/64,Rare Holo,base2-12.png,https://images.pokemontcg.io/base2/12_hires.png
+base2-13,Venomoth,base2,Jungle,13,13/64,Rare Holo,base2-13.png,https://images.pokemontcg.io/base2/13_hires.png
+base2-14,Victreebel,base2,Jungle,14,14/64,Rare Holo,base2-14.png,https://images.pokemontcg.io/base2/14_hires.png
+base2-15,Vileplume,base2,Jungle,15,15/64,Rare Holo,base2-15.png,https://images.pokemontcg.io/base2/15_hires.png
+base2-16,Wigglytuff,base2,Jungle,16,16/64,Rare Holo,base2-16.png,https://images.pokemontcg.io/base2/16_hires.png
+base2-17,Clefable,base2,Jungle,17,17/64,Rare,base2-17.png,https://images.pokemontcg.io/base2/17_hires.png
+base2-18,Electrode,base2,Jungle,18,18/64,Rare,base2-18.png,https://images.pokemontcg.io/base2/18_hires.png
+base2-19,Flareon,base2,Jungle,19,19/64,Rare,base2-19.png,https://images.pokemontcg.io/base2/19_hires.png
+base2-20,Jolteon,base2,Jungle,20,20/64,Rare,base2-20.png,https://images.pokemontcg.io/base2/20_hires.png
+base2-21,Kangaskhan,base2,Jungle,21,21/64,Rare,base2-21.png,https://images.pokemontcg.io/base2/21_hires.png
+base2-22,Mr. Mime,base2,Jungle,22,22/64,Rare,base2-22.png,https://images.pokemontcg.io/base2/22_hires.png
+base2-23,Nidoqueen,base2,Jungle,23,23/64,Rare,base2-23.png,https://images.pokemontcg.io/base2/23_hires.png
+base2-24,Pidgeot,base2,Jungle,24,24/64,Rare,base2-24.png,https://images.pokemontcg.io/base2/24_hires.png
+base2-25,Pinsir,base2,Jungle,25,25/64,Rare,base2-25.png,https://images.pokemontcg.io/base2/25_hires.png
+base2-26,Scyther,base2,Jungle,26,26/64,Rare,base2-26.png,https://images.pokemontcg.io/base2/26_hires.png
+base2-27,Snorlax,base2,Jungle,27,27/64,Rare,base2-27.png,https://images.pokemontcg.io/base2/27_hires.png
