@@ -67,7 +67,22 @@ MANUAL_MAPPINGS = {
     "scarlet-violet": "sv1",
     "sun-moon": "sm1",
     "sword-shield": "swsh1",
-    "sun-moon-promos": "smp"
+    "sun-moon-promos": "smp",
+    "sv4-5": "sv4pt5",
+    "sv3-5": "sv3pt5",
+    "sv8-5": "sv8pt5",
+    "rsv10-5": "rsv10pt5",
+    "zsv10-5": "zsv10pt5",
+    "aq": "ecard2",
+    "ex": "ecard1",
+    "rr": "pl2",
+    "SWSH9": "swsh9tg",
+    "SWSH10": "swsh10tg",
+    "SWSH11": "swsh11tg",
+    "SWSH12": "swsh12tg",
+
+    "svbsp": "svp",
+    "xybsp": "xyp",
 }
 
 
