@@ -62,7 +62,24 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 3. sv3-5_en_001_std
+    # 3. en_US-SWSH10-TG001-abomasnow
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^[a-z]{2}_[A-Z]{2}-(?P<set>[^-]+)-"
+        r"(?P<number>TG\d+)-(?P<name>.+)$",
+        stem,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set"),
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "en_US-set-TG-number-name",
+        }
+
+    # ---------------------------------------------------------
+    # 4. sv3-5_en_001_std
     # ---------------------------------------------------------
     match = re.match(
         r"^(?P<set>.+)_en_(?P<number>\d+)_std$",
@@ -79,7 +96,7 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 4. name-set-code-number
+    # 5. name-set-code-number
     #
     # Beispiel:
     # aipom-aquapolis-aq-67
@@ -100,7 +117,7 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 5. Expedition h01-ampharos-expedition
+    # 6. Expedition h01-ampharos-expedition
     # ---------------------------------------------------------
     match = re.match(
         r"^h(?P<number>\d+)-(?P<name>.+)-expedition$",
@@ -201,7 +218,7 @@ def main():
         print(f"{format_name:40} {count:6}")
 
     print("\nZusammenfassung:")
-    print(f"  Gesamtbilder:       {len(files)}")
+    print(f"  Gesamtbilder:        {len(files)}")
     print(f"  Erfolgreich geparst: {len(files) - len(unknown_files)}")
     print(f"  Nicht erkannt:       {len(unknown_files)}")
 
