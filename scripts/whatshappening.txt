@@ -1,0 +1,90 @@
+============================================================
+POKEMON APP – ÜBERSICHT DER PYTHON-SKRIPTE
+============================================================
+
+
+==================== DATASET-ANALYSE ========================
+
+--- analyze_pokemon_dataset.py ---
+Analysiert den großen Pokémon-Bilddatensatz:
+Anzahl, Dateitypen, Bildgrößen, Lesbarkeit und Duplikate.
+
+--- analyze_dataset_filenames.py ---
+Analysiert die Dateinamen und versucht,
+Set, Kartennummer und Namen daraus zu erkennen.
+
+--- analyze_filename_patterns.py ---
+Untersucht die verschiedenen Dateinamen-Formate
+und zeigt häufige bzw. unbekannte Muster.
+
+
+==================== DATASET-INDEX ==========================
+
+--- build_dataset_index.py ---
+Erstellt aus allen 20.322 Bildern einen strukturierten
+Index mit Bildpfad, Set-ID, Kartennummer, Name und Format.
+
+Ergebnis:
+data/dataset_index.csv
+
+
+==================== OFFIZIELLE METADATEN ===================
+
+--- download_official_metadata.py ---
+Lädt die offiziellen Pokémon-TCG-Kartendaten von
+PokemonTCGData herunter und speichert sie lokal.
+
+Ergebnis:
+data/official_metadata/
+
+--- match_dataset_metadata.py ---
+Vergleicht unseren Dataset-Index mit den offiziellen
+Kartendaten anhand von Set-ID und Kartennummer.
+
+Ergebnis:
+data/dataset_metadata_matches.csv
+
+
+==================== REFERENZDATENSATZ ======================
+
+--- download_reference_cards_100.py ---
+Lädt einen kleinen 100-Karten-Referenzdatensatz
+für erste Tests.
+
+--- download_reference_cards_500.py ---
+Lädt den 500-Karten-Referenzdatensatz für die
+Kartenerkennungs-Baseline.
+
+--- validate_reference_dataset.py ---
+Prüft, ob die Referenzkarten vollständig
+und lesbar sind.
+
+
+==================== KARTENERKENNUNG ========================
+
+--- generate_embeddings.py ---
+Erzeugt mit ResNet18 Bild-Embeddings
+für die Referenzkarten.
+
+--- identify_card.py ---
+Vergleicht ein Kartenbild mit den gespeicherten
+Embeddings und sucht die ähnlichste Karte.
+
+--- evaluate_embeddings.py ---
+Bewertet die Qualität der Embedding-basierten
+Kartenerkennung.
+
+--- evaluate_embeddings_robust.py ---
+Führt eine umfangreichere Bewertung mit
+2.500 Testfällen durch.
+
+
+==================== YOLO / DATENSATZ =======================
+
+--- generate_yolo_dataset.py ---
+Bereitet Bilddaten für das spätere YOLO-Training
+zur Objekterkennung vor.
+
+--- create_test_query.py ---
+Erstellt Testanfragen bzw. Testbilder
+für die Kartenerkennung.
