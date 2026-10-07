@@ -17,6 +17,32 @@ def normalize(value):
     return str(value).strip().lower()
 
 
+def normalize_card_number(value):
+    """
+    Normalisiert Kartennummern für den Vergleich.
+
+    Beispiele:
+        001  -> 1
+        01   -> 1
+        1    -> 1
+        020  -> 20
+
+    Sondernummern bleiben erhalten:
+        TG001 -> tg001
+        SV001 -> sv001
+        75a   -> 75a
+    """
+    value = normalize(value)
+
+    if not value:
+        return ""
+
+    if value.isdigit():
+        return str(int(value))
+
+    return value
+
+
 def load_official_cards():
     """
     Lädt alle offiziellen Karten aus den vorhandenen
@@ -24,7 +50,7 @@ def load_official_cards():
 
     Rückgabe:
         Dictionary mit:
-        (set_id, card_number) -> Karten-Metadaten
+        (set_id, normalisierte_kartennummer) -> Karten-Metadaten
     """
 
     cards = {}
@@ -43,8 +69,11 @@ def load_official_cards():
             continue
 
         for card in set_cards:
-            set_id = json_file.stem
-            number = normalize(card.get("number"))
+            # Die Set-ID kommt bei unseren offiziellen JSON-Dateien
+            # aus dem Dateinamen, z. B. swsh10.json -> swsh10.
+            set_id = normalize(json_file.stem)
+
+            number = normalize_card_number(card.get("number"))
 
             if not set_id or not number:
                 continue
@@ -119,7 +148,7 @@ def main():
     for index, row in enumerate(dataset_rows, start=1):
 
         set_id = normalize(row.get("set_id"))
-        card_number = normalize(row.get("card_number"))
+        card_number = normalize_card_number(row.get("card_number"))
 
         result = dict(row)
 
@@ -151,10 +180,13 @@ def main():
             continue
 
         # -----------------------------------------------------
-        # Exakter Abgleich Set + Kartennummer
+        # Abgleich Set + normalisierte Kartennummer
         # -----------------------------------------------------
 
-        key = (set_id, card_number)
+        key = (
+            set_id,
+            card_number,
+        )
 
         official = official_cards.get(key)
 

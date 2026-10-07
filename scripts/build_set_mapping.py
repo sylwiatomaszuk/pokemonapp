@@ -1,464 +1,216 @@
-from pathlib import Path
 import csv
 import json
-from collections import Counter
+import re
+from pathlib import Path
 
 
-INDEX_FILE = Path("data/dataset_index.csv")
-SET_MAPPING_FILE = Path("data/set_mapping.csv")
-METADATA_DIR = Path("data/official_metadata/cards")
-OUTPUT_FILE = Path("data/dataset_metadata_matches.csv")
+DATASET_DIR = Path(r"C:\Users\sylwi\Documents\PokemonData\Pokemon TCG\Pokemon TCG")
+SETS_FILE = Path("data/official_metadata/sets.json")
+OUTPUT_FILE = Path("data/set_mapping.csv")
+
+
+# Eindeutig aus den Dateinamen bzw. Ordnernamen ermittelte Sonder-Mappings.
+MANUAL_MAPPINGS = {
+    "base-set": "base1",
+    "expedition": "ecard1",
+    "champions-path": "swsh35",
+    "pokemon-go": "pgo",
+    "rumble": "ru1",
+
+    "triumphant": "hgss4",
+    "undaunted": "hgss3",
+    "unleashed": "hgss2",
+
+    "black-white-promos": "bwp",
+    "diamond-pearl-promos": "dpp",
+    "heartgold-soulsilver-promos": "hsp",
+    "scarlet-violet-promos": "svp",
+    "sword-shield-promos": "swshp",
+    "xy-promos": "xyp",
+
+    "pokemon-futsal-promos-2020": "fut20",
+
+    "xy-trainer-kit-bisharp": "tk7a",
+    "xy-trainer-kit-latias": "tk8b",
+    "xy-trainer-kit-latios": "tk8a",
+    "xy-trainer-kit-noivern": "tk6a",
+    "xy-trainer-kit-pikachu-libre": "tk9a",
+    "xy-trainer-kit-suicune": "tk9b",
+    "xy-trainer-kit-sylveon": "tk6b",
+    "xy-trainer-kit-wigglytuff": "tk7b",
+
+    "black-white-trainer-kit-excadrill": "tk5b",
+    "black-white-trainer-kit-zoroark": "tk5a",
+
+    "diamond-pearl-trainer-kit-lucario": "tk3l",
+    "diamond-pearl-trainer-kit-manaphy": "tk3a",
+
+    "ex-trainer-kit-minun": "tk2m",
+    "ex-trainer-kit-plusle": "tk2p",
+
+    "hs-trainer-kit-gyarados": "tk4g",
+    "hs-trainer-kit-raichu": "tk4r",
+
+    "mcdonalds-collection-2011": "mcd11",
+    "mcdonalds-collection-2012": "mcd12",
+    "mcdonalds-collection-2016": "mcd16",
+    "mcdonalds-collection-2019": "mcd19",
+    "mcdonalds-collection-2021": "mcd21",
+    "mcdonalds-collection-2022": "mcd22",
+
+    "mega-evolution-promos": "me55",
+        "black-white": "bw1",
+    "diamond-pearl": "dp1",
+    "firered-leafgreen": "ex6",
+    "heartgold-soulsilver": "hgss1",
+    "ruby-sapphire": "ex1",
+    "scarlet-violet": "sv1",
+    "sun-moon": "sm1",
+    "sword-shield": "swsh1",
+    "sun-moon-promos": "smp"
+}
 
 
 def normalize(value):
-    if value is None:
-        return ""
-
-    return str(value).strip().lower()
-
-
-def load_set_mapping():
-    """
-    Lädt die Zuordnung:
-    Dataset-Ordner -> offizielle Set-ID
-    """
-
-    mapping = {}
-
-    if not SET_MAPPING_FILE.exists():
-        print("WARNUNG: set_mapping.csv nicht gefunden.")
-        return mapping
-
-    with SET_MAPPING_FILE.open(
-        "r",
-        encoding="utf-8",
-        newline="",
-    ) as f:
-
-        reader = csv.DictReader(f)
-
-        for row in reader:
-
-            if row.get("status") != "matched":
-                continue
-
-            source_folder = normalize(
-                row.get("source_folder")
-            )
-
-            official_set_id = normalize(
-                row.get("official_set_id")
-            )
-
-            if source_folder and official_set_id:
-                mapping[source_folder] = official_set_id
-
-    return mapping
+    value = value.lower().strip()
+    value = value.replace("&", "and")
+    value = re.sub(r"[^a-z0-9]+", "-", value)
+    return value.strip("-")
 
 
-def load_official_cards():
-    """
-    Lädt alle offiziellen Karten.
-
-    Die Set-ID wird aus dem Dateinamen der JSON-Datei
-    genommen, z.B.:
-
-        swsh8.json -> swsh8
-    """
-
-    cards = {}
-
-    json_files = sorted(
-        METADATA_DIR.glob("*.json")
-    )
-
-    print(
-        f"Offizielle Set-Dateien gefunden: "
-        f"{len(json_files)}"
-    )
-
-    for json_file in json_files:
-
-        set_id = normalize(
-            json_file.stem
-        )
-
-        try:
-            with json_file.open(
-                "r",
-                encoding="utf-8",
-            ) as f:
-                set_cards = json.load(f)
-
-        except Exception as e:
-            print(
-                f"FEHLER bei {json_file.name}: {e}"
-            )
-            continue
-
-        for card in set_cards:
-
-            card_number = normalize(
-                card.get("number")
-            )
-
-            if not set_id or not card_number:
-                continue
-
-            key = (
-                set_id,
-                card_number,
-            )
-
-            cards[key] = {
-                "card_id": card.get("id", ""),
-                "name": card.get("name", ""),
-                "set_id": set_id,
-                "set_name": "",
-                "number": card.get("number", ""),
-                "rarity": card.get("rarity", ""),
-                "supertype": card.get("supertype", ""),
-                "subtypes": ", ".join(
-                    card.get("subtypes", [])
-                ),
-                "types": ", ".join(
-                    card.get("types", [])
-                ),
-                "artist": card.get("artist", ""),
-            }
-
-    return cards
+def load_official_sets():
+    with SETS_FILE.open("r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def get_source_folder(image_path):
-    """
-    Ermittelt den Dataset-Ordner aus dem Bildpfad.
+def build_official_lookup(sets):
+    lookup = {}
 
-    Beispiel:
-    ...\\aquapolis\\aipom-aquapolis-aq-67.jpg
+    for s in sets:
+        set_id = s.get("id", "")
+        set_name = s.get("name", "")
 
-    -> aquapolis
-    """
+        if set_id:
+            lookup[normalize(set_id)] = s
 
-    path = Path(image_path)
+        if set_name:
+            lookup[normalize(set_name)] = s
 
-    try:
-        return normalize(
-            path.parent.name
-        )
-    except Exception:
-        return ""
+    return lookup
 
 
 def main():
+    if not DATASET_DIR.exists():
+        raise FileNotFoundError(f"Dataset nicht gefunden: {DATASET_DIR}")
 
-    print("=" * 60)
-    print("DATASET ↔ OFFIZIELLE METADATEN")
-    print("=" * 60)
+    if not SETS_FILE.exists():
+        raise FileNotFoundError(f"Official metadata nicht gefunden: {SETS_FILE}")
 
-    if not INDEX_FILE.exists():
-        print(
-            f"\nFEHLER: Index nicht gefunden:\n"
-            f"{INDEX_FILE}"
-        )
-        return
+    official_sets = load_official_sets()
+    official_lookup = build_official_lookup(official_sets)
 
-    if not METADATA_DIR.exists():
-        print(
-            f"\nFEHLER: Metadaten nicht gefunden:\n"
-            f"{METADATA_DIR}"
-        )
-        return
-
-    # ---------------------------------------------------------
-    # Set-Mapping laden
-    # ---------------------------------------------------------
-
-    print("\nLade Set-Mapping...")
-
-    set_mapping = load_set_mapping()
-
-    print(
-        f"Gemappte Dataset-Sets: "
-        f"{len(set_mapping)}"
+    folders = sorted(
+        p for p in DATASET_DIR.iterdir()
+        if p.is_dir()
     )
 
-    # ---------------------------------------------------------
-    # Offizielle Karten laden
-    # ---------------------------------------------------------
+    rows = []
 
-    print("\nLade offizielle Kartendaten...")
+    matched = 0
+    no_match = 0
+    manual = 0
 
-    official_cards = load_official_cards()
+    for folder in folders:
+        source_folder = folder.name
+        normalized_folder = normalize(source_folder)
 
-    print(
-        f"Offizielle Karten geladen: "
-        f"{len(official_cards)}"
-    )
+        official_set = None
+        mapping_type = "automatic"
 
-    # ---------------------------------------------------------
-    # Dataset-Index laden
-    # ---------------------------------------------------------
+        # 1. Manuelles Mapping prüfen
+        if source_folder in MANUAL_MAPPINGS:
+            official_id = MANUAL_MAPPINGS[source_folder]
 
-    print("\nLade Dataset-Index...")
+            official_set = next(
+                (
+                    s for s in official_sets
+                    if s.get("id") == official_id
+                ),
+                None
+            )
 
-    with INDEX_FILE.open(
-        "r",
-        encoding="utf-8",
-        newline="",
-    ) as f:
+            if official_set:
+                mapping_type = "manual"
+                manual += 1
 
-        dataset_rows = list(
-            csv.DictReader(f)
-        )
+        # 2. Automatisches Mapping
+        if official_set is None:
+            official_set = official_lookup.get(normalized_folder)
 
-    print(
-        f"Dataset-Bilder: "
-        f"{len(dataset_rows)}"
-    )
+        if official_set:
+            matched += 1
 
-    # ---------------------------------------------------------
-    # Abgleich
-    # ---------------------------------------------------------
-
-    results = []
-
-    status_counts = Counter()
-
-    for index, row in enumerate(
-        dataset_rows,
-        start=1,
-    ):
-
-        original_set_id = normalize(
-            row.get("set_id")
-        )
-
-        card_number = normalize(
-            row.get("card_number")
-        )
-
-        image_path = row.get(
-            "image_path",
-            "",
-        )
-
-        source_folder = get_source_folder(
-            image_path
-        )
-
-        # -----------------------------------------------------
-        # Offizielle Set-ID bestimmen
-        # -----------------------------------------------------
-
-        official_set_id = set_mapping.get(
-            source_folder
-        )
-
-        # Falls kein Mapping vorhanden ist,
-        # ursprüngliche Set-ID verwenden.
-        if not official_set_id:
-            official_set_id = original_set_id
-
-        result = dict(row)
-
-        result.update(
-            {
+            rows.append({
                 "source_folder": source_folder,
-                "mapped_set_id": official_set_id,
-                "official_card_id": "",
-                "official_name": "",
-                "official_set_id": "",
-                "official_set_name": "",
-                "official_number": "",
-                "rarity": "",
-                "supertype": "",
-                "subtypes": "",
-                "types": "",
-                "artist": "",
-                "match_status": "",
-            }
-        )
-
-        # -----------------------------------------------------
-        # Keine Kartennummer
-        # -----------------------------------------------------
-
-        if not card_number:
-
-            result["match_status"] = (
-                "unparsed"
-            )
-
-            status_counts["unparsed"] += 1
-
-            results.append(result)
-
-            continue
-
-        # -----------------------------------------------------
-        # Exakter Match
-        # -----------------------------------------------------
-
-        key = (
-            official_set_id,
-            card_number,
-        )
-
-        official = official_cards.get(
-            key
-        )
-
-        if official:
-
-            result["official_card_id"] = (
-                official["card_id"]
-            )
-
-            result["official_name"] = (
-                official["name"]
-            )
-
-            result["official_set_id"] = (
-                official["set_id"]
-            )
-
-            result["official_set_name"] = (
-                official["set_name"]
-            )
-
-            result["official_number"] = (
-                official["number"]
-            )
-
-            result["rarity"] = (
-                official["rarity"]
-            )
-
-            result["supertype"] = (
-                official["supertype"]
-            )
-
-            result["subtypes"] = (
-                official["subtypes"]
-            )
-
-            result["types"] = (
-                official["types"]
-            )
-
-            result["artist"] = (
-                official["artist"]
-            )
-
-            result["match_status"] = (
-                "matched"
-            )
-
-            status_counts["matched"] += 1
+                "official_set_id": official_set.get("id", ""),
+                "official_set_name": official_set.get("name", ""),
+                "series": official_set.get("series", ""),
+                "release_date": official_set.get("releaseDate", ""),
+                "status": "matched",
+                "mapping_type": mapping_type,
+            })
 
         else:
+            no_match += 1
 
-            result["match_status"] = (
-                "no_official_match"
-            )
+            rows.append({
+                "source_folder": source_folder,
+                "official_set_id": "",
+                "official_set_name": "",
+                "series": "",
+                "release_date": "",
+                "status": "no_match",
+                "mapping_type": "",
+            })
 
-            status_counts[
-                "no_official_match"
-            ] += 1
-
-        results.append(result)
-
-        if (
-            index % 1000 == 0
-            or index == len(dataset_rows)
-        ):
-            print(
-                f"  {index}/"
-                f"{len(dataset_rows)}"
-            )
-
-    # ---------------------------------------------------------
-    # Ergebnis speichern
-    # ---------------------------------------------------------
-
-    OUTPUT_FILE.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    fieldnames = [
-        "image_path",
-        "filename",
-        "source_folder",
-        "set_id",
-        "mapped_set_id",
-        "card_number",
-        "name",
-        "format",
-        "official_card_id",
-        "official_name",
-        "official_set_id",
-        "official_set_name",
-        "official_number",
-        "rarity",
-        "supertype",
-        "subtypes",
-        "types",
-        "artist",
-        "match_status",
-    ]
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     with OUTPUT_FILE.open(
         "w",
         newline="",
-        encoding="utf-8",
+        encoding="utf-8-sig"
     ) as f:
-
         writer = csv.DictWriter(
             f,
-            fieldnames=fieldnames,
+            fieldnames=[
+                "source_folder",
+                "official_set_id",
+                "official_set_name",
+                "series",
+                "release_date",
+                "status",
+                "mapping_type",
+            ],
         )
 
         writer.writeheader()
-        writer.writerows(results)
+        writer.writerows(rows)
 
-    # ---------------------------------------------------------
-    # Statistik
-    # ---------------------------------------------------------
-
-    print("\n" + "=" * 60)
-    print("ERGEBNIS")
     print("=" * 60)
-
-    print(
-        f"\nBilder insgesamt:       "
-        f"{len(dataset_rows)}"
-    )
-
-    print(
-        f"Eindeutig zugeordnet:   "
-        f"{status_counts['matched']}"
-    )
-
-    print(
-        f"Nicht geparst:          "
-        f"{status_counts['unparsed']}"
-    )
-
-    print(
-        f"Kein offizieller Match: "
-        f"{status_counts['no_official_match']}"
-    )
-
-    print("\nErgebnis gespeichert unter:")
-    print(
-        OUTPUT_FILE.resolve()
-    )
-
-    print("\n" + "=" * 60)
-    print("ABGLEICH ABGESCHLOSSEN")
+    print("SET MAPPING ERSTELLT")
     print("=" * 60)
+    print(f"Dataset-Ordner:      {len(folders)}")
+    print(f"Erfolgreich gemappt: {matched}")
+    print(f"Davon manuell:       {manual}")
+    print(f"Noch offen:          {no_match}")
+    print()
+    print(f"Gespeichert: {OUTPUT_FILE}")
+    print()
+
+    print("Noch offene Sets:")
+    for row in rows:
+        if row["status"] == "no_match":
+            print(f"  - {row['source_folder']}")
 
 
 if __name__ == "__main__":
