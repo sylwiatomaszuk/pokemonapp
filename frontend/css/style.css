@@ -1742,6 +1742,349 @@ img {
     }
 }
 
+/* =========================================================
+   ENTON MASCOT
+   ========================================================= */
+
+.psyduck-companion {
+    position: relative;
+
+    width: min(480px, 100%);
+
+    margin:
+        1.8rem
+        auto
+        0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1rem;
+}
+
+
+/* ---------------------------------------------------------
+   Kopf
+   --------------------------------------------------------- */
+
+.psyduck-character {
+    position: relative;
+
+    width: 94px;
+    height: 86px;
+
+    flex: 0 0 auto;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffe66e,
+            #ffd34f
+        );
+
+    border-radius:
+        48% 52% 46% 54%
+        / 54% 48% 52% 46%;
+
+    box-shadow:
+        0 14px 30px
+        rgba(186, 137, 33, 0.20);
+
+    transform:
+        rotate(-3deg);
+
+    animation:
+        psyduckFloat
+        4.5s
+        ease-in-out
+        infinite;
+}
+
+
+/* ---------------------------------------------------------
+   Haare
+   --------------------------------------------------------- */
+
+.psyduck-hair {
+    position: absolute;
+
+    top: -11px;
+
+    width: 4px;
+    height: 24px;
+
+    background:
+        #45394f;
+
+    border-radius: 999px;
+
+    transform-origin: bottom;
+}
+
+.hair-left {
+    left: 36px;
+
+    transform:
+        rotate(-21deg);
+}
+
+.hair-center {
+    left: 46px;
+
+    height: 27px;
+}
+
+.hair-right {
+    left: 56px;
+
+    transform:
+        rotate(21deg);
+}
+
+
+/* ---------------------------------------------------------
+   Augen
+   --------------------------------------------------------- */
+
+.psyduck-eye {
+    position: absolute;
+
+    top: 33px;
+
+    width: 8px;
+    height: 11px;
+
+    background:
+        #3f3549;
+
+    border-radius: 50%;
+}
+
+.eye-left {
+    left: 27px;
+}
+
+.eye-right {
+    right: 27px;
+}
+
+
+/* ---------------------------------------------------------
+   Schnabel
+   --------------------------------------------------------- */
+
+.psyduck-beak {
+    position: absolute;
+
+    left: 50%;
+    bottom: 10px;
+
+    width: 48px;
+    height: 25px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(
+            145deg,
+            #f7b85b,
+            #ee9e3f
+        );
+
+    border-radius:
+        50% 50% 46% 46%
+        / 55% 55% 45% 45%;
+
+    box-shadow:
+        0 6px 10px
+        rgba(183, 107, 32, 0.12);
+}
+
+
+/* ---------------------------------------------------------
+   Sprechblase
+   --------------------------------------------------------- */
+
+.psyduck-message {
+    position: relative;
+
+    max-width: 310px;
+
+    padding:
+        0.95rem
+        1.15rem;
+
+    text-align: left;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 238, 165, 0.92),
+            rgba(255, 248, 213, 0.96)
+        );
+
+    border:
+        1px solid
+        rgba(198, 151, 44, 0.12);
+
+    border-radius:
+        26px 31px 24px 34px;
+
+    box-shadow:
+        0 10px 24px
+        rgba(98, 74, 45, 0.08);
+}
+
+.psyduck-message::before {
+    content: "";
+
+    position: absolute;
+
+    left: -11px;
+    top: 31px;
+
+    width: 23px;
+    height: 23px;
+
+    background:
+        #fff0ae;
+
+    transform:
+        rotate(45deg);
+
+    border-radius:
+        4px;
+}
+
+.psyduck-message strong,
+.psyduck-message span {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+}
+
+.psyduck-message strong {
+    margin-bottom:
+        0.1rem;
+
+    color:
+        var(--color-text);
+
+    font-size:
+        0.9rem;
+}
+
+.psyduck-message span {
+    color:
+        var(--color-text-soft);
+
+    font-size:
+        0.82rem;
+
+    line-height:
+        1.45;
+}
+
+
+/* ---------------------------------------------------------
+   Enton Candy Bubble im Hintergrund
+   --------------------------------------------------------- */
+
+.psyduck-companion::after {
+    content: "";
+
+    position: absolute;
+
+    z-index: -1;
+
+    width: 155px;
+    height: 80px;
+
+    left: 15px;
+    bottom: -14px;
+
+    background:
+        rgba(255, 224, 92, 0.18);
+
+    border-radius:
+        50% 50% 55% 45%
+        / 58% 46% 54% 42%;
+
+    filter:
+        blur(2px);
+}
+
+
+/* ---------------------------------------------------------
+   Animation
+   --------------------------------------------------------- */
+
+@keyframes psyduckFloat {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(-3deg);
+    }
+
+    50% {
+        transform:
+            translateY(-5px)
+            rotate(2deg);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   Smartphone
+   --------------------------------------------------------- */
+
+@media (max-width: 560px) {
+
+    .psyduck-companion {
+        flex-direction: column;
+
+        gap:
+            0.7rem;
+
+        margin-top:
+            1.5rem;
+    }
+
+    .psyduck-character {
+        width:
+            84px;
+
+        height:
+            77px;
+    }
+
+    .psyduck-message {
+        width:
+            min(320px, 100%);
+
+        text-align:
+            center;
+
+        padding:
+            0.85rem
+            1rem;
+    }
+
+    .psyduck-message::before {
+        top: -9px;
+        left: 50%;
+
+        transform:
+            translateX(-50%)
+            rotate(45deg);
+    }
+
+}
 
 /* =========================================================
    25. REDUCED MOTION
