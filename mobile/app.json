@@ -32,6 +32,14 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+  "expo-image-picker",
+        {
+    "photosPermission": "Die App benötigt Zugriff auf deine Fotos, damit du eine Pokémon-Karte auswählen kannst.",
+    "cameraPermission": "Die App benötigt Zugriff auf deine Kamera, damit du eine Pokémon-Karte fotografieren kannst.",
+    "microphonePermission": false
+        }
       ]
     ],
     "experiments": {
