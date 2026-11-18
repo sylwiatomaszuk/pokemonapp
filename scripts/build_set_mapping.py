@@ -45,8 +45,10 @@ MANUAL_MAPPINGS = {
     "diamond-pearl-trainer-kit-lucario": "tk3l",
     "diamond-pearl-trainer-kit-manaphy": "tk3a",
 
-    "ex-trainer-kit-minun": "tk2m",
-    "ex-trainer-kit-plusle": "tk2p",
+    "ex-trainer-kit-minun": "tk2b",
+    "ex-trainer-kit-plusle": "tk2a",
+
+    "scarlet-violet-energy": "sve",
 
     "hs-trainer-kit-gyarados": "tk4g",
     "hs-trainer-kit-raichu": "tk4r",

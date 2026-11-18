@@ -51,8 +51,8 @@ evolutions,xy12,Evolutions,XY,2016/11/02,matched,automatic
 evolving-skies,swsh7,Evolving Skies,Sword & Shield,2021/08/27,matched,automatic
 ex-trainer-kit-latias,tk1a,EX Trainer Kit Latias,EX,2004/06/01,matched,automatic
 ex-trainer-kit-latios,tk1b,EX Trainer Kit Latios,EX,2004/06/01,matched,automatic
-ex-trainer-kit-minun,,,,,no_match,
-ex-trainer-kit-plusle,,,,,no_match,
+ex-trainer-kit-minun,tk2b,EX Trainer Kit 2 Minun,EX,2006/03/01,matched,manual
+ex-trainer-kit-plusle,tk2a,EX Trainer Kit 2 Plusle,EX,2006/03/01,matched,manual
 expedition,ecard1,Expedition Base Set,E-Card,2002/09/15,matched,manual
 fates-collide,xy10,Fates Collide,XY,2016/05/02,matched,automatic
 firered-leafgreen,ex6,FireRed & LeafGreen,EX,2004/09/01,matched,manual
@@ -137,7 +137,7 @@ ruby-sapphire,ex1,Ruby & Sapphire,EX,2003/07/01,matched,manual
 rumble,ru1,Pokémon Rumble,Other,2009/12/02,matched,manual
 sandstorm,ex2,Sandstorm,EX,2003/09/18,matched,automatic
 scarlet-violet,sv1,Scarlet & Violet,Scarlet & Violet,2023/03/31,matched,manual
-scarlet-violet-energy,,,,,no_match,
+scarlet-violet-energy,sve,Scarlet & Violet Energies,Scarlet & Violet,2023/03/31,matched,manual
 scarlet-violet-promos,svp,Scarlet & Violet Black Star Promos,Scarlet & Violet,2023/01/01,matched,manual
 secret-wonders,dp3,Secret Wonders,Diamond & Pearl,2007/11/01,matched,automatic
 shining-fates,swsh45,Shining Fates,Sword & Shield,2021/02/19,matched,automatic
