@@ -4,9 +4,7 @@ import csv
 import re
 
 
-DATASET_DIR = Path(
-    r"C:\Users\sylwi\Documents\PokemonData\Pokemon TCG\Pokemon TCG"
-)
+DATASET_DIR = Path.home() / "datasets" / "pokemon-tcg"
 
 OUTPUT_FILE = Path("data/dataset_index.csv")
 

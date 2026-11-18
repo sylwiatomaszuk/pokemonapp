@@ -4,7 +4,7 @@ from PIL import Image
 import hashlib
 
 
-DATASET_DIR = Path(r"C:\Users\sylwi\Documents\PokemonData\Pokemon TCG\Pokemon TCG")
+DATASET_DIR = Path.home() / "datasets" / "pokemon-tcg"
 
 
 def file_hash(path: Path) -> str:

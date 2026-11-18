@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 
-DATASET_DIR = Path(r"C:\Users\sylwi\Documents\PokemonData\Pokemon TCG\Pokemon TCG")
+DATASET_DIR = Path.home() / "datasets" / "pokemon-tcg"
 SETS_FILE = Path("data/official_metadata/sets.json")
 OUTPUT_FILE = Path("data/set_mapping.csv")
 
