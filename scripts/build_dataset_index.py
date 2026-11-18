@@ -1,3 +1,4 @@
+
 from pathlib import Path
 from collections import Counter
 import csv
@@ -13,8 +14,8 @@ IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
 def parse_filename(path: Path):
     """
-    Versucht verschiedene bekannte Dateinamenformate
-    auf eine gemeinsame Struktur abzubilden.
+    Erkennt verschiedene bekannte Dateinamenformate
+    und ordnet sie einer gemeinsamen Struktur zu.
 
     Ergebnis:
         set_id
@@ -26,8 +27,64 @@ def parse_filename(path: Path):
     stem = path.stem
 
     # ---------------------------------------------------------
-    # 1. en_US-XY7-001-oddish
+    # 1. Black-Star-Promos
+    #
+    # Beispiele:
+    # en_US-Promo_SWSH-SWSH240-finneon
+    # en_US-Promo_SM-SM80-ho_oh_gx
+    # en_US-Promo_XY-XY188-shaymin
+    # en_US-Promo_BW-BW68-meloetta
     # ---------------------------------------------------------
+
+    match = re.match(
+        r"^en_US-Promo_(?P<era>SWSH|BW|XY|SM|SV)-"
+        r"(?P<number>(?:SWSH|BW|XY|SM|SV)\d+)[_-](?P<name>.+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        promo_set_ids = {
+            "BW": "bwbsp",
+            "XY": "xybsp",
+            "SM": "smbsp",
+            "SWSH": "swshbsp",
+            "SV": "svbsp",
+        }
+
+        return {
+            "set_id": promo_set_ids[match.group("era").upper()],
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "en_US-promo-prefix-number-name",
+        }
+
+    # ---------------------------------------------------------
+    # 2. Diamond-Pearl-Promos
+    #
+    # Beispiele:
+    # giratina-lv.x-diamond-pearl-promos-dp38
+    # magnezone-diamond-pearl-promos-dp32
+    # ---------------------------------------------------------
+
+    match = re.match(
+        r"^(?P<name>.+)-diamond-pearl-promos-(?P<number>dp\d+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": "dpp",
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "name-diamond-pearl-promos-number",
+        }
+
+    # ---------------------------------------------------------
+    # 3. en_US-XY7-001-oddish
+    # ---------------------------------------------------------
+
     match = re.match(
         r"^[a-z]{2}_[A-Z]{2}-(?P<set>[^-]+)-"
         r"(?P<number>\d+)-(?P<name>.+)$",
@@ -43,8 +100,9 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 2. en_US-XY7-75a-hex_maniac-yaa
+    # 4. en_US-XY7-75a-hex_maniac-yaa
     # ---------------------------------------------------------
+
     match = re.match(
         r"^[a-z]{2}_[A-Z]{2}-(?P<set>[^-]+)-"
         r"(?P<number>\d+[a-z])-(?P<name>.+)$",
@@ -60,8 +118,9 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 3. en_US-SWSH10-TG001-abomasnow
+    # 5. en_US-SWSH10-TG001-abomasnow
     # ---------------------------------------------------------
+
     match = re.match(
         r"^[a-z]{2}_[A-Z]{2}-(?P<set>[^-]+)-"
         r"(?P<number>TG\d+)-(?P<name>.+)$",
@@ -77,10 +136,36 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 4. sv3-5_en_001_std
+    # 6. en_US-SF-SV085-grimmsnarl
+    #     en_US-CZ-GG065-raihan
+    #
+    # Sondernummerierungen mit Buchstabenpräfix.
     # ---------------------------------------------------------
+
     match = re.match(
-        r"^(?P<set>.+)_en_(?P<number>\d+)_std$",
+        r"^[a-z]{2}_[A-Z]{2}-(?P<set>[^-]+)-"
+        r"(?P<number>[A-Za-z]{1,5}\d+)-(?P<name>.+)$",
+        stem,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set"),
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "en_US-set-prefixed-number-name",
+        }
+
+    # ---------------------------------------------------------
+    # 7. sv3-5_en_001_std
+    #    sv2_en_271
+    #    sv1_en_050-1
+    #
+    # Optionales _std und zusätzliche Dateiendung -1.
+    # ---------------------------------------------------------
+
+    match = re.match(
+        r"^(?P<set>.+)_en_(?P<number>\d+)(?:-\d+)?(?:_std)?$",
         stem,
         re.IGNORECASE,
     )
@@ -90,15 +175,20 @@ def parse_filename(path: Path):
             "set_id": match.group("set"),
             "card_number": match.group("number"),
             "name": "",
-            "format": "set-en-number-std",
+            "format": (
+                "set-en-number-std"
+                if stem.lower().endswith("_std")
+                else "set-en-number"
+            ),
         }
 
     # ---------------------------------------------------------
-    # 5. name-set-code-number
+    # 8. name-set-code-number
     #
     # Beispiel:
     # aipom-aquapolis-aq-67
     # ---------------------------------------------------------
+
     match = re.match(
         r"^(?P<name>.+)-(?P<set_name>[a-z0-9]+)-"
         r"(?P<set_code>[a-z0-9]+)-(?P<number>\d+[a-z]?)$",
@@ -115,8 +205,12 @@ def parse_filename(path: Path):
         }
 
     # ---------------------------------------------------------
-    # 6. Expedition h01-ampharos-expedition
+    # 9. Expedition
+    #
+    # Beispiel:
+    # h01-ampharos-expedition
     # ---------------------------------------------------------
+
     match = re.match(
         r"^h(?P<number>\d+)-(?P<name>.+)-expedition$",
         stem,
@@ -134,6 +228,7 @@ def parse_filename(path: Path):
     # ---------------------------------------------------------
     # Nicht erkannt
     # ---------------------------------------------------------
+
     return {
         "set_id": "",
         "card_number": "",
@@ -143,6 +238,7 @@ def parse_filename(path: Path):
 
 
 def main():
+
     print("=" * 60)
     print("POKÉMON DATASET INDEX")
     print("=" * 60)
@@ -165,6 +261,7 @@ def main():
     unknown_files = []
 
     for index, path in enumerate(files, start=1):
+
         parsed = parse_filename(path)
 
         row = {
