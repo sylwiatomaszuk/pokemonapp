@@ -25,6 +25,340 @@ def parse_filename(path: Path):
     """
 
     stem = path.stem
+    folder = path.parent.name.lower()
+
+        # Unown Fragezeichen-Form aus Unseen Forces
+    if folder == "unseen-forces" and stem == "unown-unseen-forces-uf-":
+        return {
+            "set_id": "uf",
+            "card_number": "?",
+            "name": "unown",
+            "format": "unown-special",
+        }
+
+        # ---------------------------------------------------------
+    # 1. Unown mit ausgeschriebener Fragezeichen-Kartennummer
+    # ---------------------------------------------------------
+    if folder == "unseen-forces" and stem == "unown-unseen-forces-uf-question-mark":
+        return {
+            "set_id": "uf",
+            "card_number": "?",
+            "name": "unown",
+            "format": "unown-special",
+        }
+
+    # ---------------------------------------------------------
+    # 2. Pokémon World Collection
+    # Beispiel: pikachu-world-collection-spanish
+    # Sprache bleibt im Namen erhalten.
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^pikachu-world-collection-(?P<language>[a-z]+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": "world-collection",
+            "card_number": "",
+            "name": "pikachu-" + match.group("language").lower(),
+            "format": "world-collection-language",
+        }
+
+    # Zeitstempel und bekannte Bildvarianten entfernen
+    clean_stem = re.sub(r"-e\d{10,}$", "", stem, flags=re.IGNORECASE)
+
+    # ---------------------------------------------------------
+    # 1. Erweiterte Black-Star-Promos mit Buchstabensuffix
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^en_US-Promo_(?P<era>SWSH|BW|XY|SM|SV)-"
+        r"(?P<number>(?:SWSH|BW|XY|SM|SV)\d+[a-z]?)[_-](?P<name>.+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        promo_ids = {
+            "SWSH": "swshbsp",
+            "BW": "bwbsp",
+            "XY": "xybsp",
+            "SM": "smbsp",
+            "SV": "svbsp",
+        }
+
+        return {
+            "set_id": promo_ids[match.group("era").upper()],
+            "card_number": match.group("number").upper(),
+            "name": match.group("name"),
+            "format": "extended-promo",
+        }
+
+    # ---------------------------------------------------------
+    # 2. Scarlet & Violet Promo-Dateien
+    # Beispiel: SVP_209_R_EN
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^SVP_(?P<number>\d+)_R_EN$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": "svp",
+            "card_number": match.group("number"),
+            "name": "",
+            "format": "svp-number",
+        }
+
+    # ---------------------------------------------------------
+    # 3. SV Black-Star-Promo-Dateien
+    # Beispiele:
+    # svbsp_en_125-out
+    # svbsp_en_149_std-1
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^(?P<set>svbsp)_en_(?P<number>\d+)"
+        r"(?:[-_](?:std|out))?(?:-\d+)?$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set").lower(),
+            "card_number": match.group("number"),
+            "name": "",
+            "format": "svbsp-number",
+        }
+
+    # ---------------------------------------------------------
+    # 4. Pokémon TCG Classic
+    # Beispiele:
+    # clv_en_030-ultra_ball
+    # clb_en_027-rockets_admin
+    # clc_en_003-charizard
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^(?P<set>cl[vbc])_en_(?P<number>\d+)-(?P<name>.+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set").lower(),
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "classic-deck",
+        }
+
+    # ---------------------------------------------------------
+    # 5. Zusätzliche Pokémon TCG Classic-Dateien
+    # Beispiel:
+    # Pokemon_Trading_Card_Game_Classic_17_Lugia_ex
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^Pokemon_Trading_Card_Game_Classic_"
+        r"(?P<number>\d+)_(?P<name>.+)$",
+        clean_stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": folder,
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "classic-special",
+        }
+
+    # ---------------------------------------------------------
+    # 6. Skyridge: einzelne H-Kartennummern
+    # Beispiel: h25.jpg
+    # ---------------------------------------------------------
+    if folder == "skyridge":
+        match = re.fullmatch(
+            r"h(?P<number>\d+)",
+            stem,
+            re.IGNORECASE,
+        )
+
+        if match:
+            return {
+                "set_id": "skyridge",
+                "card_number": "H" + match.group("number"),
+                "name": "",
+                "format": "skyridge-h-number",
+            }
+
+    # ---------------------------------------------------------
+    # 7. Ältere Sets: Setcode + Nummer + Kartenname
+    # Beispiele:
+    # rs093-darkness_energy-1
+    # hl092-stevens_advice
+    # dx009-jirachi
+    # ss088-wobbuffet
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^(?P<set>RS|HL|DX|SS)(?P<number>\d+)-"
+        r"(?P<name>.+?)(?:-\d+)?$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set").lower(),
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "prefix-number-name",
+        }
+
+    # ---------------------------------------------------------
+    # 8. Ältere Sets mit ausgeschriebener Kartennummer
+    # Beispiele:
+    # HGSS2-Two-alph_lithograph
+    # HGSS4-Four-alph_lithograph
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^en_US-(?P<set>HGSS\d+)-"
+        r"(?P<number>One|Two|Three|Four)-(?P<name>.+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set").upper(),
+            "card_number": match.group("number").upper(),
+            "name": match.group("name"),
+            "format": "hgss-written-number",
+        }
+
+    # ---------------------------------------------------------
+    # 9. Name – Dataset-Ordner – Setcode – Kartennummer
+    #
+    # Beispiele:
+    # swablu-platinum-pl-sh5
+    # drifloon-stormfront-sf-sh1
+    # frost-rotom-rising-rivals-rr-rt2
+    # arceus-colorless-arceus-ar-ar5
+    # unown-unseen-forces-uf-l
+    # ---------------------------------------------------------
+    if folder:
+        match = re.match(
+            rf"^(?P<name>.+)-{re.escape(folder)}-"
+            r"(?P<code>[a-z0-9]+)-"
+            r"(?P<number>[a-z]{1,4}\d+[a-z]?|\d+[a-z]?|[a-z!?])$",
+            clean_stem,
+            re.IGNORECASE,
+        )
+
+        if match:
+            return {
+                "set_id": match.group("code").lower(),
+                "card_number": match.group("number").upper(),
+                "name": match.group("name"),
+                "format": "name-folder-code-number",
+            }
+
+    # ---------------------------------------------------------
+    # 10. Name – Dataset-Ordner – Kartennummer
+    # Beispiel:
+    # ho-oh-break-xy-promos-xy154
+    # ---------------------------------------------------------
+    if folder and folder != "diamond-pearl-promos":
+        match = re.match(
+            rf"^(?P<name>.+)-{re.escape(folder)}-"
+            r"(?P<number>[a-z]{1,4}\d+[a-z]?|\d+[a-z]?)$",
+            clean_stem,
+            re.IGNORECASE,
+        )
+
+        if match:
+            return {
+                "set_id": folder,
+                "card_number": match.group("number").upper(),
+                "name": match.group("name"),
+                "format": "name-folder-number",
+            }
+
+    # ---------------------------------------------------------
+    # 11. Trainer-Kit
+    # Beispiel: lucario-tk3l-03
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^(?P<name>.+)-(?P<set>tk\d+[a-z]?)-(?P<number>\d+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": match.group("set").lower(),
+            "card_number": match.group("number"),
+            "name": match.group("name"),
+            "format": "trainer-kit",
+        }
+
+    # ---------------------------------------------------------
+    # 12. Box Topper
+    # Beispiel: p08-box-topper-suicune
+    # ---------------------------------------------------------
+    match = re.match(
+        r"^(?P<number>p\d+)-box-topper-(?P<name>.+)$",
+        stem,
+        re.IGNORECASE,
+    )
+
+    if match:
+        return {
+            "set_id": "box-topper",
+            "card_number": match.group("number").upper(),
+            "name": match.group("name"),
+            "format": "box-topper",
+        }
+
+    # ---------------------------------------------------------
+    # 13. Miscellaneous
+    # Beispiel: ancient-mew-1
+    # ---------------------------------------------------------
+    if folder == "miscellaneous":
+        match = re.match(
+            r"^(?:miscellaneous\.)?(?P<name>.+)-(?P<number>\d+)$",
+            stem,
+            re.IGNORECASE,
+        )
+
+        if match:
+            return {
+                "set_id": folder,
+                "card_number": match.group("number"),
+                "name": match.group("name"),
+                "format": "miscellaneous",
+            }
+
+    # ---------------------------------------------------------
+    # 14. Majestic Dawn
+    # Beispiel: pachirisu43
+    # ---------------------------------------------------------
+    if folder == "majestic-dawn":
+        match = re.match(
+            r"^(?P<name>[a-z_-]+?)(?P<number>\d+)$",
+            stem,
+            re.IGNORECASE,
+        )
+
+        if match:
+            return {
+                "set_id": folder,
+                "card_number": match.group("number"),
+                "name": match.group("name"),
+                "format": "name-number",
+            }
 
     # ---------------------------------------------------------
     # 1. Black-Star-Promos
@@ -191,7 +525,8 @@ def parse_filename(path: Path):
 
     match = re.match(
         r"^(?P<name>.+)-(?P<set_name>[a-z0-9]+)-"
-        r"(?P<set_code>[a-z0-9]+)-(?P<number>\d+[a-z]?)$",
+        r"(?P<set_code>[a-z0-9]+)-(?P<number>\d+[a-z]?)"
+        r"(?:-(?:normal|reverse|holo))?$",
         stem,
         re.IGNORECASE,
     )
