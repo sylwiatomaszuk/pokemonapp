@@ -1,3 +1,5 @@
+// mobile/src/types/recognition.ts
+
 export type CardVariant =
   | 'normal'
   | 'holo'
@@ -22,12 +24,6 @@ export type PokemonCard = {
   artist: string;
   release_date: string;
 
-  /*
-   * Das Backend wird später niemals einen lokalen
-   * Windows-Pfad wie C:\Users\... zurückgeben.
-   *
-   * Stattdessen kommt hier eine HTTP-URL hinein.
-   */
   image_url?: string | null;
 };
 
@@ -38,6 +34,9 @@ export type RecognitionInfo = {
 };
 
 
+/*
+ * Eindeutiger Treffer.
+ */
 export type RecognitionResult = {
   status: 'success';
 
@@ -47,6 +46,38 @@ export type RecognitionResult = {
 
   variants: CardVariant[];
 };
+
+
+/*
+ * Einzelner Kandidat bei einer
+ * unsicheren Erkennung.
+ */
+export type RecognitionCandidate = {
+  card: PokemonCard;
+
+  recognition: RecognitionInfo;
+
+  variants: CardVariant[];
+};
+
+
+/*
+ * Mehrere mögliche Treffer.
+ */
+export type UncertainRecognitionResult = {
+  status: 'uncertain';
+
+  candidates: RecognitionCandidate[];
+};
+
+
+/*
+ * Das ist die Antwort, die unsere
+ * Erkennung insgesamt liefern kann.
+ */
+export type RecognitionResponse =
+  | RecognitionResult
+  | UncertainRecognitionResult;
 
 
 export type CardPrice = {

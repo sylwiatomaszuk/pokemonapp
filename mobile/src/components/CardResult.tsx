@@ -1,3 +1,5 @@
+// mobile/src/components/CardResult.tsx
+
 import {
   useRef,
   useState,
@@ -34,9 +36,7 @@ import {
 
 type CardResultProps = {
   result: RecognitionResult;
-
   originalImageUri: string;
-
   onReset: () => void;
 };
 
@@ -83,10 +83,9 @@ export function CardResult({
   const isWideScreen =
     width >= 800;
 
+  const isMobile =
+    width < 600;
 
-  /* ======================================================
-     VARIANTENAUSWAHL
-     ====================================================== */
 
   const [
     selectedVariant,
@@ -96,38 +95,11 @@ export function CardResult({
   );
 
 
-  /*
-   * Zusätzlicher Ref:
-   *
-   * Falls der Benutzer während des Ladens
-   * die Variante wechselt, wissen wir nach
-   * dem Laden trotzdem sofort, welche Variante
-   * aktuell ausgewählt ist.
-   */
-
   const selectedVariantRef =
     useRef<CardVariant | null>(
       null,
     );
 
-
-  /* ======================================================
-     PREISE
-     ====================================================== */
-
-  /*
-   * Statt nur EINEN Preis zu speichern,
-   * speichern wir jetzt alle bereits
-   * geladenen Preise.
-   *
-   * Beispiel:
-   *
-   * {
-   *   normal: {...},
-   *   holo: {...},
-   *   reverse_holo: {...}
-   * }
-   */
 
   const [
     prices,
@@ -142,26 +114,11 @@ export function CardResult({
   >({});
 
 
-  /*
-   * Steuert, ob die Preisbox
-   * aktuell sichtbar ist.
-   */
-
   const [
     isPriceVisible,
     setIsPriceVisible,
   ] = useState(false);
 
-
-  /*
-   * Diese Variante wird tatsächlich
-   * gerade in der Preisbox angezeigt.
-   *
-   * Sie ist bewusst getrennt von
-   * selectedVariant, damit wir beim
-   * Wechsel eine kurze Animation
-   * durchführen können.
-   */
 
   const [
     displayedVariant,
@@ -183,10 +140,6 @@ export function CardResult({
   ] = useState(false);
 
 
-  /* ======================================================
-     PREIS-ANIMATION
-     ====================================================== */
-
   const priceOpacity =
     useRef(
       new Animated.Value(1),
@@ -205,13 +158,6 @@ export function CardResult({
     ).current;
 
 
-  /*
-   * Mit dieser ID verhindern wir,
-   * dass eine alte Animation noch
-   * einen neueren Variantenwechsel
-   * überschreibt.
-   */
-
   const animationIdRef =
     useRef(0);
 
@@ -229,10 +175,6 @@ export function CardResult({
       ],
     });
 
-
-  /* ======================================================
-     KARTENDATEN
-     ====================================================== */
 
   const card =
     result.card;
@@ -254,19 +196,11 @@ export function CardResult({
     );
 
 
-  /* ======================================================
-     AKTUELL ANGEZEIGTER PREIS
-     ====================================================== */
-
   const displayedPrice =
     displayedVariant
       ? prices[displayedVariant]
       : undefined;
 
-
-  /* ======================================================
-     KURZE REFRESH-ANIMATION
-     ====================================================== */
 
   const animatePriceChange = (
     nextVariant: CardVariant,
@@ -279,29 +213,13 @@ export function CardResult({
     setIsRefreshingPrice(true);
 
 
-    /*
-     * Falls noch eine vorherige Animation
-     * läuft, wird sie beendet.
-     */
-
     priceOpacity.stopAnimation();
-
     priceScale.stopAnimation();
-
     refreshRotation.stopAnimation();
 
 
-    /*
-     * Ausgangswerte des Refresh-Symbols.
-     */
-
     refreshRotation.setValue(0);
 
-
-    /*
-     * Phase 1:
-     * alter Preis blendet ganz kurz aus.
-     */
 
     Animated.parallel([
       Animated.timing(
@@ -323,12 +241,6 @@ export function CardResult({
       ),
     ]).start(() => {
 
-      /*
-       * Falls inzwischen schon eine
-       * neuere Animation gestartet wurde,
-       * machen wir hier nichts mehr.
-       */
-
       if (
         animationId !==
         animationIdRef.current
@@ -337,20 +249,10 @@ export function CardResult({
       }
 
 
-      /*
-       * Genau zwischen Aus- und Einblenden
-       * wird der angezeigte Preis gewechselt.
-       */
-
       setDisplayedVariant(
         nextVariant,
       );
 
-
-      /*
-       * Phase 2:
-       * neuer Preis erscheint wieder.
-       */
 
       Animated.parallel([
         Animated.timing(
@@ -397,18 +299,9 @@ export function CardResult({
   };
 
 
-  /* ======================================================
-     VARIANTE AUSWÄHLEN
-     ====================================================== */
-
   const selectVariant = (
     variant: CardVariant,
   ) => {
-
-    /*
-     * Nichts machen, wenn dieselbe
-     * Variante nochmals gedrückt wird.
-     */
 
     if (
       selectedVariant ===
@@ -427,15 +320,6 @@ export function CardResult({
       variant;
 
 
-    /*
-     * Falls der Marktwert gerade sichtbar ist,
-     * wechseln wir direkt zum Preis der
-     * neuen Variante.
-     *
-     * Alle Preise wurden beim ersten Klick
-     * bereits geladen.
-     */
-
     if (
       isPriceVisible &&
       prices[variant]
@@ -448,17 +332,8 @@ export function CardResult({
   };
 
 
-  /* ======================================================
-     ALLE PREISE LADEN
-     ====================================================== */
-
   const loadAllPrices =
     async () => {
-
-      /*
-       * Prüfen, ob wirklich alle Varianten
-       * bereits im Cache liegen.
-       */
 
       const allPricesAlreadyLoaded =
         result.variants.every(
@@ -482,19 +357,6 @@ export function CardResult({
 
 
       try {
-
-        /*
-         * WICHTIG:
-         *
-         * Promise.all bedeutet:
-         *
-         * Normal
-         * Holo
-         * Reverse Holo
-         *
-         * werden gleichzeitig geladen
-         * und nicht nacheinander.
-         */
 
         const loadedPrices =
           await Promise.all(
@@ -548,10 +410,6 @@ export function CardResult({
     };
 
 
-  /* ======================================================
-     MARKTWERT ANZEIGEN / AUSBLENDEN
-     ====================================================== */
-
   const togglePrice =
     async () => {
 
@@ -561,14 +419,6 @@ export function CardResult({
         return;
       }
 
-
-      /*
-       * Preis ist bereits sichtbar:
-       * einfach ausblenden.
-       *
-       * Die Preise bleiben trotzdem
-       * im Speicher.
-       */
 
       if (
         isPriceVisible
@@ -586,23 +436,9 @@ export function CardResult({
       }
 
 
-      /*
-       * Beim ersten Anzeigen laden wir
-       * sofort ALLE Preise.
-       */
-
       const loadedPrices =
         await loadAllPrices();
 
-
-      /*
-       * Während des Ladens könnte der
-       * Benutzer die Variante gewechselt
-       * haben.
-       *
-       * Deshalb nehmen wir hier die
-       * aktuellste Auswahl.
-       */
 
       const currentVariant =
         selectedVariantRef.current ??
@@ -625,19 +461,10 @@ export function CardResult({
       }
 
 
-      /*
-       * Richtigen Preis setzen.
-       */
-
       setDisplayedVariant(
         currentVariant,
       );
 
-
-      /*
-       * Anfangszustand für eine sehr
-       * kurze Einblendanimation.
-       */
 
       priceOpacity.setValue(
         0.45,
@@ -681,11 +508,14 @@ export function CardResult({
 
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
 
-      {/* ============================================
-          SUCCESS
-          ============================================ */}
+        isMobile &&
+          styles.containerMobile,
+      ]}
+    >
 
       <View style={styles.successBadge}>
 
@@ -702,16 +532,15 @@ export function CardResult({
       </View>
 
 
-      {/* ============================================
-          KARTE
-          ============================================ */}
-
       <View
         style={[
           styles.cardLayout,
 
           isWideScreen &&
             styles.cardLayoutWide,
+
+          isMobile &&
+            styles.cardLayoutMobile,
         ]}
       >
 
@@ -721,6 +550,9 @@ export function CardResult({
 
             isWideScreen &&
               styles.imageColumnWide,
+
+            isMobile &&
+              styles.imageColumnMobile,
           ]}
         >
 
@@ -747,10 +579,6 @@ export function CardResult({
         </View>
 
 
-        {/* ============================================
-            INFORMATIONEN
-            ============================================ */}
-
         <View style={styles.infoColumn}>
 
           <Text style={styles.setName}>
@@ -765,8 +593,6 @@ export function CardResult({
             Karte #{card.number}
           </Text>
 
-
-          {/* Badges */}
 
           <View style={styles.badges}>
 
@@ -821,8 +647,6 @@ export function CardResult({
 
           </View>
 
-
-          {/* Metadaten */}
 
           <View style={styles.metadataGrid}>
 
@@ -880,8 +704,6 @@ export function CardResult({
           </View>
 
 
-          {/* Similarity */}
-
           <View style={styles.similarityBox}>
 
             <View style={styles.similarityRow}>
@@ -908,17 +730,27 @@ export function CardResult({
       </View>
 
 
-      {/* ============================================
-          VARIANTE
-          ============================================ */}
+      <View
+        style={[
+          styles.variantSection,
 
-      <View style={styles.variantSection}>
+          isMobile &&
+            styles.variantSectionMobile,
+        ]}
+      >
 
         <Text style={styles.stepLabel}>
           SCHRITT 2
         </Text>
 
-        <Text style={styles.sectionTitle}>
+        <Text
+          style={[
+            styles.sectionTitle,
+
+            isMobile &&
+              styles.sectionTitleMobile,
+          ]}
+        >
           Welche Variante hast du?
         </Text>
 
@@ -927,8 +759,8 @@ export function CardResult({
           style={[
             styles.variantGrid,
 
-            isWideScreen &&
-              styles.variantGridWide,
+            isMobile &&
+              styles.variantGridMobile,
           ]}
         >
 
@@ -963,6 +795,9 @@ export function CardResult({
                   style={({ pressed }) => [
                     styles.variantButton,
 
+                    isMobile &&
+                      styles.variantButtonMobile,
+
                     isSelected &&
                       styles.variantButtonSelected,
 
@@ -971,12 +806,22 @@ export function CardResult({
                   ]}
                 >
 
-                  <View style={styles.variantIcon}>
+                  <View
+                    style={[
+                      styles.variantIcon,
+
+                      isMobile &&
+                        styles.variantIconMobile,
+                    ]}
+                  >
 
                     <Text
-                      style={
-                        styles.variantIconText
-                      }
+                      style={[
+                        styles.variantIconText,
+
+                        isMobile &&
+                          styles.variantIconTextMobile,
+                      ]}
                     >
                       {option.symbol}
                     </Text>
@@ -984,19 +829,36 @@ export function CardResult({
                   </View>
 
 
-                  <View style={styles.variantText}>
+                  <View
+                    style={[
+                      styles.variantText,
 
-                    <Text style={styles.variantTitle}>
+                      isMobile &&
+                        styles.variantTextMobile,
+                    ]}
+                  >
+
+                    <Text
+                      style={[
+                        styles.variantTitle,
+
+                        isMobile &&
+                          styles.variantTitleMobile,
+                      ]}
+                    >
                       {option.title}
                     </Text>
 
-                    <Text
-                      style={
-                        styles.variantDescription
-                      }
-                    >
-                      {option.description}
-                    </Text>
+
+                    {!isMobile && (
+                      <Text
+                        style={
+                          styles.variantDescription
+                        }
+                      >
+                        {option.description}
+                      </Text>
+                    )}
 
                   </View>
 
@@ -1007,10 +869,6 @@ export function CardResult({
 
         </View>
 
-
-        {/* ============================================
-            MARKTWERT BUTTON
-            ============================================ */}
 
         <Pressable
           accessibilityRole="button"
@@ -1026,6 +884,9 @@ export function CardResult({
 
           style={({ pressed }) => [
             styles.priceButton,
+
+            isMobile &&
+              styles.priceButtonMobile,
 
             (
               !selectedVariant ||
@@ -1070,10 +931,6 @@ export function CardResult({
       </View>
 
 
-      {/* ============================================
-          PREIS
-          ============================================ */}
-
       {isPriceVisible &&
         displayedVariant &&
         displayedPrice && (
@@ -1095,8 +952,6 @@ export function CardResult({
               },
             ]}
           >
-
-            {/* Kurzer Refresh-Indikator */}
 
             <View style={styles.priceRefreshRow}>
 
@@ -1134,7 +989,6 @@ export function CardResult({
                 'de-DE',
                 {
                   style: 'currency',
-
                   currency:
                     displayedPrice.currency,
                 },
@@ -1165,10 +1019,6 @@ export function CardResult({
         )}
 
 
-      {/* ============================================
-          RESET
-          ============================================ */}
-
       <Pressable
         accessibilityRole="button"
 
@@ -1197,48 +1047,34 @@ const styles = StyleSheet.create({
 
   container: {
     width: '100%',
-
     maxWidth: 820,
-
     alignSelf: 'center',
-
     padding: 20,
-
     backgroundColor:
       'rgba(255,255,255,0.93)',
-
     borderWidth: 1.5,
-
     borderColor:
       'rgba(255,255,255,0.96)',
-
     borderTopLeftRadius: 40,
     borderTopRightRadius: 48,
     borderBottomLeftRadius: 46,
     borderBottomRightRadius: 36,
-
     ...shadow.card,
   },
 
-
-  /* ======================================================
-     SUCCESS
-     ====================================================== */
+  containerMobile: {
+    padding: 16,
+  },
 
   successBadge: {
     alignSelf: 'flex-start',
-
     flexDirection: 'row',
     alignItems: 'center',
-
     gap: 7,
-
     paddingHorizontal: 12,
     paddingVertical: 7,
-
     borderRadius:
       radius.pill,
-
     backgroundColor:
       colors.mint,
   },
@@ -1246,13 +1082,10 @@ const styles = StyleSheet.create({
   successDot: {
     width: 22,
     height: 22,
-
     alignItems: 'center',
     justifyContent: 'center',
-
     borderRadius:
       radius.pill,
-
     backgroundColor:
       'rgba(67,155,106,0.15)',
   },
@@ -1260,81 +1093,67 @@ const styles = StyleSheet.create({
   successCheck: {
     color:
       colors.success,
-
     fontWeight: '800',
   },
 
   successText: {
     color:
       colors.success,
-
     fontSize: 13,
     fontWeight: '800',
   },
 
-
-  /* ======================================================
-     KARTEN-LAYOUT
-     ====================================================== */
-
   cardLayout: {
     marginTop:
       spacing.xl,
-
     gap: 24,
   },
 
   cardLayoutWide: {
     flexDirection: 'row',
-
     alignItems: 'flex-start',
   },
 
+  cardLayoutMobile: {
+    marginTop: 16,
+    gap: 16,
+  },
 
   imageColumn: {
     width: '78%',
     maxWidth: 290,
-
     alignSelf: 'center',
   },
 
   imageColumnWide: {
     width: 280,
-
     flexShrink: 0,
+  },
+
+  imageColumnMobile: {
+    width: '62%',
+    maxWidth: 220,
   },
 
   imageFrame: {
     width: '100%',
-
     padding: 12,
-
     backgroundColor:
       colors.lavender,
-
     borderTopLeftRadius: 34,
     borderTopRightRadius: 42,
     borderBottomLeftRadius: 44,
     borderBottomRightRadius: 31,
-
     ...shadow.card,
   },
 
   cardImage: {
     width: '100%',
-
     aspectRatio: 0.72,
-
     borderRadius: 24,
-
     backgroundColor:
       'rgba(255,255,255,0.72)',
   },
-
-
-  /* ======================================================
-     INFORMATIONEN
-     ====================================================== */
 
   infoColumn: {
     flex: 1,
@@ -1343,45 +1162,31 @@ const styles = StyleSheet.create({
   setName: {
     color:
       colors.lavenderStrong,
-
     fontSize: 15,
     fontWeight: '800',
   },
 
   cardName: {
     marginTop: 2,
-
     color:
       colors.text,
-
     fontSize: 36,
     lineHeight: 40,
-
     fontWeight: '800',
-
     letterSpacing: -1.3,
   },
 
   cardNumber: {
     marginTop: 6,
-
     color:
       colors.textSoft,
-
     fontSize: 14,
   },
-
-
-  /* ======================================================
-     BADGES
-     ====================================================== */
 
   badges: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-
     gap: 7,
-
     marginTop: 16,
     marginBottom: 16,
   },
@@ -1389,7 +1194,6 @@ const styles = StyleSheet.create({
   badge: {
     paddingHorizontal: 11,
     paddingVertical: 6,
-
     borderRadius:
       radius.pill,
   },
@@ -1412,75 +1216,49 @@ const styles = StyleSheet.create({
   badgeText: {
     color:
       colors.text,
-
     fontSize: 12,
     fontWeight: '700',
   },
 
-
-  /* ======================================================
-     METADATEN
-     ====================================================== */
-
   metadataGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-
     gap: 8,
   },
 
   metadataItem: {
     width: '48%',
-
     minWidth: 130,
-
     flexGrow: 1,
-
     padding: 12,
-
     backgroundColor:
       'rgba(255,255,255,0.76)',
-
     borderWidth: 1,
-
     borderColor:
       colors.border,
-
     borderRadius: 20,
   },
 
   metadataLabel: {
     color:
       colors.textFaint,
-
     fontSize: 9,
     fontWeight: '800',
-
     letterSpacing: 0.7,
   },
 
   metadataValue: {
     marginTop: 3,
-
     color:
       colors.text,
-
     fontSize: 13,
     fontWeight: '700',
   },
 
-
-  /* ======================================================
-     SIMILARITY
-     ====================================================== */
-
   similarityBox: {
     marginTop: 12,
-
     padding: 14,
-
     borderRadius: 22,
-
     backgroundColor:
       'rgba(223,204,255,0.55)',
   },
@@ -1489,120 +1267,111 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-
     gap: 12,
   },
 
   similarityLabel: {
     color:
       colors.textSoft,
-
     fontSize: 13,
   },
 
   similarityValue: {
     color:
       colors.text,
-
     fontSize: 16,
     fontWeight: '800',
   },
 
   similarityDescription: {
     marginTop: 5,
-
     color:
       colors.textSoft,
-
     fontSize: 11,
     lineHeight: 16,
   },
 
-
-  /* ======================================================
-     VARIANTEN
-     ====================================================== */
-
   variantSection: {
     marginTop: 30,
-
     paddingTop: 24,
-
     borderTopWidth: 1,
-
     borderTopColor:
       colors.border,
+  },
+
+  variantSectionMobile: {
+    marginTop: 18,
+    paddingTop: 16,
   },
 
   stepLabel: {
     color:
       colors.lavenderStrong,
-
     fontSize: 11,
     fontWeight: '800',
-
     letterSpacing: 1.1,
   },
 
   sectionTitle: {
     marginTop: 3,
     marginBottom: 14,
-
     color:
       colors.text,
-
     fontSize: 24,
     fontWeight: '800',
-
     letterSpacing: -0.8,
   },
 
+  sectionTitleMobile: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
 
   variantGrid: {
     gap: 9,
   },
 
-  variantGridWide: {
+  variantGridMobile: {
     flexDirection: 'row',
+    gap: 7,
   },
 
   variantButton: {
     flex: 1,
-
     minHeight: 86,
-
     flexDirection: 'row',
     alignItems: 'center',
-
     gap: 10,
-
     padding: 13,
-
     backgroundColor:
       'rgba(255,255,255,0.78)',
-
     borderWidth: 2,
-
     borderColor:
       'transparent',
-
     borderTopLeftRadius: 25,
     borderTopRightRadius: 30,
     borderBottomLeftRadius: 29,
     borderBottomRightRadius: 22,
   },
 
+  variantButtonMobile: {
+    minHeight: 66,
+    paddingHorizontal: 5,
+    paddingVertical: 8,
+    gap: 5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+
   variantButtonSelected: {
     backgroundColor:
       colors.lavender,
-
     borderColor:
       colors.lavenderStrong,
   },
 
   variantButtonPressed: {
     opacity: 0.83,
-
     transform: [
       {
         scale: 0.985,
@@ -1613,68 +1382,75 @@ const styles = StyleSheet.create({
   variantIcon: {
     width: 40,
     height: 40,
-
     alignItems: 'center',
     justifyContent: 'center',
-
     borderRadius:
       radius.pill,
-
     backgroundColor:
       'rgba(255,255,255,0.78)',
+  },
+
+  variantIconMobile: {
+    width: 28,
+    height: 28,
   },
 
   variantIconText: {
     color:
       colors.text,
-
     fontSize: 19,
+  },
+
+  variantIconTextMobile: {
+    fontSize: 15,
   },
 
   variantText: {
     flex: 1,
   },
 
+  variantTextMobile: {
+    flex: 0,
+    alignItems: 'center',
+  },
+
   variantTitle: {
     color:
       colors.text,
-
     fontSize: 14,
     fontWeight: '800',
   },
 
+  variantTitleMobile: {
+    fontSize: 11,
+    textAlign: 'center',
+  },
+
   variantDescription: {
     marginTop: 2,
-
     color:
       colors.textSoft,
-
     fontSize: 10,
     lineHeight: 14,
   },
 
-
-  /* ======================================================
-     MARKTWERT-BUTTON
-     ====================================================== */
-
   priceButton: {
     minHeight: 54,
-
     marginTop: 15,
-
     alignItems: 'center',
     justifyContent: 'center',
-
     borderTopLeftRadius: 27,
     borderTopRightRadius: 32,
     borderBottomLeftRadius: 31,
     borderBottomRightRadius: 24,
-
     backgroundColor:
       colors.lavenderStrong,
-
     ...shadow.button,
+  },
+
+  priceButtonMobile: {
+    minHeight: 48,
+    marginTop: 10,
   },
 
   priceButtonDisabled: {
@@ -1683,7 +1459,6 @@ const styles = StyleSheet.create({
 
   priceButtonText: {
     color: '#FFFFFF',
-
     fontSize: 15,
     fontWeight: '800',
   },
@@ -1691,44 +1466,29 @@ const styles = StyleSheet.create({
   loadingPriceRow: {
     flexDirection: 'row',
     alignItems: 'center',
-
     gap: 9,
   },
 
-
-  /* ======================================================
-     PREIS
-     ====================================================== */
-
   priceCard: {
     position: 'relative',
-
     marginTop: 18,
-
     padding: 24,
-
     alignItems: 'center',
-
     backgroundColor:
       colors.butter,
-
     borderTopLeftRadius: 34,
     borderTopRightRadius: 43,
     borderBottomLeftRadius: 45,
     borderBottomRightRadius: 31,
-
     ...shadow.card,
   },
 
   priceRefreshRow: {
     position: 'absolute',
-
     top: 12,
     right: 15,
-
     width: 24,
     height: 24,
-
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -1736,7 +1496,6 @@ const styles = StyleSheet.create({
   priceRefreshIcon: {
     color:
       colors.butterStrong,
-
     fontSize: 20,
     fontWeight: '800',
   },
@@ -1744,56 +1503,37 @@ const styles = StyleSheet.create({
   priceLabel: {
     color:
       colors.textSoft,
-
     fontSize: 14,
     fontWeight: '700',
   },
 
   priceValue: {
     marginTop: 5,
-
     color:
       colors.text,
-
     fontSize: 46,
     lineHeight: 52,
-
     fontWeight: '800',
-
     letterSpacing: -1.7,
   },
 
   priceMeta: {
     marginTop: 7,
-
     color:
       colors.textSoft,
-
     fontSize: 11,
-
     textAlign: 'center',
   },
 
-
-  /* ======================================================
-     RESET
-     ====================================================== */
-
   resetButton: {
     minHeight: 52,
-
     marginTop: 18,
-
     alignItems: 'center',
     justifyContent: 'center',
-
     borderWidth: 1,
-
     borderColor:
       colors.border,
-
     borderRadius: 28,
-
     backgroundColor:
       'rgba(255,255,255,0.72)',
   },
@@ -1801,14 +1541,12 @@ const styles = StyleSheet.create({
   resetButtonText: {
     color:
       colors.textSoft,
-
     fontSize: 14,
     fontWeight: '700',
   },
 
   buttonPressed: {
     opacity: 0.82,
-
     transform: [
       {
         scale: 0.985,

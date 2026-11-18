@@ -1,4 +1,10 @@
-import { useState } from 'react';
+// mobile/src/app/index.tsx
+
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   Alert,
@@ -6,7 +12,6 @@ import {
   Linking,
   Platform,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,10 +19,27 @@ import {
   View,
 } from 'react-native';
 
+import type {
+  ScrollViewInstance,
+} from 'react-native';
+
+import {
+  SafeAreaView,
+} from 'react-native-safe-area-context';
+
 import * as ImagePicker from 'expo-image-picker';
 
-import { CardResult } from '@/components/CardResult';
-import { PsyduckMascot } from '@/components/PsyduckMascot';
+import {
+  CandidateSelection,
+} from '@/components/CandidateSelection';
+
+import {
+  CardResult,
+} from '@/components/CardResult';
+
+import {
+  PsyduckMascot,
+} from '@/components/PsyduckMascot';
 
 import {
   colors,
@@ -31,307 +53,602 @@ import {
 } from '@/services/recognitionService';
 
 import {
-  RecognitionResult,
+  RecognitionCandidate,
+  RecognitionResponse,
 } from '@/types/recognition';
 
 
 export default function HomeScreen() {
-  const { width } = useWindowDimensions();
 
-  const isWideScreen = width >= 800;
+  const { width } =
+    useWindowDimensions();
+
+  const isWideScreen =
+    width >= 800;
+
+  const isMobile =
+    width < 600;
+
+
+  /* ======================================================
+     SCROLL
+     ====================================================== */
+
+  const scrollViewRef =
+    useRef<ScrollViewInstance>(
+      null,
+    );
 
 
   /* ======================================================
      STATES
      ====================================================== */
 
-  const [selectedImage, setSelectedImage] =
-    useState<string | null>(null);
+  const [
+    selectedImage,
+    setSelectedImage,
+  ] =
+    useState<string | null>(
+      null,
+    );
 
-  const [imageSource, setImageSource] =
-    useState<'camera' | 'gallery' | null>(null);
+
+  const [
+    imageSource,
+    setImageSource,
+  ] =
+    useState<
+      'camera' |
+      'gallery' |
+      null
+    >(
+      null,
+    );
+
 
   const [
     isAnalyzing,
     setIsAnalyzing,
-  ] = useState(false);
+  ] =
+    useState(false);
+
 
   const [
     recognitionResult,
     setRecognitionResult,
-  ] = useState<RecognitionResult | null>(
-    null,
-  );
+  ] =
+    useState<
+      RecognitionResponse |
+      null
+    >(
+      null,
+    );
+
 
   const [
     analysisStep,
     setAnalysisStep,
-  ] = useState(0);
+  ] =
+    useState(0);
+
+
+  /* ======================================================
+     AKTUELLE SEITE
+     ====================================================== */
+
+  const currentScreen =
+    recognitionResult?.status ===
+    'uncertain'
+      ? 'uncertain'
+
+      : recognitionResult?.status ===
+        'success'
+        ? 'success'
+
+        : isAnalyzing
+          ? 'analyzing'
+
+          : selectedImage
+            ? 'preview'
+
+            : 'start';
+
+
+  /* ======================================================
+     BEI JEDEM SEITENWECHSEL NACH OBEN
+     ====================================================== */
+
+  useEffect(
+    () => {
+
+      const frame =
+        requestAnimationFrame(
+          () => {
+
+            scrollViewRef
+              .current
+              ?.scrollTo({
+                y: 0,
+                animated: false,
+              });
+
+          },
+        );
+
+
+      return () => {
+        cancelAnimationFrame(
+          frame,
+        );
+      };
+
+    },
+    [
+      currentScreen,
+    ],
+  );
 
 
   /* ======================================================
      KAMERA
      ====================================================== */
 
-  const openCamera = async () => {
-    try {
-      /*
-       * Auf Android/iOS fragen wir explizit
-       * nach der Kameraberechtigung.
-       */
-      if (Platform.OS !== 'web') {
-        const permission =
-          await ImagePicker.requestCameraPermissionsAsync();
+  const openCamera =
+    async () => {
 
-        if (!permission.granted) {
-          if (!permission.canAskAgain) {
-            Alert.alert(
-              'Kamerazugriff deaktiviert',
-              'Bitte erlaube den Kamerazugriff in den Einstellungen, damit du Karten fotografieren kannst.',
-              [
-                {
-                  text: 'Abbrechen',
-                  style: 'cancel',
-                },
-                {
-                  text: 'Einstellungen öffnen',
-                  onPress: () => {
-                    Linking.openSettings();
+      try {
+
+        if (
+          Platform.OS !==
+          'web'
+        ) {
+
+          const permission =
+            await ImagePicker
+              .requestCameraPermissionsAsync();
+
+
+          if (
+            !permission.granted
+          ) {
+
+            if (
+              !permission
+                .canAskAgain
+            ) {
+
+              Alert.alert(
+                'Kamerazugriff deaktiviert',
+
+                'Bitte erlaube den Kamerazugriff in den Einstellungen, damit du Karten fotografieren kannst.',
+
+                [
+                  {
+                    text:
+                      'Abbrechen',
+
+                    style:
+                      'cancel',
                   },
-                },
-              ],
-            );
-          } else {
-            Alert.alert(
-              'Kamerazugriff benötigt',
-              'Ohne Kamerazugriff können wir keine Karte fotografieren.',
-            );
+
+                  {
+                    text:
+                      'Einstellungen öffnen',
+
+                    onPress:
+                      () => {
+                        Linking
+                          .openSettings();
+                      },
+                  },
+                ],
+              );
+
+            } else {
+
+              Alert.alert(
+                'Kamerazugriff benötigt',
+
+                'Ohne Kamerazugriff können wir keine Karte fotografieren.',
+              );
+
+            }
+
+
+            return;
+
           }
 
+        }
+
+
+        const result =
+          await ImagePicker
+            .launchCameraAsync({
+
+              mediaTypes: [
+                'images',
+              ],
+
+              allowsEditing:
+                false,
+
+              quality: 1,
+
+            });
+
+
+        if (
+          result.canceled
+        ) {
           return;
         }
-      }
 
 
-      const result =
-        await ImagePicker.launchCameraAsync({
-          mediaTypes: ['images'],
-
-          /*
-           * Kein Crop.
-           *
-           * Später soll YOLO die Karte selbst
-           * im vollständigen Foto finden.
-           */
-          allowsEditing: false,
-
-          quality: 1,
-        });
+        const image =
+          result.assets[0];
 
 
-      if (result.canceled) {
-        return;
-      }
+        if (
+          !image?.uri
+        ) {
+
+          Alert.alert(
+            'Foto konnte nicht geladen werden',
+
+            'Bitte versuche es noch einmal.',
+          );
+
+          return;
+
+        }
 
 
-      const image = result.assets[0];
-
-      if (!image?.uri) {
-        Alert.alert(
-          'Foto konnte nicht geladen werden',
-          'Bitte versuche es noch einmal.',
+        setSelectedImage(
+          image.uri,
         );
 
-        return;
+        setImageSource(
+          'camera',
+        );
+
+        setRecognitionResult(
+          null,
+        );
+
+        setAnalysisStep(
+          0,
+        );
+
+      } catch (error) {
+
+        console.error(
+          'Fehler beim Öffnen der Kamera:',
+          error,
+        );
+
+
+        Alert.alert(
+          'Kamera konnte nicht geöffnet werden',
+
+          'Bitte versuche es erneut.',
+        );
+
       }
 
-
-      setSelectedImage(image.uri);
-      setImageSource('camera');
-
-      setRecognitionResult(null);
-      setAnalysisStep(0);
-    } catch (error) {
-      console.error(
-        'Fehler beim Öffnen der Kamera:',
-        error,
-      );
-
-      Alert.alert(
-        'Kamera konnte nicht geöffnet werden',
-        'Bitte versuche es erneut.',
-      );
-    }
-  };
+    };
 
 
   /* ======================================================
      GALERIE
      ====================================================== */
 
-  const openGallery = async () => {
-    try {
-      const result =
-        await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ['images'],
+  const openGallery =
+    async () => {
 
-          /*
-           * Auch hier kein Crop.
-           *
-           * Das Originalbild soll später
-           * an unsere KI-Pipeline gehen.
-           */
-          allowsEditing: false,
+      try {
 
-          quality: 1,
-        });
+        const result =
+          await ImagePicker
+            .launchImageLibraryAsync({
 
+              mediaTypes: [
+                'images',
+              ],
 
-      if (result.canceled) {
-        return;
-      }
+              allowsEditing:
+                false,
+
+              quality: 1,
+
+            });
 
 
-      const image = result.assets[0];
+        if (
+          result.canceled
+        ) {
+          return;
+        }
 
-      if (!image?.uri) {
+
+        const image =
+          result.assets[0];
+
+
+        if (
+          !image?.uri
+        ) {
+
+          Alert.alert(
+            'Bild konnte nicht geladen werden',
+
+            'Bitte wähle ein anderes Bild aus.',
+          );
+
+          return;
+
+        }
+
+
+        setSelectedImage(
+          image.uri,
+        );
+
+        setImageSource(
+          'gallery',
+        );
+
+        setRecognitionResult(
+          null,
+        );
+
+        setAnalysisStep(
+          0,
+        );
+
+      } catch (error) {
+
+        console.error(
+          'Fehler beim Öffnen der Galerie:',
+          error,
+        );
+
+
         Alert.alert(
-          'Bild konnte nicht geladen werden',
-          'Bitte wähle ein anderes Bild aus.',
+          'Galerie konnte nicht geöffnet werden',
+
+          'Bitte versuche es erneut.',
         );
 
-        return;
       }
 
-
-      setSelectedImage(image.uri);
-      setImageSource('gallery');
-
-      setRecognitionResult(null);
-      setAnalysisStep(0);
-    } catch (error) {
-      console.error(
-        'Fehler beim Öffnen der Galerie:',
-        error,
-      );
-
-      Alert.alert(
-        'Galerie konnte nicht geöffnet werden',
-        'Bitte versuche es erneut.',
-      );
-    }
-  };
+    };
 
 
   /* ======================================================
-     AUSGEWÄHLTES BILD VERWERFEN
+     RESET / STARTSEITE
      ====================================================== */
 
-  const resetImage = () => {
-    setSelectedImage(null);
-    setImageSource(null);
+  const resetImage =
+    () => {
 
-    setRecognitionResult(null);
-    setAnalysisStep(0);
-    setIsAnalyzing(false);
-  };
-
-
-  /* ======================================================
-     MOCK-KARTENERKENNUNG
-     ====================================================== */
-
-  const startRecognition = async () => {
-    if (!selectedImage) {
-      return;
-    }
-
-
-    let stepOne:
-      ReturnType<typeof setTimeout> | undefined;
-
-    let stepTwo:
-      ReturnType<typeof setTimeout> | undefined;
-
-
-    try {
-      setIsAnalyzing(true);
-
-      setRecognitionResult(null);
-
-      setAnalysisStep(0);
-
-
-      /*
-       * Diese Schritte simulieren momentan
-       * den Ablauf unserer späteren Pipeline.
-       *
-       * 1. YOLO
-       * 2. OpenCV
-       * 3. ResNet / Referenzvergleich
-       */
-
-      stepOne = setTimeout(
-        () => {
-          setAnalysisStep(1);
-        },
-        650,
+      setSelectedImage(
+        null,
       );
 
-
-      stepTwo = setTimeout(
-        () => {
-          setAnalysisStep(2);
-        },
-        1450,
+      setImageSource(
+        null,
       );
-
-
-      /*
-       * Aktuell kommt das Ergebnis noch
-       * aus recognitionService.ts als Mock.
-       *
-       * Später wird dort FastAPI aufgerufen.
-       */
-
-      const result =
-        await recognizeCard(
-          selectedImage,
-        );
-
-
-      setAnalysisStep(3);
 
       setRecognitionResult(
-        result,
-      );
-    } catch (error) {
-      console.error(
-        'Recognition failed:',
-        error,
+        null,
       );
 
-
-      Alert.alert(
-        'Karte konnte nicht erkannt werden',
-        'Bitte versuche es mit einem anderen Bild.',
+      setAnalysisStep(
+        0,
       );
-    } finally {
-      if (stepOne) {
-        clearTimeout(stepOne);
+
+      setIsAnalyzing(
+        false,
+      );
+
+    };
+
+
+  /* ======================================================
+     ERKENNUNG STARTEN
+     ====================================================== */
+
+  const startRecognition =
+    async () => {
+
+      if (
+        !selectedImage
+      ) {
+        return;
       }
 
-      if (stepTwo) {
-        clearTimeout(stepTwo);
+
+      let stepOne:
+        ReturnType<
+          typeof setTimeout
+        > |
+        undefined;
+
+
+      let stepTwo:
+        ReturnType<
+          typeof setTimeout
+        > |
+        undefined;
+
+
+      try {
+
+        setIsAnalyzing(
+          true,
+        );
+
+        setRecognitionResult(
+          null,
+        );
+
+        setAnalysisStep(
+          0,
+        );
+
+
+        stepOne =
+          setTimeout(
+            () => {
+
+              setAnalysisStep(
+                1,
+              );
+
+            },
+
+            650,
+          );
+
+
+        stepTwo =
+          setTimeout(
+            () => {
+
+              setAnalysisStep(
+                2,
+              );
+
+            },
+
+            1450,
+          );
+
+
+        const result =
+          await recognizeCard(
+            selectedImage,
+          );
+
+
+        setAnalysisStep(
+          3,
+        );
+
+
+        setRecognitionResult(
+          result,
+        );
+
+      } catch (error) {
+
+        console.error(
+          'Recognition failed:',
+          error,
+        );
+
+
+        Alert.alert(
+          'Karte konnte nicht erkannt werden',
+
+          'Bitte versuche es mit einem anderen Bild.',
+        );
+
+      } finally {
+
+        if (
+          stepOne
+        ) {
+          clearTimeout(
+            stepOne,
+          );
+        }
+
+
+        if (
+          stepTwo
+        ) {
+          clearTimeout(
+            stepTwo,
+          );
+        }
+
+
+        setIsAnalyzing(
+          false,
+        );
+
       }
 
-      setIsAnalyzing(false);
-    }
-  };
+    };
+
+
+  /* ======================================================
+     KANDIDAT AUSWÄHLEN
+     ====================================================== */
+
+  const selectCandidate =
+    (
+      candidate:
+        RecognitionCandidate,
+    ) => {
+
+      setRecognitionResult({
+        status:
+          'success',
+
+        card:
+          candidate.card,
+
+        recognition:
+          candidate.recognition,
+
+        variants:
+          candidate.variants,
+      });
+
+    };
+
+
+  /* ======================================================
+     ENTON-ZUSTAND
+     ====================================================== */
+
+  const isUncertain =
+    recognitionResult?.status ===
+    'uncertain';
+
+
+  const psyduckMessage =
+    isAnalyzing
+      ? 'Hmm … einen Moment. Ich vergleiche deine Karte gerade.'
+
+      : isUncertain
+        ? 'Oh je … bei diesen Karten bin ich mir nicht ganz sicher. Hilfst du mir?'
+
+        : recognitionResult?.status ===
+          'success'
+          ? 'Ich glaube, die habe ich gefunden!'
+
+          : selectedImage
+            ? 'Sieht gut aus! Wenn die ganze Karte zu sehen ist, können wir loslegen.'
+
+            : 'Zeig mir deine Karte – ich schau sie mir an!';
 
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={
+        styles.safeArea
+      }
+
+      edges={[
+        'top',
+        'left',
+        'right',
+      ]}
+    >
 
       {/* ==================================================
           HINTERGRUND
@@ -339,8 +656,12 @@ export default function HomeScreen() {
 
       <View
         pointerEvents="none"
-        style={styles.background}
+
+        style={
+          styles.background
+        }
       >
+
         <View
           style={[
             styles.backgroundBubble,
@@ -361,17 +682,29 @@ export default function HomeScreen() {
             styles.bubbleMint,
           ]}
         />
+
       </View>
 
 
       <ScrollView
+        ref={
+          scrollViewRef
+        }
+
         contentContainerStyle={[
           styles.scrollContent,
 
           isWideScreen &&
             styles.scrollContentWide,
+
+          isMobile &&
+            styles.scrollContentMobile,
         ]}
-        showsVerticalScrollIndicator={false}
+
+        showsVerticalScrollIndicator={
+          false
+        }
+
         keyboardShouldPersistTaps="handled"
       >
 
@@ -381,22 +714,43 @@ export default function HomeScreen() {
 
         <View style={styles.header}>
 
-          <View style={styles.brand}>
+          <Pressable
+            accessibilityRole="button"
+
+            accessibilityLabel="Zur Startseite"
+
+            onPress={
+              resetImage
+            }
+
+            style={({
+              pressed,
+            }) => [
+              styles.brand,
+
+              pressed &&
+                styles.brandPressed,
+            ]}
+          >
 
             <View style={styles.brandIcon}>
+
               <Text style={styles.brandIconText}>
                 ✦
               </Text>
+
             </View>
+
 
             <Text style={styles.brandText}>
               Card Scanner
             </Text>
 
-          </View>
+          </Pressable>
 
 
           {isWideScreen && (
+
             <View style={styles.projectBadge}>
 
               <Text style={styles.projectBadgeText}>
@@ -404,6 +758,7 @@ export default function HomeScreen() {
               </Text>
 
             </View>
+
           )}
 
         </View>
@@ -413,33 +768,66 @@ export default function HomeScreen() {
             HERO
             ================================================== */}
 
-        <View style={styles.hero}>
+        <View
+          style={[
+            styles.hero,
+
+            isMobile &&
+              styles.heroMobile,
+          ]}
+        >
 
           <Text style={styles.eyebrow}>
             POKÉMON-KARTENERKENNUNG
           </Text>
 
-          <Text style={styles.title}>
+
+          <Text
+            numberOfLines={1}
+
+            adjustsFontSizeToFit
+
+            minimumFontScale={0.75}
+
+            style={[
+              styles.title,
+
+              isMobile &&
+                styles.titleMobile,
+            ]}
+          >
             Welche Karte hast du?
           </Text>
 
-          <Text style={styles.description}>
-            Fotografiere deine Karte oder wähle
-            ein Bild aus. Wir suchen die passende
-            Karte und zeigen dir anschließend
-            ihre wichtigsten Informationen.
-          </Text>
+
+          {!recognitionResult && (
+
+            <Text
+              style={[
+                styles.description,
+
+                isMobile &&
+                  styles.descriptionMobile,
+              ]}
+            >
+              Fotografiere deine Karte oder wähle
+              ein Bild aus. Wir suchen die passende
+              Karte und zeigen dir anschließend
+              ihre wichtigsten Informationen.
+            </Text>
+
+          )}
 
 
           <PsyduckMascot
             message={
-              isAnalyzing
-                ? 'Hmm … einen Moment. Ich vergleiche deine Karte gerade.'
-                : recognitionResult
-                  ? 'Ich glaube, die habe ich gefunden!'
-                  : selectedImage
-                    ? 'Sieht gut aus! Wenn die ganze Karte zu sehen ist, können wir loslegen.'
-                    : 'Zeig mir deine Karte – ich schau sie mir an!'
+              psyduckMessage
+            }
+
+            mood={
+              isUncertain
+                ? 'sad'
+                : 'default'
             }
           />
 
@@ -451,6 +839,7 @@ export default function HomeScreen() {
             ================================================== */}
 
         {!recognitionResult && (
+
           <View style={styles.scannerCard}>
 
             <View style={styles.sectionHeader}>
@@ -459,34 +848,48 @@ export default function HomeScreen() {
                 SCHRITT 1
               </Text>
 
+
               <Text style={styles.sectionTitle}>
-                {isAnalyzing
-                  ? 'Karte analysieren'
-                  : selectedImage
-                    ? 'Karte prüfen'
-                    : 'Karte hinzufügen'}
+
+                {
+                  isAnalyzing
+                    ? 'Karte analysieren'
+
+                    : selectedImage
+                      ? 'Karte prüfen'
+
+                      : 'Karte hinzufügen'
+                }
+
               </Text>
 
             </View>
 
 
             {/* ==============================================
-                KEIN BILD AUSGEWÄHLT
+                KEIN BILD
                 ============================================== */}
 
-            {!selectedImage && !isAnalyzing && (
+            {!selectedImage &&
+              !isAnalyzing && (
+
               <>
+
                 <View style={styles.scannerArea}>
 
                   <View style={styles.scannerIcon}>
+
                     <Text style={styles.scannerIconText}>
                       ✦
                     </Text>
+
                   </View>
+
 
                   <Text style={styles.scannerTitle}>
                     Bereit zum Scannen
                   </Text>
+
 
                   <Text style={styles.scannerDescription}>
                     Achte darauf, dass die gesamte
@@ -508,22 +911,31 @@ export default function HomeScreen() {
 
                   <Pressable
                     accessibilityRole="button"
+
                     accessibilityLabel="Kamera öffnen"
 
-                    onPress={openCamera}
+                    onPress={
+                      openCamera
+                    }
 
-                    style={({ pressed }) => [
+                    style={({
+                      pressed,
+                    }) => [
+
                       styles.button,
+
                       styles.primaryButton,
 
                       pressed &&
                         styles.buttonPressed,
+
                     ]}
                   >
 
                     <Text style={styles.primaryButtonIcon}>
                       📷
                     </Text>
+
 
                     <Text style={styles.primaryButtonText}>
                       Kamera öffnen
@@ -534,22 +946,31 @@ export default function HomeScreen() {
 
                   <Pressable
                     accessibilityRole="button"
+
                     accessibilityLabel="Bild aus Galerie auswählen"
 
-                    onPress={openGallery}
+                    onPress={
+                      openGallery
+                    }
 
-                    style={({ pressed }) => [
+                    style={({
+                      pressed,
+                    }) => [
+
                       styles.button,
+
                       styles.secondaryButton,
 
                       pressed &&
                         styles.buttonPressed,
+
                     ]}
                   >
 
                     <Text style={styles.secondaryButtonIcon}>
                       ♡
                     </Text>
+
 
                     <Text style={styles.secondaryButtonText}>
                       Bild auswählen
@@ -558,122 +979,156 @@ export default function HomeScreen() {
                   </Pressable>
 
                 </View>
+
               </>
+
             )}
 
 
             {/* ==============================================
-                BILD AUSGEWÄHLT
+                PREVIEW
                 ============================================== */}
 
             {selectedImage &&
               !isAnalyzing &&
               !recognitionResult && (
 
-                <View>
+              <View>
 
-                  <View style={styles.previewFrame}>
+                <View style={styles.previewFrame}>
 
-                    <Image
-                      source={{
-                        uri: selectedImage,
-                      }}
+                  <Image
+                    source={{
+                      uri:
+                        selectedImage,
+                    }}
 
-                      style={styles.previewImage}
+                    style={
+                      styles.previewImage
+                    }
 
-                      resizeMode="contain"
+                    resizeMode="contain"
 
-                      accessibilityLabel="Vorschau der ausgewählten Pokémon-Karte"
-                    />
-
-                  </View>
-
-
-                  <View style={styles.previewInfo}>
-
-                    <View style={styles.previewStatus}>
-
-                      <View style={styles.previewStatusDot} />
-
-                      <Text style={styles.previewStatusText}>
-                        {imageSource === 'camera'
-                          ? 'Foto aufgenommen'
-                          : 'Bild ausgewählt'}
-                      </Text>
-
-                    </View>
-
-
-                    <Text style={styles.previewTitle}>
-                      Sieht die Karte gut aus?
-                    </Text>
-
-                    <Text style={styles.previewDescription}>
-                      Die gesamte Karte sollte sichtbar
-                      und möglichst scharf sein.
-                      Hintergrund und Perspektive sind
-                      kein Problem – darum kümmert sich
-                      später unsere Erkennung.
-                    </Text>
-
-                  </View>
-
-
-                  <View style={styles.previewActions}>
-
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel="Karte erkennen"
-
-                      onPress={startRecognition}
-
-                      style={({ pressed }) => [
-                        styles.button,
-                        styles.primaryButton,
-                        styles.fullWidthButton,
-
-                        pressed &&
-                          styles.buttonPressed,
-                      ]}
-                    >
-
-                      <Text style={styles.primaryButtonText}>
-                        Karte erkennen
-                      </Text>
-
-                      <Text style={styles.forwardIcon}>
-                        →
-                      </Text>
-
-                    </Pressable>
-
-
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel="Anderes Bild auswählen"
-
-                      onPress={resetImage}
-
-                      style={({ pressed }) => [
-                        styles.button,
-                        styles.changeImageButton,
-                        styles.fullWidthButton,
-
-                        pressed &&
-                          styles.buttonPressed,
-                      ]}
-                    >
-
-                      <Text style={styles.changeImageButtonText}>
-                        Anderes Bild wählen
-                      </Text>
-
-                    </Pressable>
-
-                  </View>
+                    accessibilityLabel="Vorschau der ausgewählten Pokémon-Karte"
+                  />
 
                 </View>
-              )}
+
+
+                <View style={styles.previewInfo}>
+
+                  <View style={styles.previewStatus}>
+
+                    <View style={styles.previewStatusDot} />
+
+
+                    <Text style={styles.previewStatusText}>
+
+                      {
+                        imageSource ===
+                        'camera'
+
+                          ? 'Foto aufgenommen'
+
+                          : 'Bild ausgewählt'
+                      }
+
+                    </Text>
+
+                  </View>
+
+
+                  <Text style={styles.previewTitle}>
+                    Sieht die Karte gut aus?
+                  </Text>
+
+
+                  <Text style={styles.previewDescription}>
+                    Die gesamte Karte sollte sichtbar
+                    und möglichst scharf sein.
+                    Hintergrund und Perspektive sind
+                    kein Problem – darum kümmert sich
+                    später unsere Erkennung.
+                  </Text>
+
+                </View>
+
+
+                <View style={styles.previewActions}>
+
+                  <Pressable
+                    accessibilityRole="button"
+
+                    accessibilityLabel="Karte erkennen"
+
+                    onPress={
+                      startRecognition
+                    }
+
+                    style={({
+                      pressed,
+                    }) => [
+
+                      styles.button,
+
+                      styles.primaryButton,
+
+                      styles.fullWidthButton,
+
+                      pressed &&
+                        styles.buttonPressed,
+
+                    ]}
+                  >
+
+                    <Text style={styles.primaryButtonText}>
+                      Karte erkennen
+                    </Text>
+
+
+                    <Text style={styles.forwardIcon}>
+                      →
+                    </Text>
+
+                  </Pressable>
+
+
+                  <Pressable
+                    accessibilityRole="button"
+
+                    accessibilityLabel="Anderes Bild auswählen"
+
+                    onPress={
+                      resetImage
+                    }
+
+                    style={({
+                      pressed,
+                    }) => [
+
+                      styles.button,
+
+                      styles.changeImageButton,
+
+                      styles.fullWidthButton,
+
+                      pressed &&
+                        styles.buttonPressed,
+
+                    ]}
+                  >
+
+                    <Text style={styles.changeImageButtonText}>
+                      Anderes Bild wählen
+                    </Text>
+
+                  </Pressable>
+
+                </View>
+
+              </View>
+
+            )}
 
 
             {/* ==============================================
@@ -681,6 +1136,7 @@ export default function HomeScreen() {
                 ============================================== */}
 
             {isAnalyzing && (
+
               <View style={styles.analysisContainer}>
 
                 <View style={styles.loadingDots}>
@@ -713,6 +1169,7 @@ export default function HomeScreen() {
                   Wir schauen uns deine Karte an …
                 </Text>
 
+
                 <Text style={styles.analysisDescription}>
                   Das dauert normalerweise nur
                   einen Augenblick.
@@ -725,7 +1182,8 @@ export default function HomeScreen() {
                     style={[
                       styles.analysisStep,
 
-                      analysisStep === 0 &&
+                      analysisStep ===
+                        0 &&
                         styles.analysisStepActive,
                     ]}
                   >
@@ -734,13 +1192,16 @@ export default function HomeScreen() {
                       style={[
                         styles.analysisDot,
 
-                        analysisStep >= 0 &&
+                        analysisStep >=
+                          0 &&
                           styles.analysisDotActive,
 
-                        analysisStep > 0 &&
+                        analysisStep >
+                          0 &&
                           styles.analysisDotComplete,
                       ]}
                     />
+
 
                     <Text style={styles.analysisStepText}>
                       Karte finden
@@ -753,7 +1214,8 @@ export default function HomeScreen() {
                     style={[
                       styles.analysisStep,
 
-                      analysisStep === 1 &&
+                      analysisStep ===
+                        1 &&
                         styles.analysisStepActive,
                     ]}
                   >
@@ -762,13 +1224,16 @@ export default function HomeScreen() {
                       style={[
                         styles.analysisDot,
 
-                        analysisStep >= 1 &&
+                        analysisStep >=
+                          1 &&
                           styles.analysisDotActive,
 
-                        analysisStep > 1 &&
+                        analysisStep >
+                          1 &&
                           styles.analysisDotComplete,
                       ]}
                     />
+
 
                     <Text style={styles.analysisStepText}>
                       Bild aufbereiten
@@ -781,7 +1246,8 @@ export default function HomeScreen() {
                     style={[
                       styles.analysisStep,
 
-                      analysisStep >= 2 &&
+                      analysisStep >=
+                        2 &&
                         styles.analysisStepActive,
                     ]}
                   >
@@ -790,10 +1256,12 @@ export default function HomeScreen() {
                       style={[
                         styles.analysisDot,
 
-                        analysisStep >= 2 &&
+                        analysisStep >=
+                          2 &&
                           styles.analysisDotActive,
                       ]}
                     />
+
 
                     <Text style={styles.analysisStepText}>
                       Referenzkarten vergleichen
@@ -804,28 +1272,66 @@ export default function HomeScreen() {
                 </View>
 
               </View>
+
             )}
 
           </View>
+
         )}
 
 
         {/* ==================================================
-            ERGEBNIS
+            UNSICHERER TREFFER
             ================================================== */}
 
-        {recognitionResult &&
+        {recognitionResult?.status ===
+          'uncertain' &&
           selectedImage && (
 
-            <CardResult
-              result={recognitionResult}
+          <CandidateSelection
+            result={
+              recognitionResult
+            }
 
-              originalImageUri={selectedImage}
+            originalImageUri={
+              selectedImage
+            }
 
-              onReset={resetImage}
-            />
+            onSelect={
+              selectCandidate
+            }
 
-          )}
+            onReset={
+              resetImage
+            }
+          />
+
+        )}
+
+
+        {/* ==================================================
+            EINDEUTIGER TREFFER
+            ================================================== */}
+
+        {recognitionResult?.status ===
+          'success' &&
+          selectedImage && (
+
+          <CardResult
+            result={
+              recognitionResult
+            }
+
+            originalImageUri={
+              selectedImage
+            }
+
+            onReset={
+              resetImage
+            }
+          />
+
+        )}
 
 
         {/* ==================================================
@@ -844,746 +1350,1124 @@ export default function HomeScreen() {
 }
 
 
-const styles = StyleSheet.create({
+const styles =
+  StyleSheet.create({
 
-  /* ======================================================
-     BASIS
-     ====================================================== */
+    /* ======================================================
+       BASIS
+       ====================================================== */
 
-  safeArea: {
-    flex: 1,
+    safeArea: {
+      flex: 1,
 
-    backgroundColor:
-      colors.background,
-  },
+      backgroundColor:
+        colors.background,
+    },
 
 
-  /* ======================================================
-     HINTERGRUND
-     ====================================================== */
+    /* ======================================================
+       HINTERGRUND
+       ====================================================== */
 
-  background: {
-    position: 'absolute',
+    background: {
+      position:
+        'absolute',
 
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
 
-    overflow: 'hidden',
-  },
+      overflow:
+        'hidden',
+    },
 
-  backgroundBubble: {
-    position: 'absolute',
 
-    borderRadius: radius.pill,
+    backgroundBubble: {
+      position:
+        'absolute',
 
-    opacity: 0.72,
-  },
+      borderRadius:
+        radius.pill,
 
-  bubblePink: {
-    width: 290,
-    height: 290,
+      opacity:
+        0.72,
+    },
 
-    top: -145,
-    right: -115,
 
-    backgroundColor:
-      colors.pink,
-  },
+    bubblePink: {
+      width: 290,
+      height: 290,
 
-  bubbleLavender: {
-    width: 240,
-    height: 240,
+      top: -145,
+      right: -115,
 
-    left: -150,
-    top: '42%',
+      backgroundColor:
+        colors.pink,
+    },
 
-    backgroundColor:
-      colors.lavender,
-  },
 
-  bubbleMint: {
-    width: 230,
-    height: 230,
+    bubbleLavender: {
+      width: 240,
+      height: 240,
 
-    right: -135,
-    bottom: -110,
+      left: -150,
+      top: '42%',
 
-    backgroundColor:
-      colors.mint,
-  },
+      backgroundColor:
+        colors.lavender,
+    },
 
 
-  /* ======================================================
-     LAYOUT
-     ====================================================== */
+    bubbleMint: {
+      width: 230,
+      height: 230,
 
-  scrollContent: {
-    width: '100%',
+      right: -135,
+      bottom: -110,
 
-    paddingHorizontal:
-      spacing.md,
+      backgroundColor:
+        colors.mint,
+    },
 
-    paddingBottom:
-      spacing.xl,
 
-    alignSelf: 'center',
-  },
+    /* ======================================================
+       LAYOUT
+       ====================================================== */
 
-  scrollContentWide: {
-    maxWidth: 1000,
-  },
+    scrollContent: {
+      width: '100%',
 
+      paddingHorizontal:
+        spacing.md,
 
-  /* ======================================================
-     HEADER
-     ====================================================== */
+      paddingBottom:
+        spacing.xl,
 
-  header: {
-    minHeight: 72,
+      alignSelf:
+        'center',
+    },
 
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
 
-    paddingTop: spacing.sm,
-  },
+    scrollContentWide: {
+      maxWidth:
+        1000,
+    },
 
-  brand: {
-    flexDirection: 'row',
-    alignItems: 'center',
 
-    gap: 10,
-  },
+    scrollContentMobile: {
+      paddingBottom:
+        spacing.lg,
+    },
 
-  brandIcon: {
-    width: 42,
-    height: 42,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+    /* ======================================================
+       HEADER
+       ====================================================== */
 
-    backgroundColor:
-      colors.pink,
+    header: {
+      minHeight:
+        72,
 
-    borderTopLeftRadius: 22,
-    borderTopRightRadius: 18,
-    borderBottomLeftRadius: 17,
-    borderBottomRightRadius: 24,
+      flexDirection:
+        'row',
 
-    ...shadow.button,
-  },
+      alignItems:
+        'center',
 
-  brandIconText: {
-    color: colors.text,
+      justifyContent:
+        'space-between',
 
-    fontSize: 18,
-    fontWeight: '800',
-  },
+      paddingTop:
+        spacing.sm,
+    },
 
-  brandText: {
-    color: colors.text,
 
-    fontSize: 17,
-    fontWeight: '800',
+    brand: {
+      flexDirection:
+        'row',
 
-    letterSpacing: -0.4,
-  },
+      alignItems:
+        'center',
 
-  projectBadge: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
+      gap: 10,
+    },
 
-    borderRadius: radius.pill,
 
-    backgroundColor:
-      colors.whiteTransparent,
+    brandPressed: {
+      opacity:
+        0.72,
 
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
+      transform: [
+        {
+          scale:
+            0.98,
+        },
+      ],
+    },
 
-  projectBadgeText: {
-    color: colors.textSoft,
 
-    fontSize: 12,
-    fontWeight: '700',
-  },
+    brandIcon: {
+      width: 42,
+      height: 42,
 
+      alignItems:
+        'center',
 
-  /* ======================================================
-     HERO
-     ====================================================== */
+      justifyContent:
+        'center',
 
-  hero: {
-    width: '100%',
-    maxWidth: 680,
+      backgroundColor:
+        colors.pink,
 
-    alignSelf: 'center',
+      borderTopLeftRadius:
+        22,
 
-    alignItems: 'center',
+      borderTopRightRadius:
+        18,
 
-    paddingTop:
-      spacing.xl,
+      borderBottomLeftRadius:
+        17,
 
-    paddingBottom:
-      spacing.xl,
-  },
+      borderBottomRightRadius:
+        24,
 
-  eyebrow: {
-    color:
-      colors.lavenderStrong,
+      ...shadow.button,
+    },
 
-    fontSize: 12,
-    fontWeight: '800',
 
-    letterSpacing: 1.2,
+    brandIconText: {
+      color:
+        colors.text,
 
-    textAlign: 'center',
-  },
+      fontSize: 18,
 
-  title: {
-    maxWidth: 650,
+      fontWeight:
+        '800',
+    },
 
-    marginTop: 7,
 
-    color: colors.text,
+    brandText: {
+      color:
+        colors.text,
 
-    fontSize: 44,
-    lineHeight: 47,
+      fontSize: 17,
 
-    fontWeight: '800',
+      fontWeight:
+        '800',
 
-    letterSpacing: -1.8,
+      letterSpacing:
+        -0.4,
+    },
 
-    textAlign: 'center',
-  },
 
-  description: {
-    maxWidth: 550,
+    projectBadge: {
+      paddingHorizontal:
+        15,
 
-    marginTop: 17,
+      paddingVertical:
+        8,
 
-    color:
-      colors.textSoft,
+      borderRadius:
+        radius.pill,
 
-    fontSize: 16,
-    lineHeight: 24,
+      backgroundColor:
+        colors.whiteTransparent,
 
-    textAlign: 'center',
-  },
+      borderWidth:
+        1,
 
+      borderColor:
+        colors.border,
+    },
 
-  /* ======================================================
-     SCANNER CARD
-     ====================================================== */
 
-  scannerCard: {
-    width: '100%',
-    maxWidth: 820,
+    projectBadgeText: {
+      color:
+        colors.textSoft,
 
-    alignSelf: 'center',
+      fontSize: 12,
 
-    padding: 20,
+      fontWeight:
+        '700',
+    },
 
-    backgroundColor:
-      'rgba(255,255,255,0.91)',
 
-    borderWidth: 1.5,
-    borderColor:
-      'rgba(255,255,255,0.95)',
+    /* ======================================================
+       HERO
+       ====================================================== */
 
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 48,
-    borderBottomLeftRadius: 46,
-    borderBottomRightRadius: 36,
+    hero: {
+      width:
+        '100%',
 
-    ...shadow.card,
-  },
+      maxWidth:
+        680,
 
-  sectionHeader: {
-    marginBottom:
-      spacing.md,
-  },
+      alignSelf:
+        'center',
 
-  stepLabel: {
-    color:
-      colors.lavenderStrong,
+      alignItems:
+        'center',
 
-    fontSize: 11,
-    fontWeight: '800',
+      paddingTop:
+        spacing.xl,
 
-    letterSpacing: 1.1,
+      paddingBottom:
+        spacing.xl,
+    },
 
-    marginBottom: 3,
-  },
 
-  sectionTitle: {
-    color:
-      colors.text,
+    heroMobile: {
+      paddingTop:
+        18,
 
-    fontSize: 26,
-    lineHeight: 31,
+      paddingBottom:
+        14,
+    },
 
-    fontWeight: '800',
 
-    letterSpacing: -0.9,
-  },
+    eyebrow: {
+      color:
+        colors.lavenderStrong,
 
+      fontSize: 12,
 
-  /* ======================================================
-     SCANNER START
-     ====================================================== */
+      fontWeight:
+        '800',
 
-  scannerArea: {
-    minHeight: 275,
+      letterSpacing:
+        1.2,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+      textAlign:
+        'center',
+    },
 
-    padding:
-      spacing.lg,
 
-    borderWidth: 2,
-    borderStyle: 'dashed',
+    title: {
+      maxWidth:
+        650,
 
-    borderColor:
-      'rgba(130,98,207,0.28)',
+      marginTop:
+        7,
 
-    backgroundColor:
-      'rgba(233,214,255,0.48)',
+      color:
+        colors.text,
 
-    borderTopLeftRadius: 36,
-    borderTopRightRadius: 46,
-    borderBottomLeftRadius: 48,
-    borderBottomRightRadius: 34,
-  },
+      fontSize:
+        44,
 
-  scannerIcon: {
-    width: 72,
-    height: 72,
+      lineHeight:
+        47,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+      fontWeight:
+        '800',
 
-    marginBottom: 14,
+      letterSpacing:
+        -1.8,
 
-    backgroundColor:
-      colors.pink,
+      textAlign:
+        'center',
+    },
 
-    borderTopLeftRadius: 38,
-    borderTopRightRadius: 31,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 42,
 
-    ...shadow.button,
-  },
+    titleMobile: {
+      width:
+        '100%',
 
-  scannerIconText: {
-    color:
-      colors.text,
+      fontSize:
+        31,
 
-    fontSize: 26,
-  },
+      lineHeight:
+        36,
 
-  scannerTitle: {
-    color:
-      colors.text,
+      letterSpacing:
+        -1.1,
 
-    fontSize: 21,
-    fontWeight: '800',
+      marginTop:
+        5,
+    },
 
-    textAlign: 'center',
-  },
 
-  scannerDescription: {
-    maxWidth: 390,
+    description: {
+      maxWidth:
+        550,
 
-    marginTop: 5,
+      marginTop:
+        17,
 
-    color:
-      colors.textSoft,
+      color:
+        colors.textSoft,
 
-    fontSize: 14,
-    lineHeight: 21,
+      fontSize:
+        16,
 
-    textAlign: 'center',
-  },
+      lineHeight:
+        24,
 
+      textAlign:
+        'center',
+    },
 
-  /* ======================================================
-     BUTTONS
-     ====================================================== */
 
-  actions: {
-    width: '100%',
+    descriptionMobile: {
+      marginTop:
+        10,
 
-    gap: 10,
+      fontSize:
+        14,
 
-    marginTop: 16,
-  },
+      lineHeight:
+        20,
+    },
 
-  actionsWide: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
 
-  button: {
-    minHeight: 54,
+    /* ======================================================
+       SCANNER
+       ====================================================== */
 
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    scannerCard: {
+      width:
+        '100%',
 
-    gap: 8,
+      maxWidth:
+        820,
 
-    paddingHorizontal: 22,
+      alignSelf:
+        'center',
 
-    borderTopLeftRadius: 27,
-    borderTopRightRadius: 32,
-    borderBottomLeftRadius: 31,
-    borderBottomRightRadius: 24,
-  },
+      padding:
+        20,
 
-  primaryButton: {
-    backgroundColor:
-      colors.lavenderStrong,
+      backgroundColor:
+        'rgba(255,255,255,0.91)',
 
-    ...shadow.button,
-  },
+      borderWidth:
+        1.5,
 
-  secondaryButton: {
-    backgroundColor:
-      colors.pink,
+      borderColor:
+        'rgba(255,255,255,0.95)',
 
-    ...shadow.button,
-  },
+      borderTopLeftRadius:
+        40,
 
-  changeImageButton: {
-    backgroundColor:
-      'rgba(255,255,255,0.82)',
+      borderTopRightRadius:
+        48,
 
-    borderWidth: 1,
-    borderColor:
-      colors.border,
-  },
+      borderBottomLeftRadius:
+        46,
 
-  fullWidthButton: {
-    width: '100%',
-  },
+      borderBottomRightRadius:
+        36,
 
-  buttonPressed: {
-    opacity: 0.82,
+      ...shadow.card,
+    },
 
-    transform: [
-      {
-        scale: 0.985,
-      },
-    ],
-  },
 
-  primaryButtonIcon: {
-    fontSize: 17,
-  },
+    sectionHeader: {
+      marginBottom:
+        spacing.md,
+    },
 
-  primaryButtonText: {
-    color: '#FFFFFF',
 
-    fontSize: 15,
-    fontWeight: '800',
-  },
+    stepLabel: {
+      color:
+        colors.lavenderStrong,
 
-  secondaryButtonIcon: {
-    color:
-      colors.text,
+      fontSize:
+        11,
 
-    fontSize: 18,
-  },
+      fontWeight:
+        '800',
 
-  secondaryButtonText: {
-    color:
-      colors.text,
+      letterSpacing:
+        1.1,
 
-    fontSize: 15,
-    fontWeight: '800',
-  },
+      marginBottom:
+        3,
+    },
 
-  changeImageButtonText: {
-    color:
-      colors.textSoft,
 
-    fontSize: 14,
-    fontWeight: '700',
-  },
+    sectionTitle: {
+      color:
+        colors.text,
 
-  forwardIcon: {
-    color: '#FFFFFF',
+      fontSize:
+        26,
 
-    fontSize: 19,
-    fontWeight: '800',
-  },
+      lineHeight:
+        31,
 
+      fontWeight:
+        '800',
 
-  /* ======================================================
-     BILDVORSCHAU
-     ====================================================== */
+      letterSpacing:
+        -0.9,
+    },
 
-  previewFrame: {
-    width: '100%',
 
-    minHeight: 330,
-    maxHeight: 520,
+    scannerArea: {
+      minHeight:
+        275,
 
-    padding: 14,
+      alignItems:
+        'center',
 
-    alignItems: 'center',
-    justifyContent: 'center',
+      justifyContent:
+        'center',
 
-    backgroundColor:
-      'rgba(223,204,255,0.62)',
+      padding:
+        spacing.lg,
 
-    borderTopLeftRadius: 36,
-    borderTopRightRadius: 46,
-    borderBottomLeftRadius: 47,
-    borderBottomRightRadius: 34,
+      borderWidth:
+        2,
 
-    overflow: 'hidden',
-  },
+      borderStyle:
+        'dashed',
 
-  previewImage: {
-    width: '100%',
-    height: 440,
+      borderColor:
+        'rgba(130,98,207,0.28)',
 
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 29,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 22,
+      backgroundColor:
+        'rgba(233,214,255,0.48)',
 
-    backgroundColor:
-      'rgba(255,255,255,0.62)',
-  },
+      borderTopLeftRadius:
+        36,
 
-  previewInfo: {
-    marginTop: 18,
+      borderTopRightRadius:
+        46,
 
-    alignItems: 'center',
-  },
+      borderBottomLeftRadius:
+        48,
 
-  previewStatus: {
-    flexDirection: 'row',
-    alignItems: 'center',
+      borderBottomRightRadius:
+        34,
+    },
 
-    gap: 7,
 
-    paddingHorizontal: 12,
-    paddingVertical: 7,
+    scannerIcon: {
+      width:
+        72,
 
-    marginBottom: 13,
+      height:
+        72,
 
-    borderRadius:
-      radius.pill,
+      alignItems:
+        'center',
 
-    backgroundColor:
-      colors.mint,
-  },
+      justifyContent:
+        'center',
 
-  previewStatusDot: {
-    width: 8,
-    height: 8,
+      marginBottom:
+        14,
 
-    borderRadius:
-      radius.pill,
+      backgroundColor:
+        colors.pink,
 
-    backgroundColor:
-      colors.success,
-  },
+      borderTopLeftRadius:
+        38,
 
-  previewStatusText: {
-    color:
-      colors.success,
+      borderTopRightRadius:
+        31,
 
-    fontSize: 12,
-    fontWeight: '800',
-  },
+      borderBottomLeftRadius:
+        30,
 
-  previewTitle: {
-    color:
-      colors.text,
+      borderBottomRightRadius:
+        42,
 
-    fontSize: 22,
-    fontWeight: '800',
+      ...shadow.button,
+    },
 
-    textAlign: 'center',
-  },
 
-  previewDescription: {
-    maxWidth: 520,
+    scannerIconText: {
+      color:
+        colors.text,
 
-    marginTop: 7,
+      fontSize:
+        26,
+    },
 
-    color:
-      colors.textSoft,
 
-    fontSize: 14,
-    lineHeight: 21,
+    scannerTitle: {
+      color:
+        colors.text,
 
-    textAlign: 'center',
-  },
+      fontSize:
+        21,
 
-  previewActions: {
-    width: '100%',
+      fontWeight:
+        '800',
 
-    gap: 10,
+      textAlign:
+        'center',
+    },
 
-    marginTop: 20,
-  },
 
+    scannerDescription: {
+      maxWidth:
+        390,
 
-  /* ======================================================
-     ANALYSE
-     ====================================================== */
+      marginTop:
+        5,
 
-  analysisContainer: {
-    minHeight: 330,
+      color:
+        colors.textSoft,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+      fontSize:
+        14,
 
-    paddingVertical: 24,
-  },
+      lineHeight:
+        21,
 
-  loadingDots: {
-    flexDirection: 'row',
+      textAlign:
+        'center',
+    },
 
-    gap: 9,
 
-    marginBottom: 20,
-  },
+    /* ======================================================
+       BUTTONS
+       ====================================================== */
 
-  loadingDot: {
-    width: 15,
-    height: 15,
+    actions: {
+      width:
+        '100%',
 
-    borderRadius:
-      radius.pill,
-  },
+      gap:
+        10,
 
-  loadingDotPurple: {
-    backgroundColor:
-      colors.lavenderStrong,
-  },
+      marginTop:
+        16,
+    },
 
-  loadingDotPink: {
-    backgroundColor:
-      colors.pinkStrong,
-  },
 
-  loadingDotMint: {
-    backgroundColor:
-      colors.mintStrong,
-  },
+    actionsWide: {
+      flexDirection:
+        'row',
 
-  analysisTitle: {
-    color:
-      colors.text,
+      justifyContent:
+        'center',
+    },
 
-    fontSize: 22,
-    fontWeight: '800',
 
-    textAlign: 'center',
-  },
+    button: {
+      minHeight:
+        54,
 
-  analysisDescription: {
-    marginTop: 5,
+      flexDirection:
+        'row',
 
-    color:
-      colors.textSoft,
+      alignItems:
+        'center',
 
-    fontSize: 14,
+      justifyContent:
+        'center',
 
-    textAlign: 'center',
-  },
+      gap:
+        8,
 
-  analysisSteps: {
-    width: '100%',
-    maxWidth: 460,
+      paddingHorizontal:
+        22,
 
-    gap: 9,
+      borderTopLeftRadius:
+        27,
 
-    marginTop: 24,
-  },
+      borderTopRightRadius:
+        32,
 
-  analysisStep: {
-    minHeight: 50,
+      borderBottomLeftRadius:
+        31,
 
-    flexDirection: 'row',
-    alignItems: 'center',
+      borderBottomRightRadius:
+        24,
+    },
 
-    gap: 11,
 
-    paddingHorizontal: 16,
+    primaryButton: {
+      backgroundColor:
+        colors.lavenderStrong,
 
-    backgroundColor:
-      'rgba(255,255,255,0.75)',
+      ...shadow.button,
+    },
 
-    borderRadius: 20,
 
-    borderWidth: 1,
+    secondaryButton: {
+      backgroundColor:
+        colors.pink,
 
-    borderColor:
-      colors.border,
-  },
+      ...shadow.button,
+    },
 
-  analysisStepActive: {
-    backgroundColor:
-      'rgba(223,204,255,0.72)',
-  },
 
-  analysisDot: {
-    width: 11,
-    height: 11,
+    changeImageButton: {
+      backgroundColor:
+        'rgba(255,255,255,0.82)',
 
-    borderRadius:
-      radius.pill,
+      borderWidth:
+        1,
 
-    backgroundColor:
-      '#D8D1DD',
-  },
+      borderColor:
+        colors.border,
+    },
 
-  analysisDotActive: {
-    backgroundColor:
-      colors.lavenderStrong,
-  },
 
-  analysisDotComplete: {
-    backgroundColor:
-      colors.success,
-  },
+    fullWidthButton: {
+      width:
+        '100%',
+    },
 
-  analysisStepText: {
-    color:
-      colors.textSoft,
 
-    fontSize: 13,
-    fontWeight: '700',
-  },
+    buttonPressed: {
+      opacity:
+        0.82,
 
+      transform: [
+        {
+          scale:
+            0.985,
+        },
+      ],
+    },
 
-  /* ======================================================
-     FOOTER
-     ====================================================== */
 
-  footer: {
-    marginTop:
-      spacing.xl,
+    primaryButtonIcon: {
+      fontSize:
+        17,
+    },
 
-    color:
-      colors.textFaint,
 
-    fontSize: 12,
+    primaryButtonText: {
+      color:
+        '#FFFFFF',
 
-    textAlign: 'center',
-  },
+      fontSize:
+        15,
 
-});
+      fontWeight:
+        '800',
+    },
+
+
+    secondaryButtonIcon: {
+      color:
+        colors.text,
+
+      fontSize:
+        18,
+    },
+
+
+    secondaryButtonText: {
+      color:
+        colors.text,
+
+      fontSize:
+        15,
+
+      fontWeight:
+        '800',
+    },
+
+
+    changeImageButtonText: {
+      color:
+        colors.textSoft,
+
+      fontSize:
+        14,
+
+      fontWeight:
+        '700',
+    },
+
+
+    forwardIcon: {
+      color:
+        '#FFFFFF',
+
+      fontSize:
+        19,
+
+      fontWeight:
+        '800',
+    },
+
+
+    /* ======================================================
+       PREVIEW
+       ====================================================== */
+
+    previewFrame: {
+      width:
+        '100%',
+
+      minHeight:
+        330,
+
+      maxHeight:
+        520,
+
+      padding:
+        14,
+
+      alignItems:
+        'center',
+
+      justifyContent:
+        'center',
+
+      backgroundColor:
+        'rgba(223,204,255,0.62)',
+
+      borderTopLeftRadius:
+        36,
+
+      borderTopRightRadius:
+        46,
+
+      borderBottomLeftRadius:
+        47,
+
+      borderBottomRightRadius:
+        34,
+
+      overflow:
+        'hidden',
+    },
+
+
+    previewImage: {
+      width:
+        '100%',
+
+      height:
+        440,
+
+      borderTopLeftRadius:
+        25,
+
+      borderTopRightRadius:
+        29,
+
+      borderBottomLeftRadius:
+        30,
+
+      borderBottomRightRadius:
+        22,
+
+      backgroundColor:
+        'rgba(255,255,255,0.62)',
+    },
+
+
+    previewInfo: {
+      marginTop:
+        18,
+
+      alignItems:
+        'center',
+    },
+
+
+    previewStatus: {
+      flexDirection:
+        'row',
+
+      alignItems:
+        'center',
+
+      gap:
+        7,
+
+      paddingHorizontal:
+        12,
+
+      paddingVertical:
+        7,
+
+      marginBottom:
+        13,
+
+      borderRadius:
+        radius.pill,
+
+      backgroundColor:
+        colors.mint,
+    },
+
+
+    previewStatusDot: {
+      width:
+        8,
+
+      height:
+        8,
+
+      borderRadius:
+        radius.pill,
+
+      backgroundColor:
+        colors.success,
+    },
+
+
+    previewStatusText: {
+      color:
+        colors.success,
+
+      fontSize:
+        12,
+
+      fontWeight:
+        '800',
+    },
+
+
+    previewTitle: {
+      color:
+        colors.text,
+
+      fontSize:
+        22,
+
+      fontWeight:
+        '800',
+
+      textAlign:
+        'center',
+    },
+
+
+    previewDescription: {
+      maxWidth:
+        520,
+
+      marginTop:
+        7,
+
+      color:
+        colors.textSoft,
+
+      fontSize:
+        14,
+
+      lineHeight:
+        21,
+
+      textAlign:
+        'center',
+    },
+
+
+    previewActions: {
+      width:
+        '100%',
+
+      gap:
+        10,
+
+      marginTop:
+        20,
+    },
+
+
+    /* ======================================================
+       ANALYSE
+       ====================================================== */
+
+    analysisContainer: {
+      minHeight:
+        330,
+
+      alignItems:
+        'center',
+
+      justifyContent:
+        'center',
+
+      paddingVertical:
+        24,
+    },
+
+
+    loadingDots: {
+      flexDirection:
+        'row',
+
+      gap:
+        9,
+
+      marginBottom:
+        20,
+    },
+
+
+    loadingDot: {
+      width:
+        15,
+
+      height:
+        15,
+
+      borderRadius:
+        radius.pill,
+    },
+
+
+    loadingDotPurple: {
+      backgroundColor:
+        colors.lavenderStrong,
+    },
+
+
+    loadingDotPink: {
+      backgroundColor:
+        colors.pinkStrong,
+    },
+
+
+    loadingDotMint: {
+      backgroundColor:
+        colors.mintStrong,
+    },
+
+
+    analysisTitle: {
+      color:
+        colors.text,
+
+      fontSize:
+        22,
+
+      fontWeight:
+        '800',
+
+      textAlign:
+        'center',
+    },
+
+
+    analysisDescription: {
+      marginTop:
+        5,
+
+      color:
+        colors.textSoft,
+
+      fontSize:
+        14,
+
+      textAlign:
+        'center',
+    },
+
+
+    analysisSteps: {
+      width:
+        '100%',
+
+      maxWidth:
+        460,
+
+      gap:
+        9,
+
+      marginTop:
+        24,
+    },
+
+
+    analysisStep: {
+      minHeight:
+        50,
+
+      flexDirection:
+        'row',
+
+      alignItems:
+        'center',
+
+      gap:
+        11,
+
+      paddingHorizontal:
+        16,
+
+      backgroundColor:
+        'rgba(255,255,255,0.75)',
+
+      borderRadius:
+        20,
+
+      borderWidth:
+        1,
+
+      borderColor:
+        colors.border,
+    },
+
+
+    analysisStepActive: {
+      backgroundColor:
+        'rgba(223,204,255,0.72)',
+    },
+
+
+    analysisDot: {
+      width:
+        11,
+
+      height:
+        11,
+
+      borderRadius:
+        radius.pill,
+
+      backgroundColor:
+        '#D8D1DD',
+    },
+
+
+    analysisDotActive: {
+      backgroundColor:
+        colors.lavenderStrong,
+    },
+
+
+    analysisDotComplete: {
+      backgroundColor:
+        colors.success,
+    },
+
+
+    analysisStepText: {
+      color:
+        colors.textSoft,
+
+      fontSize:
+        13,
+
+      fontWeight:
+        '700',
+    },
+
+
+    /* ======================================================
+       FOOTER
+       ====================================================== */
+
+    footer: {
+      marginTop:
+        spacing.xl,
+
+      color:
+        colors.textFaint,
+
+      fontSize:
+        12,
+
+      textAlign:
+        'center',
+    },
+
+  });

@@ -1,56 +1,201 @@
-import { StyleSheet, Text, View } from 'react-native';
+// mobile/src/components/PsyduckMascot.tsx
 
-import { colors, radius, shadow } from '@/constants/theme';
+import {
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+import {
+  colors,
+  radius,
+  shadow,
+} from '@/constants/theme';
+
+
+type PsyduckMood =
+  | 'default'
+  | 'sad';
+
 
 type PsyduckMascotProps = {
   message?: string;
+  mood?: PsyduckMood;
 };
 
+
 export function PsyduckMascot({
-  message = 'Zeig mir deine Karte – ich schau sie mir an!',
+  message =
+    'Zeig mir deine Karte – ich schau sie mir an!',
+
+  mood = 'default',
 }: PsyduckMascotProps) {
+
+  const isSad =
+    mood === 'sad';
+
+
   return (
     <View style={styles.wrapper}>
+
       <View
         style={styles.characterWrapper}
+
         accessible
-        accessibilityLabel="Enton, das Maskottchen der App"
+
+        accessibilityLabel={
+          isSad
+            ? 'Enton ist sich bei der Kartenerkennung nicht sicher'
+            : 'Enton, das Maskottchen der App'
+        }
       >
-        <View style={styles.psyduck}>
-          {/* Haare */}
-          <View style={[styles.hair, styles.hairLeft]} />
-          <View style={[styles.hair, styles.hairCenter]} />
-          <View style={[styles.hair, styles.hairRight]} />
 
-          {/* Augen */}
-          <View style={[styles.eye, styles.eyeLeft]} />
-          <View style={[styles.eye, styles.eyeRight]} />
+        <View
+          style={[
+            styles.psyduck,
 
-          {/* Schnabel */}
-          <View style={styles.beak}>
-            <View style={styles.beakLine} />
+            isSad &&
+              styles.psyduckSad,
+          ]}
+        >
+
+          <View
+            style={[
+              styles.hair,
+              styles.hairLeft,
+
+              isSad &&
+                styles.hairLeftSad,
+            ]}
+          />
+
+          <View
+            style={[
+              styles.hair,
+              styles.hairCenter,
+
+              isSad &&
+                styles.hairCenterSad,
+            ]}
+          />
+
+          <View
+            style={[
+              styles.hair,
+              styles.hairRight,
+
+              isSad &&
+                styles.hairRightSad,
+            ]}
+          />
+
+
+          <View
+            style={[
+              styles.eye,
+              styles.eyeLeft,
+
+              isSad &&
+                styles.eyeSad,
+
+              isSad &&
+                styles.eyeLeftSad,
+            ]}
+          />
+
+          <View
+            style={[
+              styles.eye,
+              styles.eyeRight,
+
+              isSad &&
+                styles.eyeSad,
+
+              isSad &&
+                styles.eyeRightSad,
+            ]}
+          />
+
+
+          {isSad && (
+            <View style={styles.tear} />
+          )}
+
+
+          <View
+            style={[
+              styles.beak,
+
+              isSad &&
+                styles.beakSad,
+            ]}
+          >
+
+            <View
+              style={[
+                styles.beakLine,
+
+                isSad &&
+                  styles.beakLineSad,
+              ]}
+            />
+
           </View>
+
         </View>
 
-        <View style={styles.yellowBubble} />
+
+        <View
+          style={[
+            styles.yellowBubble,
+
+            isSad &&
+              styles.yellowBubbleSad,
+          ]}
+        />
+
       </View>
 
-      <View style={styles.speechBubble}>
-        <View style={styles.speechPointer} />
+
+      <View
+        style={[
+          styles.speechBubble,
+
+          isSad &&
+            styles.speechBubbleSad,
+        ]}
+      >
+
+        <View
+          style={[
+            styles.speechPointer,
+
+            isSad &&
+              styles.speechPointerSad,
+          ]}
+        />
 
         <Text style={styles.speechTitle}>
-          Enton hilft mit
+
+          {isSad
+            ? 'Enton ist unsicher'
+            : 'Enton hilft mit'}
+
         </Text>
 
         <Text style={styles.speechText}>
           {message}
         </Text>
+
       </View>
+
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
+
   wrapper: {
     width: '100%',
 
@@ -60,8 +205,9 @@ const styles = StyleSheet.create({
 
     gap: 12,
 
-    marginTop: 22,
+    marginTop: 12,
   },
+
 
   characterWrapper: {
     position: 'relative',
@@ -73,6 +219,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+
   yellowBubble: {
     position: 'absolute',
 
@@ -81,9 +228,11 @@ const styles = StyleSheet.create({
 
     bottom: 0,
 
-    backgroundColor: 'rgba(255, 227, 106, 0.22)',
+    backgroundColor:
+      'rgba(255, 227, 106, 0.22)',
 
-    borderRadius: radius.bubble,
+    borderRadius:
+      radius.bubble,
 
     transform: [
       {
@@ -94,13 +243,20 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
 
+  yellowBubbleSad: {
+    backgroundColor:
+      'rgba(207, 238, 255, 0.40)',
+  },
+
+
   psyduck: {
     position: 'relative',
 
     width: 88,
     height: 82,
 
-    backgroundColor: colors.psyduckYellow,
+    backgroundColor:
+      colors.psyduckYellow,
 
     borderTopLeftRadius: 47,
     borderTopRightRadius: 42,
@@ -112,6 +268,15 @@ const styles = StyleSheet.create({
     ...shadow.card,
   },
 
+  psyduckSad: {
+    transform: [
+      {
+        rotate: '-4deg',
+      },
+    ],
+  },
+
+
   hair: {
     position: 'absolute',
 
@@ -120,9 +285,11 @@ const styles = StyleSheet.create({
     width: 4,
     height: 27,
 
-    borderRadius: radius.pill,
+    borderRadius:
+      radius.pill,
 
-    backgroundColor: colors.text,
+    backgroundColor:
+      colors.text,
   },
 
   hairLeft: {
@@ -151,6 +318,32 @@ const styles = StyleSheet.create({
     ],
   },
 
+
+  hairLeftSad: {
+    transform: [
+      {
+        rotate: '-35deg',
+      },
+    ],
+  },
+
+  hairCenterSad: {
+    transform: [
+      {
+        rotate: '-8deg',
+      },
+    ],
+  },
+
+  hairRightSad: {
+    transform: [
+      {
+        rotate: '12deg',
+      },
+    ],
+  },
+
+
   eye: {
     position: 'absolute',
 
@@ -159,9 +352,11 @@ const styles = StyleSheet.create({
     width: 8,
     height: 12,
 
-    backgroundColor: colors.text,
+    backgroundColor:
+      colors.text,
 
-    borderRadius: radius.pill,
+    borderRadius:
+      radius.pill,
   },
 
   eyeLeft: {
@@ -171,6 +366,60 @@ const styles = StyleSheet.create({
   eyeRight: {
     right: 25,
   },
+
+
+  eyeSad: {
+    width: 11,
+    height: 5,
+
+    top: 31,
+
+    borderRadius: 5,
+  },
+
+  eyeLeftSad: {
+    transform: [
+      {
+        rotate: '16deg',
+      },
+    ],
+  },
+
+  eyeRightSad: {
+    transform: [
+      {
+        rotate: '-16deg',
+      },
+    ],
+  },
+
+
+  tear: {
+    position: 'absolute',
+
+    top: 41,
+    right: 19,
+
+    width: 7,
+    height: 11,
+
+    backgroundColor:
+      colors.blueStrong,
+
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    borderBottomLeftRadius: 7,
+    borderBottomRightRadius: 2,
+
+    transform: [
+      {
+        rotate: '12deg',
+      },
+    ],
+
+    opacity: 0.8,
+  },
+
 
   beak: {
     position: 'absolute',
@@ -182,11 +431,23 @@ const styles = StyleSheet.create({
 
     borderRadius: 22,
 
-    backgroundColor: colors.psyduckBeak,
+    backgroundColor:
+      colors.psyduckBeak,
 
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  beakSad: {
+    bottom: 7,
+
+    transform: [
+      {
+        rotate: '-3deg',
+      },
+    ],
+  },
+
 
   beakLine: {
     width: 28,
@@ -194,10 +455,25 @@ const styles = StyleSheet.create({
 
     marginTop: 5,
 
-    borderRadius: radius.pill,
+    borderRadius:
+      radius.pill,
 
-    backgroundColor: 'rgba(92, 62, 42, 0.25)',
+    backgroundColor:
+      'rgba(92, 62, 42, 0.25)',
   },
+
+  beakLineSad: {
+    width: 23,
+
+    marginTop: 2,
+
+    transform: [
+      {
+        rotate: '-5deg',
+      },
+    ],
+  },
+
 
   speechBubble: {
     position: 'relative',
@@ -210,10 +486,17 @@ const styles = StyleSheet.create({
 
     borderRadius: 28,
 
-    backgroundColor: '#FFF2B8',
+    backgroundColor:
+      '#FFF2B8',
 
     ...shadow.card,
   },
+
+  speechBubbleSad: {
+    backgroundColor:
+      '#E8F4FF',
+  },
+
 
   speechPointer: {
     position: 'absolute',
@@ -224,7 +507,8 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
 
-    backgroundColor: '#FFF2B8',
+    backgroundColor:
+      '#FFF2B8',
 
     transform: [
       {
@@ -233,8 +517,15 @@ const styles = StyleSheet.create({
     ],
   },
 
+  speechPointerSad: {
+    backgroundColor:
+      '#E8F4FF',
+  },
+
+
   speechTitle: {
-    color: colors.text,
+    color:
+      colors.text,
 
     fontSize: 14,
     fontWeight: '800',
@@ -243,9 +534,11 @@ const styles = StyleSheet.create({
   },
 
   speechText: {
-    color: colors.textSoft,
+    color:
+      colors.textSoft,
 
     fontSize: 13,
     lineHeight: 18,
   },
+
 });

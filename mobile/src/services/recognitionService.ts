@@ -1,7 +1,9 @@
+// mobile/src/services/recognitionService.ts
+
 import {
   CardPrice,
   CardVariant,
-  RecognitionResult,
+  RecognitionResponse,
 } from '@/types/recognition';
 
 
@@ -10,36 +12,41 @@ import {
  * MOCK-SERVICE
  * ========================================================
  *
- * WICHTIG:
+ * Für den aktuellen Test verwenden wir absichtlich
+ * den Unsicherheitsfall.
  *
- * Die UI kennt später nur diese Funktionen:
- *
- * recognizeCard(...)
- * getCardPrice(...)
- *
- * Sobald FastAPI fertig ist, ändern wir nur den Inhalt
- * dieser Datei.
- *
- * Die Screens und Komponenten können gleich bleiben.
+ * Später wird diese Datei durch die echte
+ * FastAPI-Kommunikation ersetzt.
  */
 
 
-const wait = (milliseconds: number) =>
+/*
+ * Zum Testen:
+ *
+ * 'uncertain'
+ * → Top-3-Auswahl
+ *
+ * 'success'
+ * → direkter Treffer
+ */
+const MOCK_RECOGNITION_MODE: string =
+  'uncertain';
+
+
+const wait = (
+  milliseconds: number,
+) =>
   new Promise<void>((resolve) => {
-    setTimeout(resolve, milliseconds);
+    setTimeout(
+      resolve,
+      milliseconds,
+    );
   });
 
 
 export async function recognizeCard(
   imageUri: string,
-): Promise<RecognitionResult> {
-
-  /*
-   * Noch wird das Bild nicht wirklich analysiert.
-   *
-   * Wir behalten imageUri als Parameter, weil später
-   * genau dieses Bild an FastAPI geschickt wird.
-   */
+): Promise<RecognitionResponse> {
 
   console.log(
     'Mock recognition for:',
@@ -48,67 +55,229 @@ export async function recognizeCard(
 
 
   /*
-   * Simuliert die Zeit für:
+   * Simuliert:
    *
    * YOLO
    * OpenCV
    * ResNet18
-   * Similarity Search
+   * Embedding Search
    */
 
   await wait(2800);
 
 
+  /* ======================================================
+     EINDEUTIGER TREFFER
+     ====================================================== */
+
+  if (
+    MOCK_RECOGNITION_MODE ===
+    'success'
+  ) {
+    return {
+      status: 'success',
+
+      card: {
+        card_id: 'swsh8-1',
+
+        name: 'Caterpie',
+
+        set_id: 'swsh8',
+        set_name: 'Fusion Strike',
+
+        number: '1',
+        rarity: 'Common',
+
+        supertype: 'Pokémon',
+
+        subtypes: [
+          'Basic',
+        ],
+
+        types: [
+          'Grass',
+        ],
+
+        artist: 'Mitsuhiro Arita',
+
+        release_date:
+          '2021-11-12',
+
+        image_url:
+          'https://images.pokemontcg.io/swsh8/1_hires.png',
+      },
+
+      recognition: {
+        similarity: 0.963,
+        margin: 0.087,
+      },
+
+      variants: [
+        'normal',
+        'holo',
+        'reverse_holo',
+      ],
+    };
+  }
+
+
+  /* ======================================================
+     UNSICHERER TREFFER
+     ====================================================== */
+
   return {
-    status: 'success',
+    status: 'uncertain',
 
-    card: {
-      card_id: 'swsh8-1',
+    candidates: [
 
-      name: 'Caterpie',
+      {
+        card: {
+          card_id: 'swsh8-1',
 
-      set_id: 'swsh8',
-      set_name: 'Fusion Strike',
+          name: 'Caterpie',
 
-      number: '1',
-      rarity: 'Common',
+          set_id: 'swsh8',
+          set_name:
+            'Fusion Strike',
 
-      supertype: 'Pokémon',
+          number: '1',
+          rarity: 'Common',
 
-      subtypes: [
-        'Basic',
-      ],
+          supertype:
+            'Pokémon',
 
-      types: [
-        'Grass',
-      ],
+          subtypes: [
+            'Basic',
+          ],
 
-      artist: 'Mitsuhiro Arita',
+          types: [
+            'Grass',
+          ],
 
-      release_date: '2021-11-12',
+          artist:
+            'Mitsuhiro Arita',
 
-      image_url: null,
-    },
+          release_date:
+            '2021-11-12',
 
-    recognition: {
-      similarity: 0.963,
-      margin: 0.087,
-    },
+          image_url:
+            'https://images.pokemontcg.io/swsh8/1_hires.png',
+        },
 
-    variants: [
-      'normal',
-      'holo',
-      'reverse_holo',
+        recognition: {
+          similarity: 0.914,
+          margin: 0.008,
+        },
+
+        variants: [
+          'normal',
+          'holo',
+          'reverse_holo',
+        ],
+      },
+
+
+      {
+        card: {
+          card_id: 'swsh8-2',
+
+          name: 'Metapod',
+
+          set_id: 'swsh8',
+          set_name:
+            'Fusion Strike',
+
+          number: '2',
+          rarity: 'Uncommon',
+
+          supertype:
+            'Pokémon',
+
+          subtypes: [
+            'Stage 1',
+          ],
+
+          types: [
+            'Grass',
+          ],
+
+          artist:
+            'Miki Tanaka',
+
+          release_date:
+            '2021-11-12',
+
+          image_url:
+            'https://images.pokemontcg.io/swsh8/2_hires.png',
+        },
+
+        recognition: {
+          similarity: 0.906,
+          margin: 0.006,
+        },
+
+        variants: [
+          'normal',
+          'holo',
+          'reverse_holo',
+        ],
+      },
+
+
+      {
+        card: {
+          card_id: 'swsh8-3',
+
+          name: 'Butterfree',
+
+          set_id: 'swsh8',
+          set_name:
+            'Fusion Strike',
+
+          number: '3',
+          rarity: 'Rare',
+
+          supertype:
+            'Pokémon',
+
+          subtypes: [
+            'Stage 2',
+          ],
+
+          types: [
+            'Grass',
+          ],
+
+          artist:
+            'Pokémon Card Artist',
+
+          release_date:
+            '2021-11-12',
+
+          image_url:
+            'https://images.pokemontcg.io/swsh8/3_hires.png',
+        },
+
+        recognition: {
+          similarity: 0.897,
+          margin: 0.005,
+        },
+
+        variants: [
+          'normal',
+          'holo',
+          'reverse_holo',
+        ],
+      },
+
     ],
   };
 }
 
 
-/*
- * ========================================================
- * PREISSERVICE
- * ========================================================
- */
+/* ========================================================
+   PREISSERVICE
+   ======================================================== */
 
 export async function getCardPrice(
   cardId: string,
@@ -118,21 +287,18 @@ export async function getCardPrice(
   await wait(800);
 
 
-  /*
-   * Nur temporäre Testpreise.
-   *
-   * Später:
-   *
-   * FastAPI
-   *   ↓
-   * Supabase / PriceService
-   */
+  const prices:
+    Record<
+      CardVariant,
+      number
+    > = {
 
-  const prices: Record<CardVariant, number> = {
-    normal: 1.29,
-    holo: 4.89,
-    reverse_holo: 2.79,
-  };
+      normal: 1.29,
+
+      holo: 4.89,
+
+      reverse_holo: 2.79,
+    };
 
 
   return {
