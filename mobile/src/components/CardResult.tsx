@@ -1328,11 +1328,11 @@ const styles = StyleSheet.create({
   },
 
   variantGrid: {
+    flexDirection: 'row',
     gap: 9,
   },
 
   variantGridMobile: {
-    flexDirection: 'row',
     gap: 7,
   },
 

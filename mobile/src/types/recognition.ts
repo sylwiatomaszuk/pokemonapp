@@ -35,8 +35,11 @@ export type RecognitionInfo = {
 
 
 /*
- * Eindeutiger Treffer.
+ * ========================================================
+ * EINDEUTIGER TREFFER
+ * ========================================================
  */
+
 export type RecognitionResult = {
   status: 'success';
 
@@ -49,9 +52,11 @@ export type RecognitionResult = {
 
 
 /*
- * Einzelner Kandidat bei einer
- * unsicheren Erkennung.
+ * ========================================================
+ * UNSICHERER TREFFER
+ * ========================================================
  */
+
 export type RecognitionCandidate = {
   card: PokemonCard;
 
@@ -61,9 +66,6 @@ export type RecognitionCandidate = {
 };
 
 
-/*
- * Mehrere mögliche Treffer.
- */
 export type UncertainRecognitionResult = {
   status: 'uncertain';
 
@@ -72,19 +74,50 @@ export type UncertainRecognitionResult = {
 
 
 /*
- * Das ist die Antwort, die unsere
- * Erkennung insgesamt liefern kann.
+ * ========================================================
+ * KEIN TREFFER
+ * ========================================================
  */
+
+export type NotFoundReason =
+  | 'no_card_detected'
+  | 'no_matching_card';
+
+
+export type NotFoundRecognitionResult = {
+  status: 'not_found';
+
+  reason?: NotFoundReason;
+
+  message?: string;
+};
+
+
+/*
+ * ========================================================
+ * GESAMTE ERKENNUNGSANTWORT
+ * ========================================================
+ */
+
 export type RecognitionResponse =
   | RecognitionResult
-  | UncertainRecognitionResult;
+  | UncertainRecognitionResult
+  | NotFoundRecognitionResult;
 
+
+/*
+ * ========================================================
+ * PREIS
+ * ========================================================
+ */
 
 export type CardPrice = {
   card_id: string;
+
   variant: CardVariant;
 
   price: number;
+
   currency: 'EUR';
 
   updated_at: string;

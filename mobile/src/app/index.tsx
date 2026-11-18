@@ -7,10 +7,11 @@ import {
 } from 'react';
 
 import {
+  ActivityIndicator,
   Alert,
   Image,
   Linking,
-  Platform,
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -27,6 +28,11 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 
+import {
+  CameraView,
+  useCameraPermissions,
+} from 'expo-camera';
+
 import * as ImagePicker from 'expo-image-picker';
 
 import {
@@ -36,6 +42,10 @@ import {
 import {
   CardResult,
 } from '@/components/CardResult';
+
+import {
+  NotFoundResult,
+} from '@/components/NotFoundResult';
 
 import {
   PsyduckMascot,
@@ -81,7 +91,7 @@ export default function HomeScreen() {
 
 
   /* ======================================================
-     STATES
+     BILD / ERKENNUNG
      ====================================================== */
 
   const [
@@ -110,7 +120,9 @@ export default function HomeScreen() {
     isAnalyzing,
     setIsAnalyzing,
   ] =
-    useState(false);
+    useState(
+      false,
+    );
 
 
   const [
@@ -129,11 +141,57 @@ export default function HomeScreen() {
     analysisStep,
     setAnalysisStep,
   ] =
-    useState(0);
+    useState(
+      0,
+    );
 
 
   /* ======================================================
-     AKTUELLE SEITE
+     IN-APP-KAMERA
+     ====================================================== */
+
+  const [
+    cameraVisible,
+    setCameraVisible,
+  ] =
+    useState(
+      false,
+    );
+
+
+  const [
+    cameraReady,
+    setCameraReady,
+  ] =
+    useState(
+      false,
+    );
+
+
+  const [
+    cameraBusy,
+    setCameraBusy,
+  ] =
+    useState(
+      false,
+    );
+
+
+  const [
+    cameraPermission,
+    requestCameraPermission,
+  ] =
+    useCameraPermissions();
+
+
+  const cameraRef =
+    useRef<CameraView | null>(
+      null,
+    );
+
+
+  /* ======================================================
+     AKTUELLER SCREEN
      ====================================================== */
 
   const currentScreen =
@@ -145,17 +203,21 @@ export default function HomeScreen() {
         'success'
         ? 'success'
 
-        : isAnalyzing
-          ? 'analyzing'
+        : recognitionResult?.status ===
+          'not_found'
+          ? 'not_found'
 
-          : selectedImage
-            ? 'preview'
+          : isAnalyzing
+            ? 'analyzing'
 
-            : 'start';
+            : selectedImage
+              ? 'preview'
+
+              : 'start';
 
 
   /* ======================================================
-     BEI JEDEM SEITENWECHSEL NACH OBEN
+     BEI SCREENWECHSEL NACH OBEN
      ====================================================== */
 
   useEffect(
@@ -177,9 +239,11 @@ export default function HomeScreen() {
 
 
       return () => {
+
         cancelAnimationFrame(
           frame,
         );
+
       };
 
     },
@@ -190,7 +254,7 @@ export default function HomeScreen() {
 
 
   /* ======================================================
-     KAMERA
+     KAMERA ÖFFNEN
      ====================================================== */
 
   const openCamera =
@@ -198,18 +262,26 @@ export default function HomeScreen() {
 
       try {
 
+        let granted =
+          cameraPermission
+            ?.granted ??
+          false;
+
+
         if (
-          Platform.OS !==
-          'web'
+          !granted
         ) {
 
           const permission =
-            await ImagePicker
-              .requestCameraPermissionsAsync();
+            await requestCameraPermission();
+
+
+          granted =
+            permission.granted;
 
 
           if (
-            !permission.granted
+            !granted
           ) {
 
             if (
@@ -237,8 +309,10 @@ export default function HomeScreen() {
 
                     onPress:
                       () => {
+
                         Linking
                           .openSettings();
+
                       },
                   },
                 ],
@@ -262,68 +336,24 @@ export default function HomeScreen() {
         }
 
 
-        const result =
-          await ImagePicker
-            .launchCameraAsync({
-
-              mediaTypes: [
-                'images',
-              ],
-
-              allowsEditing:
-                false,
-
-              quality: 1,
-
-            });
-
-
-        if (
-          result.canceled
-        ) {
-          return;
-        }
-
-
-        const image =
-          result.assets[0];
-
-
-        if (
-          !image?.uri
-        ) {
-
-          Alert.alert(
-            'Foto konnte nicht geladen werden',
-
-            'Bitte versuche es noch einmal.',
-          );
-
-          return;
-
-        }
-
-
-        setSelectedImage(
-          image.uri,
+        setCameraReady(
+          false,
         );
 
-        setImageSource(
-          'camera',
+
+        setCameraBusy(
+          false,
         );
 
-        setRecognitionResult(
-          null,
-        );
 
-        setAnalysisStep(
-          0,
+        setCameraVisible(
+          true,
         );
 
       } catch (error) {
 
         console.error(
-          'Fehler beim Öffnen der Kamera:',
+          'Kamera konnte nicht geöffnet werden:',
           error,
         );
 
@@ -335,6 +365,137 @@ export default function HomeScreen() {
         );
 
       }
+
+    };
+
+
+  /* ======================================================
+     FOTO MIT IN-APP-KAMERA AUFNEHMEN
+     ====================================================== */
+
+  const takePhoto =
+    async () => {
+
+      if (
+        !cameraRef.current ||
+        !cameraReady ||
+        cameraBusy
+      ) {
+        return;
+      }
+
+
+      try {
+
+        setCameraBusy(
+          true,
+        );
+
+
+        const picture =
+          await cameraRef
+            .current
+            .takePictureAsync({
+
+              quality:
+                1,
+
+              skipProcessing:
+                false,
+
+              shutterSound:
+                true,
+
+            });
+
+
+        if (
+          !picture?.uri
+        ) {
+
+          throw new Error(
+            'Kein Kamerabild erhalten.',
+          );
+
+        }
+
+
+        setSelectedImage(
+          picture.uri,
+        );
+
+
+        setImageSource(
+          'camera',
+        );
+
+
+        setRecognitionResult(
+          null,
+        );
+
+
+        setAnalysisStep(
+          0,
+        );
+
+
+        setCameraVisible(
+          false,
+        );
+
+
+        setCameraReady(
+          false,
+        );
+
+      } catch (error) {
+
+        console.error(
+          'Foto konnte nicht aufgenommen werden:',
+          error,
+        );
+
+
+        Alert.alert(
+          'Foto konnte nicht aufgenommen werden',
+
+          'Bitte versuche es erneut.',
+        );
+
+      } finally {
+
+        setCameraBusy(
+          false,
+        );
+
+      }
+
+    };
+
+
+  /* ======================================================
+     KAMERA SCHLIESSEN
+     ====================================================== */
+
+  const closeCamera =
+    () => {
+
+      if (
+        cameraBusy
+      ) {
+        return;
+      }
+
+
+      setCameraVisible(
+        false,
+      );
+
+
+      setCameraReady(
+        false,
+      );
 
     };
 
@@ -359,7 +520,8 @@ export default function HomeScreen() {
               allowsEditing:
                 false,
 
-              quality: 1,
+              quality:
+                1,
 
             });
 
@@ -394,13 +556,16 @@ export default function HomeScreen() {
           image.uri,
         );
 
+
         setImageSource(
           'gallery',
         );
 
+
         setRecognitionResult(
           null,
         );
+
 
         setAnalysisStep(
           0,
@@ -426,7 +591,7 @@ export default function HomeScreen() {
 
 
   /* ======================================================
-     RESET / STARTSEITE
+     RESET
      ====================================================== */
 
   const resetImage =
@@ -436,17 +601,21 @@ export default function HomeScreen() {
         null,
       );
 
+
       setImageSource(
         null,
       );
+
 
       setRecognitionResult(
         null,
       );
 
+
       setAnalysisStep(
         0,
       );
+
 
       setIsAnalyzing(
         false,
@@ -489,9 +658,11 @@ export default function HomeScreen() {
           true,
         );
 
+
         setRecognitionResult(
           null,
         );
+
 
         setAnalysisStep(
           0,
@@ -526,10 +697,43 @@ export default function HomeScreen() {
           );
 
 
-        const result =
-          await recognizeCard(
-            selectedImage,
-          );
+        /*
+         * Die Analyseanzeige bleibt mindestens
+         * 2,5 Sekunden sichtbar.
+         *
+         * Wenn das echte Backend später länger
+         * braucht, warten wir automatisch länger.
+         *
+         * Beispiel:
+         *
+         * Backend = 0,4 Sekunden
+         * → Anzeige = 2,5 Sekunden
+         *
+         * Backend = 4 Sekunden
+         * → Anzeige = 4 Sekunden
+         */
+
+        const [
+          result,
+        ] =
+          await Promise.all([
+
+            recognizeCard(
+              selectedImage,
+            ),
+
+            new Promise<void>(
+              (resolve) => {
+
+                setTimeout(
+                  resolve,
+                  2500,
+                );
+
+              },
+            ),
+
+          ]);
 
 
         setAnalysisStep(
@@ -560,18 +764,22 @@ export default function HomeScreen() {
         if (
           stepOne
         ) {
+
           clearTimeout(
             stepOne,
           );
+
         }
 
 
         if (
           stepTwo
         ) {
+
           clearTimeout(
             stepTwo,
           );
+
         }
 
 
@@ -595,6 +803,7 @@ export default function HomeScreen() {
     ) => {
 
       setRecognitionResult({
+
         status:
           'success',
 
@@ -606,6 +815,7 @@ export default function HomeScreen() {
 
         variants:
           candidate.variants,
+
       });
 
     };
@@ -620,24 +830,36 @@ export default function HomeScreen() {
     'uncertain';
 
 
+  const isNotFound =
+    recognitionResult?.status ===
+    'not_found';
+
+
   const psyduckMessage =
     isAnalyzing
       ? 'Hmm … einen Moment. Ich vergleiche deine Karte gerade.'
 
-      : isUncertain
-        ? 'Oh je … bei diesen Karten bin ich mir nicht ganz sicher. Hilfst du mir?'
+      : isNotFound
+        ? recognitionResult.reason ===
+          'no_card_detected'
+          ? 'Hmm … ich kann auf dem Bild keine Karte erkennen. Versuch es einfach noch einmal.'
+          : 'Oh je … ich finde leider keine passende Karte in meinen Referenzen.'
 
-        : recognitionResult?.status ===
-          'success'
-          ? 'Ich glaube, die habe ich gefunden!'
+        : isUncertain
+          ? 'Oh je … bei diesen Karten bin ich mir nicht ganz sicher. Hilfst du mir?'
 
-          : selectedImage
-            ? 'Sieht gut aus! Wenn die ganze Karte zu sehen ist, können wir loslegen.'
+          : recognitionResult?.status ===
+            'success'
+            ? 'Ich glaube, die habe ich gefunden!'
 
-            : 'Zeig mir deine Karte – ich schau sie mir an!';
+            : selectedImage
+              ? 'Sieht gut aus! Wenn die ganze Karte zu sehen ist, können wir loslegen.'
+
+              : 'Zeig mir deine Karte – ich schau sie mir an!';
 
 
   return (
+
     <SafeAreaView
       style={
         styles.safeArea
@@ -649,10 +871,6 @@ export default function HomeScreen() {
         'right',
       ]}
     >
-
-      {/* ==================================================
-          HINTERGRUND
-          ================================================== */}
 
       <View
         pointerEvents="none"
@@ -708,10 +926,6 @@ export default function HomeScreen() {
         keyboardShouldPersistTaps="handled"
       >
 
-        {/* ==================================================
-            HEADER
-            ================================================== */}
-
         <View style={styles.header}>
 
           <Pressable
@@ -726,10 +940,12 @@ export default function HomeScreen() {
             style={({
               pressed,
             }) => [
+
               styles.brand,
 
               pressed &&
                 styles.brandPressed,
+
             ]}
           >
 
@@ -764,10 +980,6 @@ export default function HomeScreen() {
         </View>
 
 
-        {/* ==================================================
-            HERO
-            ================================================== */}
-
         <View
           style={[
             styles.hero,
@@ -783,11 +995,15 @@ export default function HomeScreen() {
 
 
           <Text
-            numberOfLines={1}
+            numberOfLines={
+              1
+            }
 
             adjustsFontSizeToFit
 
-            minimumFontScale={0.75}
+            minimumFontScale={
+              0.75
+            }
 
             style={[
               styles.title,
@@ -825,18 +1041,18 @@ export default function HomeScreen() {
             }
 
             mood={
-              isUncertain
-                ? 'sad'
-                : 'default'
+              isNotFound
+                ? 'confused'
+
+                : isUncertain
+                  ? 'sad'
+
+                  : 'default'
             }
           />
 
         </View>
 
-
-        {/* ==================================================
-            SCANNER
-            ================================================== */}
 
         {!recognitionResult && (
 
@@ -865,10 +1081,6 @@ export default function HomeScreen() {
 
             </View>
 
-
-            {/* ==============================================
-                KEIN BILD
-                ============================================== */}
 
             {!selectedImage &&
               !isAnalyzing && (
@@ -984,10 +1196,6 @@ export default function HomeScreen() {
 
             )}
 
-
-            {/* ==============================================
-                PREVIEW
-                ============================================== */}
 
             {selectedImage &&
               !isAnalyzing &&
@@ -1130,10 +1338,6 @@ export default function HomeScreen() {
 
             )}
 
-
-            {/* ==============================================
-                ANALYSE
-                ============================================== */}
 
             {isAnalyzing && (
 
@@ -1280,9 +1484,34 @@ export default function HomeScreen() {
         )}
 
 
-        {/* ==================================================
-            UNSICHERER TREFFER
-            ================================================== */}
+        {recognitionResult?.status ===
+          'not_found' &&
+          selectedImage && (
+
+          <NotFoundResult
+            result={
+              recognitionResult
+            }
+
+            originalImageUri={
+              selectedImage
+            }
+
+            onCamera={
+              openCamera
+            }
+
+            onGallery={
+              openGallery
+            }
+
+            onReset={
+              resetImage
+            }
+          />
+
+        )}
+
 
         {recognitionResult?.status ===
           'uncertain' &&
@@ -1309,10 +1538,6 @@ export default function HomeScreen() {
         )}
 
 
-        {/* ==================================================
-            EINDEUTIGER TREFFER
-            ================================================== */}
-
         {recognitionResult?.status ===
           'success' &&
           selectedImage && (
@@ -1334,10 +1559,6 @@ export default function HomeScreen() {
         )}
 
 
-        {/* ==================================================
-            FOOTER
-            ================================================== */}
-
         <Text style={styles.footer}>
           Studienprojekt zur optischen
           Pokémon-Kartenerkennung
@@ -1345,38 +1566,238 @@ export default function HomeScreen() {
 
       </ScrollView>
 
+
+      <Modal
+        visible={
+          cameraVisible
+        }
+
+        animationType="fade"
+
+        presentationStyle="fullScreen"
+
+        statusBarTranslucent
+
+        onRequestClose={
+          closeCamera
+        }
+      >
+
+        <View style={styles.cameraScreen}>
+
+          <CameraView
+            ref={
+              cameraRef
+            }
+
+            style={
+              StyleSheet.absoluteFill
+            }
+
+            facing="back"
+
+            onCameraReady={() => {
+
+              setCameraReady(
+                true,
+              );
+
+            }}
+
+            onMountError={(error) => {
+
+              console.error(
+                'Camera mount error:',
+                error,
+              );
+
+
+              setCameraVisible(
+                false,
+              );
+
+
+              setCameraReady(
+                false,
+              );
+
+
+              Alert.alert(
+                'Kamerafehler',
+
+                'Die Kamera konnte nicht gestartet werden.',
+              );
+
+            }}
+          />
+
+
+          <SafeAreaView
+            style={
+              styles.cameraOverlay
+            }
+
+            edges={[
+              'top',
+              'bottom',
+              'left',
+              'right',
+            ]}
+          >
+
+            <View style={styles.cameraTopBar}>
+
+              <Pressable
+                accessibilityRole="button"
+
+                accessibilityLabel="Kamera schließen"
+
+                disabled={
+                  cameraBusy
+                }
+
+                onPress={
+                  closeCamera
+                }
+
+                style={({
+                  pressed,
+                }) => [
+
+                  styles.cameraCloseButton,
+
+                  pressed &&
+                    !cameraBusy &&
+                    styles.cameraButtonPressed,
+
+                ]}
+              >
+
+                <Text style={styles.cameraCloseText}>
+                  ×
+                </Text>
+
+              </Pressable>
+
+
+              <Text
+                numberOfLines={
+                  1
+                }
+
+                style={
+                  styles.cameraTitle
+                }
+              >
+                Pokémon-Karte fotografieren
+              </Text>
+
+
+              <View style={styles.cameraTopSpacer} />
+
+            </View>
+
+
+            <View style={styles.cameraBottomBar}>
+
+              <Text style={styles.cameraHint}>
+                Halte die gesamte Karte möglichst
+                gut sichtbar ins Bild.
+              </Text>
+
+
+              <Pressable
+                accessibilityRole="button"
+
+                accessibilityLabel="Foto aufnehmen"
+
+                disabled={
+                  !cameraReady ||
+                  cameraBusy
+                }
+
+                onPress={
+                  takePhoto
+                }
+
+                style={({
+                  pressed,
+                }) => [
+
+                  styles.shutterOuter,
+
+                  (
+                    !cameraReady ||
+                    cameraBusy
+                  ) &&
+                    styles.shutterDisabled,
+
+                  pressed &&
+                    cameraReady &&
+                    !cameraBusy &&
+                    styles.shutterPressed,
+
+                ]}
+              >
+
+                {cameraBusy ? (
+
+                  <ActivityIndicator
+                    size="large"
+
+                    color="#FFFFFF"
+                  />
+
+                ) : (
+
+                  <View style={styles.shutterInner} />
+
+                )}
+
+              </Pressable>
+
+            </View>
+
+          </SafeAreaView>
+
+        </View>
+
+      </Modal>
+
     </SafeAreaView>
+
   );
+
 }
 
 
 const styles =
   StyleSheet.create({
 
-    /* ======================================================
-       BASIS
-       ====================================================== */
-
     safeArea: {
-      flex: 1,
+      flex:
+        1,
 
       backgroundColor:
         colors.background,
     },
 
 
-    /* ======================================================
-       HINTERGRUND
-       ====================================================== */
-
     background: {
       position:
         'absolute',
 
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      top:
+        0,
+
+      right:
+        0,
+
+      bottom:
+        0,
+
+      left:
+        0,
 
       overflow:
         'hidden',
@@ -1396,11 +1817,17 @@ const styles =
 
 
     bubblePink: {
-      width: 290,
-      height: 290,
+      width:
+        290,
 
-      top: -145,
-      right: -115,
+      height:
+        290,
+
+      top:
+        -145,
+
+      right:
+        -115,
 
       backgroundColor:
         colors.pink,
@@ -1408,11 +1835,17 @@ const styles =
 
 
     bubbleLavender: {
-      width: 240,
-      height: 240,
+      width:
+        240,
 
-      left: -150,
-      top: '42%',
+      height:
+        240,
+
+      left:
+        -150,
+
+      top:
+        '42%',
 
       backgroundColor:
         colors.lavender,
@@ -1420,23 +1853,26 @@ const styles =
 
 
     bubbleMint: {
-      width: 230,
-      height: 230,
+      width:
+        230,
 
-      right: -135,
-      bottom: -110,
+      height:
+        230,
+
+      right:
+        -135,
+
+      bottom:
+        -110,
 
       backgroundColor:
         colors.mint,
     },
 
 
-    /* ======================================================
-       LAYOUT
-       ====================================================== */
-
     scrollContent: {
-      width: '100%',
+      width:
+        '100%',
 
       paddingHorizontal:
         spacing.md,
@@ -1460,10 +1896,6 @@ const styles =
         spacing.lg,
     },
 
-
-    /* ======================================================
-       HEADER
-       ====================================================== */
 
     header: {
       minHeight:
@@ -1490,7 +1922,8 @@ const styles =
       alignItems:
         'center',
 
-      gap: 10,
+      gap:
+        10,
     },
 
 
@@ -1508,8 +1941,11 @@ const styles =
 
 
     brandIcon: {
-      width: 42,
-      height: 42,
+      width:
+        42,
+
+      height:
+        42,
 
       alignItems:
         'center',
@@ -1540,7 +1976,8 @@ const styles =
       color:
         colors.text,
 
-      fontSize: 18,
+      fontSize:
+        18,
 
       fontWeight:
         '800',
@@ -1551,7 +1988,8 @@ const styles =
       color:
         colors.text,
 
-      fontSize: 17,
+      fontSize:
+        17,
 
       fontWeight:
         '800',
@@ -1586,16 +2024,13 @@ const styles =
       color:
         colors.textSoft,
 
-      fontSize: 12,
+      fontSize:
+        12,
 
       fontWeight:
         '700',
     },
 
-
-    /* ======================================================
-       HERO
-       ====================================================== */
 
     hero: {
       width:
@@ -1631,7 +2066,8 @@ const styles =
       color:
         colors.lavenderStrong,
 
-      fontSize: 12,
+      fontSize:
+        12,
 
       fontWeight:
         '800',
@@ -1721,10 +2157,6 @@ const styles =
         20,
     },
 
-
-    /* ======================================================
-       SCANNER
-       ====================================================== */
 
     scannerCard: {
       width:
@@ -1925,10 +2357,6 @@ const styles =
     },
 
 
-    /* ======================================================
-       BUTTONS
-       ====================================================== */
-
     actions: {
       width:
         '100%',
@@ -2092,10 +2520,6 @@ const styles =
         '800',
     },
 
-
-    /* ======================================================
-       PREVIEW
-       ====================================================== */
 
     previewFrame: {
       width:
@@ -2270,10 +2694,6 @@ const styles =
         20,
     },
 
-
-    /* ======================================================
-       ANALYSE
-       ====================================================== */
 
     analysisContainer: {
       minHeight:
@@ -2452,9 +2872,230 @@ const styles =
     },
 
 
-    /* ======================================================
-       FOOTER
-       ====================================================== */
+    cameraScreen: {
+      flex:
+        1,
+
+      backgroundColor:
+        '#000000',
+    },
+
+
+    cameraOverlay: {
+      flex:
+        1,
+
+      justifyContent:
+        'space-between',
+
+      backgroundColor:
+        'transparent',
+    },
+
+
+    cameraTopBar: {
+      minHeight:
+        66,
+
+      flexDirection:
+        'row',
+
+      alignItems:
+        'center',
+
+      justifyContent:
+        'space-between',
+
+      paddingHorizontal:
+        14,
+
+      paddingVertical:
+        8,
+
+      backgroundColor:
+        'rgba(0,0,0,0.28)',
+    },
+
+
+    cameraCloseButton: {
+      width:
+        44,
+
+      height:
+        44,
+
+      alignItems:
+        'center',
+
+      justifyContent:
+        'center',
+
+      borderRadius:
+        22,
+
+      backgroundColor:
+        'rgba(0,0,0,0.38)',
+    },
+
+
+    cameraCloseText: {
+      color:
+        '#FFFFFF',
+
+      fontSize:
+        32,
+
+      lineHeight:
+        34,
+
+      fontWeight:
+        '400',
+    },
+
+
+    cameraTitle: {
+      flex:
+        1,
+
+      paddingHorizontal:
+        8,
+
+      color:
+        '#FFFFFF',
+
+      fontSize:
+        15,
+
+      fontWeight:
+        '700',
+
+      textAlign:
+        'center',
+    },
+
+
+    cameraTopSpacer: {
+      width:
+        44,
+    },
+
+
+    cameraBottomBar: {
+      alignItems:
+        'center',
+
+      paddingHorizontal:
+        20,
+
+      paddingTop:
+        18,
+
+      paddingBottom:
+        24,
+
+      backgroundColor:
+        'rgba(0,0,0,0.30)',
+    },
+
+
+    cameraHint: {
+      maxWidth:
+        340,
+
+      marginBottom:
+        17,
+
+      color:
+        '#FFFFFF',
+
+      fontSize:
+        13,
+
+      lineHeight:
+        18,
+
+      textAlign:
+        'center',
+
+      textShadowColor:
+        'rgba(0,0,0,0.75)',
+
+      textShadowOffset: {
+        width:
+          0,
+
+        height:
+          1,
+      },
+
+      textShadowRadius:
+        3,
+    },
+
+
+    cameraButtonPressed: {
+      opacity:
+        0.70,
+    },
+
+
+    shutterOuter: {
+      width:
+        78,
+
+      height:
+        78,
+
+      alignItems:
+        'center',
+
+      justifyContent:
+        'center',
+
+      borderRadius:
+        39,
+
+      borderWidth:
+        4,
+
+      borderColor:
+        '#FFFFFF',
+
+      backgroundColor:
+        'rgba(0,0,0,0.12)',
+    },
+
+
+    shutterInner: {
+      width:
+        60,
+
+      height:
+        60,
+
+      borderRadius:
+        30,
+
+      backgroundColor:
+        '#FFFFFF',
+    },
+
+
+    shutterDisabled: {
+      opacity:
+        0.45,
+    },
+
+
+    shutterPressed: {
+      transform: [
+        {
+          scale:
+            0.94,
+        },
+      ],
+    },
+
 
     footer: {
       marginTop:

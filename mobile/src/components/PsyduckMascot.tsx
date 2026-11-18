@@ -15,7 +15,8 @@ import {
 
 type PsyduckMood =
   | 'default'
-  | 'sad';
+  | 'sad'
+  | 'confused';
 
 
 type PsyduckMascotProps = {
@@ -34,6 +35,21 @@ export function PsyduckMascot({
   const isSad =
     mood === 'sad';
 
+  const isConfused =
+    mood === 'confused';
+
+  const isConcerned =
+    isSad ||
+    isConfused;
+
+
+  const speechTitle =
+    isConfused
+      ? 'Enton ist ratlos'
+      : isSad
+        ? 'Enton ist unsicher'
+        : 'Enton hilft mit';
+
 
   return (
     <View style={styles.wrapper}>
@@ -44,9 +60,13 @@ export function PsyduckMascot({
         accessible
 
         accessibilityLabel={
-          isSad
-            ? 'Enton ist sich bei der Kartenerkennung nicht sicher'
-            : 'Enton, das Maskottchen der App'
+          isConfused
+            ? 'Enton konnte keine passende Karte finden'
+
+            : isSad
+              ? 'Enton ist sich bei der Kartenerkennung nicht sicher'
+
+              : 'Enton, das Maskottchen der App'
         }
       >
 
@@ -54,8 +74,8 @@ export function PsyduckMascot({
           style={[
             styles.psyduck,
 
-            isSad &&
-              styles.psyduckSad,
+            isConcerned &&
+              styles.psyduckConcerned,
           ]}
         >
 
@@ -64,8 +84,8 @@ export function PsyduckMascot({
               styles.hair,
               styles.hairLeft,
 
-              isSad &&
-                styles.hairLeftSad,
+              isConcerned &&
+                styles.hairLeftConcerned,
             ]}
           />
 
@@ -74,8 +94,8 @@ export function PsyduckMascot({
               styles.hair,
               styles.hairCenter,
 
-              isSad &&
-                styles.hairCenterSad,
+              isConcerned &&
+                styles.hairCenterConcerned,
             ]}
           />
 
@@ -84,8 +104,8 @@ export function PsyduckMascot({
               styles.hair,
               styles.hairRight,
 
-              isSad &&
-                styles.hairRightSad,
+              isConcerned &&
+                styles.hairRightConcerned,
             ]}
           />
 
@@ -95,11 +115,11 @@ export function PsyduckMascot({
               styles.eye,
               styles.eyeLeft,
 
-              isSad &&
-                styles.eyeSad,
+              isConcerned &&
+                styles.eyeConcerned,
 
-              isSad &&
-                styles.eyeLeftSad,
+              isConcerned &&
+                styles.eyeLeftConcerned,
             ]}
           />
 
@@ -108,11 +128,11 @@ export function PsyduckMascot({
               styles.eye,
               styles.eyeRight,
 
-              isSad &&
-                styles.eyeSad,
+              isConcerned &&
+                styles.eyeConcerned,
 
-              isSad &&
-                styles.eyeRightSad,
+              isConcerned &&
+                styles.eyeRightConcerned,
             ]}
           />
 
@@ -126,8 +146,8 @@ export function PsyduckMascot({
             style={[
               styles.beak,
 
-              isSad &&
-                styles.beakSad,
+              isConcerned &&
+                styles.beakConcerned,
             ]}
           >
 
@@ -135,8 +155,8 @@ export function PsyduckMascot({
               style={[
                 styles.beakLine,
 
-                isSad &&
-                  styles.beakLineSad,
+                isConcerned &&
+                  styles.beakLineConcerned,
               ]}
             />
 
@@ -149,8 +169,8 @@ export function PsyduckMascot({
           style={[
             styles.yellowBubble,
 
-            isSad &&
-              styles.yellowBubbleSad,
+            isConcerned &&
+              styles.yellowBubbleConcerned,
           ]}
         />
 
@@ -161,8 +181,8 @@ export function PsyduckMascot({
         style={[
           styles.speechBubble,
 
-          isSad &&
-            styles.speechBubbleSad,
+          isConcerned &&
+            styles.speechBubbleConcerned,
         ]}
       >
 
@@ -170,17 +190,13 @@ export function PsyduckMascot({
           style={[
             styles.speechPointer,
 
-            isSad &&
-              styles.speechPointerSad,
+            isConcerned &&
+              styles.speechPointerConcerned,
           ]}
         />
 
         <Text style={styles.speechTitle}>
-
-          {isSad
-            ? 'Enton ist unsicher'
-            : 'Enton hilft mit'}
-
+          {speechTitle}
         </Text>
 
         <Text style={styles.speechText}>
@@ -194,351 +210,488 @@ export function PsyduckMascot({
 }
 
 
-const styles = StyleSheet.create({
+const styles =
+  StyleSheet.create({
 
-  wrapper: {
-    width: '100%',
+    wrapper: {
+      width:
+        '100%',
 
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+      flexDirection:
+        'row',
 
-    gap: 12,
+      alignItems:
+        'center',
 
-    marginTop: 12,
-  },
+      justifyContent:
+        'center',
 
+      gap:
+        12,
 
-  characterWrapper: {
-    position: 'relative',
+      marginTop:
+        12,
+    },
 
-    width: 92,
-    height: 100,
 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    characterWrapper: {
+      position:
+        'relative',
 
+      width:
+        92,
 
-  yellowBubble: {
-    position: 'absolute',
+      height:
+        100,
 
-    width: 86,
-    height: 45,
+      alignItems:
+        'center',
 
-    bottom: 0,
+      justifyContent:
+        'center',
+    },
 
-    backgroundColor:
-      'rgba(255, 227, 106, 0.22)',
 
-    borderRadius:
-      radius.bubble,
+    yellowBubble: {
+      position:
+        'absolute',
 
-    transform: [
-      {
-        scaleX: 1.15,
-      },
-    ],
+      width:
+        86,
 
-    zIndex: -1,
-  },
+      height:
+        45,
 
-  yellowBubbleSad: {
-    backgroundColor:
-      'rgba(207, 238, 255, 0.40)',
-  },
+      bottom:
+        0,
 
+      backgroundColor:
+        'rgba(255, 227, 106, 0.22)',
 
-  psyduck: {
-    position: 'relative',
+      borderRadius:
+        radius.bubble,
 
-    width: 88,
-    height: 82,
+      transform: [
+        {
+          scaleX:
+            1.15,
+        },
+      ],
 
-    backgroundColor:
-      colors.psyduckYellow,
+      zIndex:
+        -1,
+    },
 
-    borderTopLeftRadius: 47,
-    borderTopRightRadius: 42,
-    borderBottomLeftRadius: 38,
-    borderBottomRightRadius: 48,
 
-    alignItems: 'center',
+    yellowBubbleConcerned: {
+      backgroundColor:
+        'rgba(207, 238, 255, 0.40)',
+    },
 
-    ...shadow.card,
-  },
 
-  psyduckSad: {
-    transform: [
-      {
-        rotate: '-4deg',
-      },
-    ],
-  },
+    psyduck: {
+      position:
+        'relative',
 
+      width:
+        88,
 
-  hair: {
-    position: 'absolute',
+      height:
+        82,
 
-    top: -15,
+      backgroundColor:
+        colors.psyduckYellow,
 
-    width: 4,
-    height: 27,
+      borderTopLeftRadius:
+        47,
 
-    borderRadius:
-      radius.pill,
+      borderTopRightRadius:
+        42,
 
-    backgroundColor:
-      colors.text,
-  },
+      borderBottomLeftRadius:
+        38,
 
-  hairLeft: {
-    left: 33,
+      borderBottomRightRadius:
+        48,
 
-    transform: [
-      {
-        rotate: '-21deg',
-      },
-    ],
-  },
+      alignItems:
+        'center',
 
-  hairCenter: {
-    left: 43,
+      ...shadow.card,
+    },
 
-    height: 30,
-  },
 
-  hairRight: {
-    left: 53,
+    psyduckConcerned: {
+      transform: [
+        {
+          rotate:
+            '-4deg',
+        },
+      ],
+    },
 
-    transform: [
-      {
-        rotate: '21deg',
-      },
-    ],
-  },
 
+    hair: {
+      position:
+        'absolute',
 
-  hairLeftSad: {
-    transform: [
-      {
-        rotate: '-35deg',
-      },
-    ],
-  },
+      top:
+        -15,
 
-  hairCenterSad: {
-    transform: [
-      {
-        rotate: '-8deg',
-      },
-    ],
-  },
+      width:
+        4,
 
-  hairRightSad: {
-    transform: [
-      {
-        rotate: '12deg',
-      },
-    ],
-  },
+      height:
+        27,
 
+      borderRadius:
+        radius.pill,
 
-  eye: {
-    position: 'absolute',
+      backgroundColor:
+        colors.text,
+    },
 
-    top: 30,
 
-    width: 8,
-    height: 12,
+    hairLeft: {
+      left:
+        33,
 
-    backgroundColor:
-      colors.text,
+      transform: [
+        {
+          rotate:
+            '-21deg',
+        },
+      ],
+    },
 
-    borderRadius:
-      radius.pill,
-  },
 
-  eyeLeft: {
-    left: 25,
-  },
+    hairCenter: {
+      left:
+        43,
 
-  eyeRight: {
-    right: 25,
-  },
+      height:
+        30,
+    },
 
 
-  eyeSad: {
-    width: 11,
-    height: 5,
+    hairRight: {
+      left:
+        53,
 
-    top: 31,
+      transform: [
+        {
+          rotate:
+            '21deg',
+        },
+      ],
+    },
 
-    borderRadius: 5,
-  },
 
-  eyeLeftSad: {
-    transform: [
-      {
-        rotate: '16deg',
-      },
-    ],
-  },
+    hairLeftConcerned: {
+      transform: [
+        {
+          rotate:
+            '-35deg',
+        },
+      ],
+    },
 
-  eyeRightSad: {
-    transform: [
-      {
-        rotate: '-16deg',
-      },
-    ],
-  },
 
+    hairCenterConcerned: {
+      transform: [
+        {
+          rotate:
+            '-8deg',
+        },
+      ],
+    },
 
-  tear: {
-    position: 'absolute',
 
-    top: 41,
-    right: 19,
+    hairRightConcerned: {
+      transform: [
+        {
+          rotate:
+            '12deg',
+        },
+      ],
+    },
 
-    width: 7,
-    height: 11,
 
-    backgroundColor:
-      colors.blueStrong,
+    eye: {
+      position:
+        'absolute',
 
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    borderBottomLeftRadius: 7,
-    borderBottomRightRadius: 2,
+      top:
+        30,
 
-    transform: [
-      {
-        rotate: '12deg',
-      },
-    ],
+      width:
+        8,
 
-    opacity: 0.8,
-  },
+      height:
+        12,
 
+      backgroundColor:
+        colors.text,
 
-  beak: {
-    position: 'absolute',
+      borderRadius:
+        radius.pill,
+    },
 
-    width: 48,
-    height: 26,
 
-    bottom: 9,
+    eyeLeft: {
+      left:
+        25,
+    },
 
-    borderRadius: 22,
 
-    backgroundColor:
-      colors.psyduckBeak,
+    eyeRight: {
+      right:
+        25,
+    },
 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 
-  beakSad: {
-    bottom: 7,
+    eyeConcerned: {
+      width:
+        11,
 
-    transform: [
-      {
-        rotate: '-3deg',
-      },
-    ],
-  },
+      height:
+        5,
 
+      top:
+        31,
 
-  beakLine: {
-    width: 28,
-    height: 1.5,
+      borderRadius:
+        5,
+    },
 
-    marginTop: 5,
 
-    borderRadius:
-      radius.pill,
+    eyeLeftConcerned: {
+      transform: [
+        {
+          rotate:
+            '16deg',
+        },
+      ],
+    },
 
-    backgroundColor:
-      'rgba(92, 62, 42, 0.25)',
-  },
 
-  beakLineSad: {
-    width: 23,
+    eyeRightConcerned: {
+      transform: [
+        {
+          rotate:
+            '-16deg',
+        },
+      ],
+    },
 
-    marginTop: 2,
 
-    transform: [
-      {
-        rotate: '-5deg',
-      },
-    ],
-  },
+    tear: {
+      position:
+        'absolute',
 
+      top:
+        41,
 
-  speechBubble: {
-    position: 'relative',
+      right:
+        19,
 
-    flex: 1,
-    maxWidth: 280,
+      width:
+        7,
 
-    paddingHorizontal: 18,
-    paddingVertical: 14,
+      height:
+        11,
 
-    borderRadius: 28,
+      backgroundColor:
+        colors.blueStrong,
 
-    backgroundColor:
-      '#FFF2B8',
+      borderTopLeftRadius:
+        6,
 
-    ...shadow.card,
-  },
+      borderTopRightRadius:
+        6,
 
-  speechBubbleSad: {
-    backgroundColor:
-      '#E8F4FF',
-  },
+      borderBottomLeftRadius:
+        7,
 
+      borderBottomRightRadius:
+        2,
 
-  speechPointer: {
-    position: 'absolute',
+      transform: [
+        {
+          rotate:
+            '12deg',
+        },
+      ],
 
-    left: -7,
-    top: 29,
+      opacity:
+        0.8,
+    },
 
-    width: 18,
-    height: 18,
 
-    backgroundColor:
-      '#FFF2B8',
+    beak: {
+      position:
+        'absolute',
 
-    transform: [
-      {
-        rotate: '45deg',
-      },
-    ],
-  },
+      width:
+        48,
 
-  speechPointerSad: {
-    backgroundColor:
-      '#E8F4FF',
-  },
+      height:
+        26,
 
+      bottom:
+        9,
 
-  speechTitle: {
-    color:
-      colors.text,
+      borderRadius:
+        22,
 
-    fontSize: 14,
-    fontWeight: '800',
+      backgroundColor:
+        colors.psyduckBeak,
 
-    marginBottom: 2,
-  },
+      alignItems:
+        'center',
 
-  speechText: {
-    color:
-      colors.textSoft,
+      justifyContent:
+        'center',
+    },
 
-    fontSize: 13,
-    lineHeight: 18,
-  },
 
-});
+    beakConcerned: {
+      bottom:
+        7,
+
+      transform: [
+        {
+          rotate:
+            '-3deg',
+        },
+      ],
+    },
+
+
+    beakLine: {
+      width:
+        28,
+
+      height:
+        1.5,
+
+      marginTop:
+        5,
+
+      borderRadius:
+        radius.pill,
+
+      backgroundColor:
+        'rgba(92, 62, 42, 0.25)',
+    },
+
+
+    beakLineConcerned: {
+      width:
+        23,
+
+      marginTop:
+        2,
+
+      transform: [
+        {
+          rotate:
+            '-5deg',
+        },
+      ],
+    },
+
+
+    speechBubble: {
+      position:
+        'relative',
+
+      flex:
+        1,
+
+      maxWidth:
+        280,
+
+      paddingHorizontal:
+        18,
+
+      paddingVertical:
+        14,
+
+      borderRadius:
+        28,
+
+      backgroundColor:
+        '#FFF2B8',
+
+      ...shadow.card,
+    },
+
+
+    speechBubbleConcerned: {
+      backgroundColor:
+        '#E8F4FF',
+    },
+
+
+    speechPointer: {
+      position:
+        'absolute',
+
+      left:
+        -7,
+
+      top:
+        29,
+
+      width:
+        18,
+
+      height:
+        18,
+
+      backgroundColor:
+        '#FFF2B8',
+
+      transform: [
+        {
+          rotate:
+            '45deg',
+        },
+      ],
+    },
+
+
+    speechPointerConcerned: {
+      backgroundColor:
+        '#E8F4FF',
+    },
+
+
+    speechTitle: {
+      color:
+        colors.text,
+
+      fontSize:
+        14,
+
+      fontWeight:
+        '800',
+
+      marginBottom:
+        2,
+    },
+
+
+    speechText: {
+      color:
+        colors.textSoft,
+
+      fontSize:
+        13,
+
+      lineHeight:
+        18,
+    },
+
+  });
